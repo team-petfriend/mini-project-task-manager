@@ -1,5 +1,6 @@
 package com.example.petfriend.repository;
 
+import com.example.petfriend.entity.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

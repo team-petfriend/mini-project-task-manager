@@ -1,5 +1,6 @@
 package com.example.petfriend.dto.user.request;
 
+import com.example.petfriend.common.enums.Gender;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 

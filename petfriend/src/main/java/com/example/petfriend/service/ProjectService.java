@@ -3,6 +3,7 @@ package com.example.petfriend.service;
 import com.example.petfriend.dto.ResponseDto;
 import com.example.petfriend.dto.project.request.ProjectRequest;
 import com.example.petfriend.dto.project.response.ProjectResponse;
+import com.example.petfriend.security.UserPrincipal;
 import jakarta.validation.Valid;
 
 import java.time.LocalDateTime;

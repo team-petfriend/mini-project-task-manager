@@ -1,6 +1,10 @@
 package com.example.petfriend.filter;
 
+import com.example.petfriend.entity.User;
 import com.example.petfriend.provider.JwtProvider;
+import com.example.petfriend.repository.UserRepository;
+import com.example.petfriend.security.UserPrincipal;
+import com.example.petfriend.security.UserPrincipalMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,9 +12,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -39,6 +48,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final String BEARER_PREFIX = JwtProvider.BEARER_PREFIX;
 
     private final JwtProvider jwtProvider;
+    private final UserRepository userRepository;
+    private final UserPrincipalMapper principalMapper;
 
     /**
      * OncePerRequestFilter - 반드시 구현
@@ -84,7 +95,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
 
-
             /** 토큰의 유효성을 검증 */
             if (!jwtProvider.isValidToken(token)) {
                 unauthorized(response, "토큰이 유효하지 않거나 유효기간이 만료되었습니다.");
@@ -93,8 +103,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             /** jwtProvider.getUsernameFromJwt 토큰을 통해 사용자의 값을 추출 */
             String username = jwtProvider.getUsernameFromJwt(token);
 
+            /** == UserPrincipal Filter == */
 
-            
+            /** DB를 재조회해서 UserPrincipal 구성에 최신 권한/상태를 반영한다. */
+            User user = userRepository.findByLoginId(username)
+                    .orElseThrow(() -> new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다."));
+
+            /** user 데이터의 최신 권한을 반영한다. */
+            UserPrincipal principal = principalMapper.map(user);
+
+            /** SecurityContext에 인증 객체를 담아서 저장한다. */
+            setAuthenticationContext(request, principal);
+
         } catch (Exception e) {
             logger.warn("JWT FILTER ERROR", e);
             unauthorized(response, "인증 처리 중 오류가 발생하였습니다.");
@@ -104,6 +124,36 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         /** 정상적이라면 다음 필터로 request, response의 값을 넘겨준다.*/
         filterChain.doFilter(request, response);
     }
+
+    private void setAuthenticationContext(HttpServletRequest request, UserPrincipal principal) {
+        /** 사용자 아이디를 바탕으로 인증 토큰을 생성
+         *  - 첫 번째 인자(Principal)
+         *  - 두 번째 인자 (Credentials)
+         *  - 세 번째 인자 (권한 목록)
+         *  >>> username으로 사용자가 authorities 권한으로 인증이 완료가된 상태가 된다.
+         * */
+
+
+        /** 3가지의 인자를 담아서 새로운 토큰을 만들어준다. */
+        AbstractAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
+
+        /** 생성된 인증 토큰에 요청의 세부 사항 설정 */
+        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+        /** 빈 SecurityContext 객체를 생성 */
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
+
+        /** 생성된 객체에 인증 토큰을 주입한다. */
+        context.setAuthentication(authenticationToken);
+
+        /** SecurityContextHolder에 인증토큰을 주입한 객체로 생성한다.
+         *  컨트롤러, 서비스에서 사용자의 정보를 꺼내쓰기 위해서 사용
+         * */
+        SecurityContextHolder.setContext(context);
+    }
+
+
 
     /** USER/ADMIN 라는 것을 -> "ROLE_"을 붙여 ROLE_USER / ROLE_ADMIN 으로 매핑  */
     private List<GrantedAuthority> toAuthorities(Set<String> roles) {

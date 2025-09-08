@@ -3,6 +3,7 @@ package com.example.petfriend.controller;
 import com.example.petfriend.dto.ResponseDto;
 import com.example.petfriend.dto.user.request.UserProfileUpdateRequest;
 import com.example.petfriend.dto.user.response.UserProfileResponse;
+import com.example.petfriend.security.UserPrincipal;
 import com.example.petfriend.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -3,6 +3,7 @@ package com.example.petfriend.controller;
 import com.example.petfriend.dto.ResponseDto;
 import com.example.petfriend.dto.project.request.ProjectRequest;
 import com.example.petfriend.dto.project.response.ProjectResponse;
+import com.example.petfriend.security.UserPrincipal;
 import com.example.petfriend.service.ProjectService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +48,7 @@ public class ProjectController {
             @RequestParam(required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)LocalDateTime from,
             @RequestParam(required = false)
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)LocalDateTime to,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)LocalDateTime to
             ){
         ResponseDto<List<ProjectResponse.DetailResponse>> response = projectService.search(userPrincipal, projectName,from,to);
         return ResponseEntity.ok(response);

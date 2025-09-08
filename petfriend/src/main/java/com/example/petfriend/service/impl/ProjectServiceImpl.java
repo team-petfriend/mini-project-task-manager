@@ -4,6 +4,7 @@ import com.example.petfriend.dto.ResponseDto;
 import com.example.petfriend.dto.project.request.ProjectRequest;
 import com.example.petfriend.dto.project.response.ProjectResponse;
 import com.example.petfriend.repository.ProjectRepository;
+import com.example.petfriend.security.UserPrincipal;
 import com.example.petfriend.service.ProjectService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

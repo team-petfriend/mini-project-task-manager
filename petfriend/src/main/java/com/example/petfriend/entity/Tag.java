@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "tag")
+@Table(name = "tags")
 @NoArgsConstructor
 public class Tag {
     @Id

@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.Comment;
 
 @Entity
 @Table(name = "comment")
@@ -20,11 +19,9 @@ public class Comments {
     @JoinColumn(name = "task_id", nullable = false)
     private Task task;
 
-    @Comment("댓글 내용")
     @Column(nullable = false, length = 1000)
     private String content;
 
-    @Comment("댓글 작성자 표시명 또는 ID")
     @Column(nullable = false, length = 100)
     private String commenter;
 

@@ -11,7 +11,7 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = "task")
-public class Comment {
+public class Comments {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -25,17 +25,17 @@ public class Comment {
     @Column(nullable = false, length = 100)
     private String commenter;
 
-    private Comment(String content, String commenter) {
+    private Comments(String content, String commenter) {
         this.content = content;
         this.commenter = commenter;
     }
 
-    public static Comment create(String content, String commenter) {
-        return new Comment(content, commenter);
+    public static Comments create(String content, String commenter) {
+        return new Comments(content, commenter);
     }
 
-    void setPost(Task post) {
-        this.task = post;
+    void setTask(Task task) {
+        this.task = task;
     }
 
     public void changeContent(String content) {

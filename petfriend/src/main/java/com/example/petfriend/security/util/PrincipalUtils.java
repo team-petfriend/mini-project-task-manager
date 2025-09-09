@@ -1,8 +1,8 @@
 package com.example.petfriend.security.util;
 
 import com.example.petfriend.security.UserPrincipal;
+import org.springframework.security.access.AccessDeniedException;
 
-import java.nio.file.AccessDeniedException;
 
 public class PrincipalUtils {
     /** 생성자 막기위해서 사용 */

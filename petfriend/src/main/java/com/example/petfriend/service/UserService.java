@@ -9,9 +9,9 @@ import com.example.petfriend.dto.user.response.UserProfileResponse;
 import com.example.petfriend.security.UserPrincipal;
 import jakarta.validation.Valid;
 
+import java.nio.file.AccessDeniedException;
+
 public interface UserService {
-
-    ResponseDto<UserProfileResponse.MyPageResponse> getMyInfo(UserPrincipal principal);
-
-    ResponseDto<UserProfileResponse.MyPageResponse> updateMyInfo(UserPrincipal principal, @Valid UserProfileUpdateRequest request);
+    ResponseDto<UserProfileResponse.MyPageResponse> getMyInfo(UserPrincipal principal) throws AccessDeniedException;
+    ResponseDto<UserProfileResponse.MyPageResponse> updateMyInfo(UserPrincipal principal, @Valid UserProfileUpdateRequest request) throws AccessDeniedException;
 }

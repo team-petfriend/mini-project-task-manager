@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
             user.getGender()
         );
 
-        return ResponseDto.setSuccess("해당하는 사용자의 정보를 가져왔습니다.", userInfo);
+        return ResponseDto.setSuccess("SUCCESS", userInfo);
     }
 
     @Override
@@ -55,6 +55,6 @@ public class UserServiceImpl implements UserService {
             user.getNickname(),
             user.getGender()
         );
-        return ResponseDto.setSuccess("사용자의 정보가 성공적으로 수정되었습니다.", updateUser);
+        return ResponseDto.setSuccess("SUCCESS", updateUser);
     }
 }

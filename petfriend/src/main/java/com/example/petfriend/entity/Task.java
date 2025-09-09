@@ -6,7 +6,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "task")
+@Table(name = "tasks")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Task {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

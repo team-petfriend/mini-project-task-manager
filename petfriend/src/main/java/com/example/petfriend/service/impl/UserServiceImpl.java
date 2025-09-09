@@ -1,19 +1,15 @@
 package com.example.petfriend.service.impl;
 
 import com.example.petfriend.dto.ResponseDto;
-import com.example.petfriend.dto.auth.request.SignInRequest;
-import com.example.petfriend.dto.auth.request.SignUpRequest;
-import com.example.petfriend.dto.auth.response.SignInResponse;
 import com.example.petfriend.dto.user.request.UserProfileUpdateRequest;
 import com.example.petfriend.dto.user.response.UserProfileResponse;
 import com.example.petfriend.entity.User;
-import com.example.petfriend.provider.JwtProvider;
 import com.example.petfriend.repository.UserRepository;
 import com.example.petfriend.security.UserPrincipal;
+import com.example.petfriend.security.util.PrincipalUtils;
 import com.example.petfriend.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,14 +17,44 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
+    private final UserRepository userRepository;
 
     @Override
-    public ResponseDto<UserProfileResponse.MyPageResponse> getMyInfo(UserPrincipal principal) {
-        return null;
+    public ResponseDto<UserProfileResponse.MyPageResponse> getMyInfo(UserPrincipal principal)  {
+        PrincipalUtils.requiredActive(principal);
+
+        User user = userRepository.findByLoginId(principal.getUsername())
+                .orElseThrow(() -> new EntityNotFoundException("해당 ID의 사용자가 없습니다. : " + principal.getUsername()));
+
+        UserProfileResponse.MyPageResponse userInfo = new UserProfileResponse.MyPageResponse(
+            user.getId(),
+            user.getLoginId(),
+            user.getEmail(),
+            user.getNickname(),
+            user.getGender()
+        );
+
+        return ResponseDto.setSuccess("해당하는 사용자의 정보를 가져왔습니다.", userInfo);
     }
 
     @Override
-    public ResponseDto<UserProfileResponse.MyPageResponse> updateMyInfo(UserPrincipal principal, UserProfileUpdateRequest request) {
-        return null;
+    @Transactional
+    public ResponseDto<UserProfileResponse.MyPageResponse> updateMyInfo(UserPrincipal principal, UserProfileUpdateRequest request)  {
+        PrincipalUtils.requiredActive(principal);
+
+        User user = userRepository.findByLoginId(principal.getUsername())
+                .orElseThrow(() -> new EntityNotFoundException("해당 ID의 해당하는 사용자가 없습니다. : " + principal.getUsername()));
+
+        user.changeProfile(request.nickname(), request.gender());
+        userRepository.flush();
+
+        UserProfileResponse.MyPageResponse updateUser = new UserProfileResponse.MyPageResponse(
+            user.getId(),
+            user.getLoginId(),
+            user.getEmail(),
+            user.getNickname(),
+            user.getGender()
+        );
+        return ResponseDto.setSuccess("사용자의 정보가 성공적으로 수정되었습니다.", updateUser);
     }
 }

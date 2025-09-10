@@ -4,21 +4,27 @@ import com.example.petfriend.entity.Comments;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.time.LocalDateTime;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record CommentResponseDto(
         Long id,
         Long taskId,
         String content,
-        String commenter
+        String commenter,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
 ) {
     public static CommentResponseDto from (Comments comment) {
         if (comment == null) return null;
         return new CommentResponseDto(
-          comment.getId(),
-          comment.getTask() != null ? comment.getTask().getId() : null,
-          comment.getContent(),
-          comment.getCommenter()
+                comment.getId(),
+                comment.getTask() != null ? comment.getTask().getId() : null,
+                comment.getContent(),
+                comment.getCommenter(),
+                comment.getCreatedAt(),
+                comment.getUpdatedAt()
         );
     }
 }

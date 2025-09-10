@@ -2,6 +2,7 @@ package com.example.petfriend.entity;
 
 import com.example.petfriend.entity.base.BaseTimeEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,12 @@ public class Comments extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "task_id", nullable = false)
     private Task task;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false,
+            foreignKey = @ForeignKey(name = "fk_comment_user"))
+    private User user;
 
     @Column(nullable = false, length = 1000)
     private String content;

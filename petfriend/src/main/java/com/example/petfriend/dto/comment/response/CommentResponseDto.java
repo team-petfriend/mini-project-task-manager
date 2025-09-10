@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 public record CommentResponseDto(
         Long id,
         Long taskId,
+        Long userId,
         String content,
         String commenter,
         LocalDateTime createdAt,
@@ -21,6 +22,7 @@ public record CommentResponseDto(
         return new CommentResponseDto(
                 comment.getId(),
                 comment.getTask() != null ? comment.getTask().getId() : null,
+                comment.getUser().getId(),
                 comment.getContent(),
                 comment.getCommenter(),
                 comment.getCreatedAt(),

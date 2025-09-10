@@ -9,10 +9,12 @@ CREATE TABLE IF NOT EXISTS `comments` (
     `task_id`	BIGINT NOT NULL COMMENT 'tasks.id FK',
     `content` 	varchar(1000) not null comment '댓글 내용',
     `commenter` varchar(100) not null comment '댓글 작성자 표시명 또는 ID',
+    created_at DATETIME(6) NOT NULL,
+    updated_at DATETIME(6) NOT NULL,
     primary key (`id`),
     key `idx_comment_task_id` (`task_id`),
     key `idx_comment_commenter` (`commenter`),
-    constraint `fk_comment_post`
+    constraint `fk_comment_task`
 		foreign key (`task_id`) references `tasks` (`id`)
         on delete cascade
         on update cascade

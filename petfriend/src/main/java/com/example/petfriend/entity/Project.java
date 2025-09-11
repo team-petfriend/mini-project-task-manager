@@ -37,6 +37,7 @@ public class Project extends BaseTimeEntity {
     private String name;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+
     private List<Task> tasks = new ArrayList<>();
     public void addTask(Task task){
         tasks.add(task);

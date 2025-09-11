@@ -1,7 +1,6 @@
 package com.example.petfriend.entity;
 
 import ch.qos.logback.core.status.Status;
-import com.example.petfriend.common.enums.Gender;
 import com.example.petfriend.common.enums.TaskPriority;
 import com.example.petfriend.common.enums.TaskStatus;
 import jakarta.annotation.Priority;
@@ -48,8 +47,11 @@ public class Task {
     private TaskStatus status = TaskStatus.TODO;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "priority", nullable = false, length = 255)
+    @Column(name = "priority", nullable = false, length = 250)
     private TaskPriority priority = TaskPriority.MEDIUM;
+
+    @Column(name = "assignee_id")
+    private Long assignee;
 
     @Column(name = "due_date")
     private LocalDateTime dueDate;
@@ -64,7 +66,7 @@ public class Task {
      *  mappedBy = task(owner)가 "주인이 아님을 명시하고, 반대편 필드가 FK를 관리함을 알려준다”
      *  cascade = CascadeType.ALL => PK가 삭제된다면 FK도 같이 삭제
      * */
-    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "tasks", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TaskAssignees> assignees = new HashSet<>();
 
     /** 생성자*/
@@ -96,13 +98,17 @@ public class Task {
      * tasks에 담당자를 부여하기 때문에 assignees(담당자)에 해당하는 기능을 Task Entity에 정의해준다.
      * */
 
+
     /** 담당자 부여 */
     public void addAssignees(User user, TaskAssignees taskAssignees) {
         boolean exists = assignees.stream()
                 .anyMatch(ta -> ta.getUser().equals(user));
-                if (!exists) {
-                    assignees.add(new TaskAssignees(this, user));
-                }
+        if (!exists) {
+            assignees.add(new TaskAssignees(this, user));
+        }
+        if (!exists) {
+            assignees.add(new TaskAssignees(this, user));
+        }
     }
 
     /** 담당자 삭제 */

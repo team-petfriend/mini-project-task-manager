@@ -64,6 +64,8 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TaskAssignees> assignees = new HashSet<>();
 
+    @OneToMany(mappedBy = "commenter", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Comments> taskComment = new HashSet<>();
 
     @Builder
     private User(String loginId, String password, String email, String nickname, Gender gender, Set<RoleType> roles) {

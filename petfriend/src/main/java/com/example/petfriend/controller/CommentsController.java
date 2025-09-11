@@ -23,10 +23,9 @@ public class CommentsController {
     @PostMapping
     public ResponseEntity<ResponseDto<CommentResponseDto>> createComment(
             @PathVariable("taskId") @Positive(message = "taskId는 1이상의 정수여야 합니다.") Long taskId,
-            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @Valid @RequestBody CommentCreateRequestDto dto
     ) {
-        ResponseDto<CommentResponseDto> response = commentService.createComment(taskId, userPrincipal, dto);
+        ResponseDto<CommentResponseDto> response = commentService.createComment(taskId, dto);
         return ResponseEntity.ok().body(response);
     }
 
@@ -34,10 +33,9 @@ public class CommentsController {
     public ResponseEntity<ResponseDto<CommentResponseDto>> updateComment(
             @PathVariable("taskId") @Positive(message = "taskId는 1이상의 정수여야 합니다.") Long taskId,
             @PathVariable("commentId") @Positive(message = "commentId는 1이상의 정수여야 합니다.") Long commentId,
-            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @Valid @RequestBody CommentCreateRequestDto dto
     ) {
-        ResponseDto<CommentResponseDto> response = commentService.updateComment(taskId, commentId, userPrincipal, dto);
+        ResponseDto<CommentResponseDto> response = commentService.updateComment(taskId, commentId, dto);
         return ResponseEntity.ok().body(response);
     }
 
@@ -45,9 +43,8 @@ public class CommentsController {
     public ResponseEntity<ResponseDto<CommentResponseDto>> deleteComment(
             @PathVariable("taskId") @Positive(message = "taskId는 1이상의 정수여야 합니다.") Long taskId,
             @PathVariable("commentId") @Positive(message = "commentId는 1이상의 정수여야 합니다.") Long commentId,
-            @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
-        ResponseDto<CommentResponseDto> response = commentService.deleteComment(taskId, commentId, userPrincipal);
+        ResponseDto<CommentResponseDto> response = commentService.deleteComment(taskId, commentId);
         return ResponseEntity.ok().body(response);
     }
 }

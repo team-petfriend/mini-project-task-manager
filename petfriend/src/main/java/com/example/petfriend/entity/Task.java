@@ -59,6 +59,8 @@ public class Task {
     @ManyToMany(mappedBy = "tasks")
     private Set<User> assignees = new HashSet<>();
 
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Comments> taskComment = new HashSet<>();
 
     void setTask(Project project){
         this.project = project;

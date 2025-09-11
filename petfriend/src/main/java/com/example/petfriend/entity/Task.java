@@ -1,6 +1,7 @@
 package com.example.petfriend.entity;
 
 import ch.qos.logback.core.status.Status;
+import com.example.petfriend.common.enums.Gender;
 import com.example.petfriend.common.enums.TaskPriority;
 import com.example.petfriend.common.enums.TaskStatus;
 import jakarta.annotation.Priority;
@@ -17,7 +18,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "tasks")
+@Table(
+        name = "tasks",
+        indexes = {
+                @Index(name = "idx_task_project_status", columnList = "project_id, status"),
+                @Index(name = "idx_task_due_date", columnList = "due_date")
+        }
+)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Task {
@@ -37,15 +44,12 @@ public class Task {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "task_status", nullable = false, length = 250)
+    @Column(name = "task_status", nullable = false, length = 50)
     private TaskStatus status = TaskStatus.TODO;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "priority", nullable = false, length = 250)
+    @Column(name = "priority", nullable = false, length = 255)
     private TaskPriority priority = TaskPriority.MEDIUM;
-
-    @Column(name = "assignee_id")
-    private Long assignee;
 
     @Column(name = "due_date")
     private LocalDateTime dueDate;
@@ -56,9 +60,55 @@ public class Task {
     @Column(name = "updated_at", nullable = false, updatable = false)
     private LocalDateTime updatedAt;
 
-    @ManyToMany(mappedBy = "tasks")
-    private Set<User> assignees = new HashSet<>();
+    /** TaskAssigness 조인을 위해서 사용
+     *  mappedBy = task(owner)가 "주인이 아님을 명시하고, 반대편 필드가 FK를 관리함을 알려준다”
+     *  cascade = CascadeType.ALL => PK가 삭제된다면 FK도 같이 삭제
+     * */
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<TaskAssignees> assignees = new HashSet<>();
 
+    /** 생성자*/
+    @Builder
+    public Task(
+            @NotNull Project project,
+            String title,
+            String description,
+            TaskStatus status,
+            TaskPriority priority,
+            Set<TaskAssignees> assignees
+    ) {
+        this.project = project;
+        this.title = title;
+        this.description = description;
+        this.status = (status != null) ? status : TaskStatus.TODO;
+        this.priority = (priority != null) ? priority : TaskPriority.HIGH;
+        this.assignees = assignees;
+    }
+
+    public void changeTask(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+
+    /**
+     * === ★중요★ ===
+     * tasks에서 addAssignees 기능을 부여하는 이유
+     * tasks에 담당자를 부여하기 때문에 assignees(담당자)에 해당하는 기능을 Task Entity에 정의해준다.
+     * */
+
+    /** 담당자 부여 */
+    public void addAssignees(User user, TaskAssignees taskAssignees) {
+        boolean exists = assignees.stream()
+                .anyMatch(ta -> ta.getUser().equals(user));
+                if (!exists) {
+                    assignees.add(new TaskAssignees(this, user));
+                }
+    }
+
+    /** 담당자 삭제 */
+    public void deleteAssignees(User user) {
+        assignees.removeIf(ta -> ta.getUser().equals(user));
+    }
 
     void setTask(Project project){
         this.project = project;

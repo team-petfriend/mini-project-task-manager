@@ -57,13 +57,12 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Set<RoleType> roles = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "task_assignees",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "task_id")
-    )
-    private Set<Task> tasks = new HashSet<>();
+    /** TaskAssigness 조인을 위해서 사용
+     *  mappedBy = user(owner)가 "주인이 아님을 명시하고, 반대편 필드가 FK를 관리함을 알려준다”
+     *  cascade = CascadeType.ALL => PK가 삭제된다면 FK도 같이 삭제
+     * */
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<TaskAssignees> assignees = new HashSet<>();
 
 
     @Builder
@@ -74,10 +73,6 @@ public class User extends BaseTimeEntity {
         this.nickname = nickname;
         this.gender = gender;
         this.roles = (roles == null || roles.isEmpty()) ? new HashSet<>(Set.of(RoleType.USER)) : roles;
-    }
-
-    public void changePassword(String password) {
-        this.password = password;
     }
 
     public void changeProfile(String nickname, Gender gender) {

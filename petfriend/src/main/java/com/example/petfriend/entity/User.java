@@ -4,6 +4,7 @@ import com.example.petfriend.common.enums.Gender;
 import com.example.petfriend.common.enums.RoleType;
 import com.example.petfriend.entity.base.BaseTimeEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -55,6 +56,15 @@ public class User extends BaseTimeEntity {
     @Column(name = "role", length = 30, nullable = false)
     @Enumerated(EnumType.STRING)
     private Set<RoleType> roles = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "task_assignees",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "task_id")
+    )
+    private Set<Task> tasks = new HashSet<>();
+
 
     @Builder
     private User(String loginId, String password, String email, String nickname, Gender gender, Set<RoleType> roles) {

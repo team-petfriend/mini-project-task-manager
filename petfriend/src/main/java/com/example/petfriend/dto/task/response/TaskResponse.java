@@ -16,5 +16,6 @@ public class TaskResponse {
             Set<Long> assigneesId, // 담당자
             LocalDateTime created_at,
             LocalDateTime updated_at
-    ){}
+    ){
+    }
 }

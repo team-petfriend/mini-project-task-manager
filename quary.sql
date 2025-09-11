@@ -53,9 +53,9 @@ CREATE TABLE IF NOT EXISTS `projects`(
     created_at		DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     updated_at 		DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     CONSTRAINT `uk_projects_name` UNIQUE (name),
-    CONSTRAINT `fk_project_user_id` FOREIGN KEY (owner_id) REFERENCES users (id) ON DELETE CASCADE,
-    INDEX idx_project_name (name),
-    INDEX idx_project_createdAt (created_at)
+    CONSTRAINT `fk_projects_user_id` FOREIGN KEY (owner_id) REFERENCES users (id) ON DELETE CASCADE,
+    INDEX idx_projects_name (name),
+    INDEX idx_projects_createdAt (created_at)
 )ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci
@@ -87,12 +87,12 @@ CREATE TABLE IF NOT EXISTS `tasks` (
 	due_date     		DATE NULL,
 	created_at	        DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
 	updated_at 			DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
-	CONSTRAINT fk_task_projects FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
-    CONSTRAINT fk_task_projects FOREIGN KEY (assignee_id) REFERENCES users(id) ON DELETE CASCADE,
-	CONSTRAINT chk_task_status CHECK (status IN ('TODO','IN_PROGRESS','DONE')),
-	CONSTRAINT chk_task_assignee CHECK (priority IN ('LOW','MEDIUM','HIGH')),
-	INDEX idx_task_project_status (project_id, status),
-	INDEX idx_task_assignee_due (due_date)
+	CONSTRAINT fk_tasks_project FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
+    CONSTRAINT fk_tasks_project FOREIGN KEY (assignee_id) REFERENCES users(id) ON DELETE CASCADE,
+	CONSTRAINT chk_tasks_status CHECK (status IN ('TODO','IN_PROGRESS','DONE')),
+	CONSTRAINT chk_tasks_assignees CHECK (priority IN ('LOW','MEDIUM','HIGH')),
+	INDEX idx_tasks_projects_status (project_id, status),
+	INDEX idx_tasks_assignees_due (due_date)
 )ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci
@@ -115,8 +115,8 @@ CREATE TABLE IF NOT EXISTS `task_tag` (
 	task_id  		BIGINT NOT NULL,
 	tag_id   		BIGINT NOT NULL,
 	PRIMARY KEY (task_id, tag_id),
-	CONSTRAINT fk_tt_task FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
-	CONSTRAINT fk_tt_tag  FOREIGN KEY (tag_id)  REFERENCES tags(id)  ON DELETE CASCADE
+	CONSTRAINT fk_task_tag_task FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
+	CONSTRAINT fk_task_tag_tag  FOREIGN KEY (tag_id)  REFERENCES tags(id)  ON DELETE CASCADE
 )ENGINE=InnoDB
  DEFAULT CHARSET = utf8mb4
  COLLATE = utf8mb4_unicode_ci
@@ -146,8 +146,8 @@ CREATE TABLE IF NOT EXISTS `comments` (
     PRIMARY KEY (`id`),
     KEY `idx_comment_task_id` (task_id),
     KEY `idx_comment_commenter` (commenter),
-    CONSTRAINT `fk_comment_task` 	FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT `fk_comment_user_id` FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT `fk_comments_task` 	FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT `fk_comments_user_id` FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci

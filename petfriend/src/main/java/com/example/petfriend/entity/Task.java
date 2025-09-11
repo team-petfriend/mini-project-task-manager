@@ -20,8 +20,8 @@ import java.util.Set;
 @Table(
         name = "tasks",
         indexes = {
-                @Index(name = "idx_task_project_status", columnList = "project_id, status"),
-                @Index(name = "idx_task_due_date", columnList = "due_date")
+                @Index(name = "idx_tasks_projects_status", columnList = "project_id, status"),
+                @Index(name = "idx_tasks_assignees_due", columnList = "due_date")
         }
 )
 @Getter

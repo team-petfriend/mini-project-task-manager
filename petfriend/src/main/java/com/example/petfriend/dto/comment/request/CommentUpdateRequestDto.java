@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record CommentUpdateRequestDto(
         @NotBlank(message = "내용은 필수 입력 값입니다.")
-        @Size(max = 1_000, message = "내용은 최대 1,000자까지 입력 가능합니다.")
+        @Size(max = 500, message = "내용은 최대 500자까지 입력 가능합니다.")
         String content
 ) {
 }

@@ -69,6 +69,9 @@ public class Task {
     @OneToMany(mappedBy = "tasks", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TaskAssignees> assignees = new HashSet<>();
 
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Comments> comments = new HashSet<>();
+
     /** 생성자*/
     @Builder
     public Task(
@@ -119,4 +122,15 @@ public class Task {
     void setTask(Project project){
         this.project = project;
     }
+
+    public void addComment(Comments comment) {
+        comments.add(comment);
+        comment.setTask(this);
+    }
+
+    public void removeComment(Comments comment) {
+        comments.remove(comment);
+        comment.setTask(null);
+    }
+
 }

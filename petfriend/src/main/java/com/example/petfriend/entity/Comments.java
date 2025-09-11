@@ -3,6 +3,7 @@ package com.example.petfriend.entity;
 import com.example.petfriend.entity.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,6 +30,7 @@ public class Comments extends BaseTimeEntity {
     private String content;
 
 
+    @Builder
     private Comments(String content, User commenter) {
         this.content = content;
         this.commenter = commenter;

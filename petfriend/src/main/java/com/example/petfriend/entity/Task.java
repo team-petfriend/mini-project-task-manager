@@ -109,9 +109,6 @@ public class Task {
         if (!exists) {
             assignees.add(new TaskAssignees(this, user));
         }
-        if (!exists) {
-            assignees.add(new TaskAssignees(this, user));
-        }
     }
 
     /** 담당자 삭제 */

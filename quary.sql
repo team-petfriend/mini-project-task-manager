@@ -49,11 +49,13 @@ CREATE TABLE IF NOT EXISTS `users` (
 CREATE TABLE IF NOT EXISTS `projects`(
     id 				BIGINT PRIMARY KEY AUTO_INCREMENT,
     owner_id  		BIGINT NOT NULL,
+    tag_id			BIGINT NOT NULL,
     name 			VARCHAR(100) NOT NULL,
     created_at		DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     updated_at 		DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     CONSTRAINT `uk_projects_name` UNIQUE (name),
     CONSTRAINT `fk_projects_user_id` FOREIGN KEY (owner_id) REFERENCES users (id) ON DELETE CASCADE,
+    CONSTRAINT `fk_projects_tag_id` FOREIGN KEY (tag_id) REFERENCES tags (id) ON DELETE CASCADE,
     INDEX idx_projects_name (name),
     INDEX idx_projects_createdAt (created_at)
 )ENGINE=InnoDB
@@ -96,15 +98,14 @@ CREATE TABLE IF NOT EXISTS `tasks` (
 )ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci
-  COMMENT = '할일';
+  COMMENT = '할일';	
 
 -- 태그 테이블
 CREATE TABLE IF NOT EXISTS `tags` (
 	id          	BIGINT PRIMARY KEY AUTO_INCREMENT,
 	name        	VARCHAR(50) NOT NULL UNIQUE,
-	color        	VARCHAR(20) NULL,
-	created_at		DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-	updated_at 		DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)
+	color        	VARCHAR(20) NOT NULL NULL,
+    CONSTRAINT `uk_tags_name` UNIQUE (name)
 ) ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci

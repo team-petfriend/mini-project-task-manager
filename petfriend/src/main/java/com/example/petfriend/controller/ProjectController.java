@@ -28,29 +28,25 @@ public class ProjectController {
     public ResponseEntity<ResponseDto<ProjectResponse.DetailResponse>> create(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @Valid @RequestBody ProjectRequest.Create req
-            ){
+    ) {
         ResponseDto<ProjectResponse.DetailResponse> response = projectService.create(userPrincipal, req);
         return ResponseEntity.ok(response);
     }
 
     // 프로젝트 전체조회
     @GetMapping("/api/v1/projects")
-    public ResponseEntity<ResponseDto<List<ProjectResponse.DetailResponse>>> searchAll(){
+    public ResponseEntity<ResponseDto<List<ProjectResponse.DetailResponse>>> searchAll() {
         ResponseDto<List<ProjectResponse.DetailResponse>> response = projectService.getAllProject();
         return ResponseEntity.ok(response);
     }
 
-    // 프로젝트 정렬 검색
+    // 프로젝트 검색
+    // 정렬은 나중 추가
     @GetMapping
-    public ResponseEntity<ResponseDto<List<ProjectResponse.DetailResponse>>> search(
-            @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @RequestParam(required = false) String projectName,
-            @RequestParam(required = false)
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)LocalDateTime from,
-            @RequestParam(required = false)
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)LocalDateTime to
-            ){
-        ResponseDto<List<ProjectResponse.DetailResponse>> response = projectService.search(userPrincipal, projectName,from,to);
+    public ResponseEntity<ResponseDto<ProjectResponse.DetailResponse>> search(
+            @RequestParam(required = false) String projectName
+    ) {
+        ResponseDto<ProjectResponse.DetailResponse> response = projectService.search(projectName);
         return ResponseEntity.ok(response);
     }
 
@@ -58,11 +54,11 @@ public class ProjectController {
     //프로젝트 이름 수정
     @PutMapping("/{projectId}")
     public ResponseEntity<ResponseDto<ProjectResponse.DetailResponse>> update(
-            @PathVariable Long projectId,
             @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable Long projectId,
             @Valid @RequestBody ProjectRequest.Update req
-    ){
-        ResponseDto<ProjectResponse.DetailResponse> response = projectService.get(projectId);
+    ) {
+        ResponseDto<ProjectResponse.DetailResponse> response = projectService.update(userPrincipal, projectId, req);
         return ResponseEntity.ok(response);
     }
 

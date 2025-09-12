@@ -14,7 +14,8 @@ public interface ProjectService {
 
     ResponseDto<List<ProjectResponse.DetailResponse>> getAllProject();
 
-    ResponseDto<ProjectResponse.DetailResponse> get(Long projectId);
 
-    ResponseDto<List<ProjectResponse.DetailResponse>> search(UserPrincipal userPrincipal, String projectName, LocalDateTime from, LocalDateTime to);
+    ResponseDto<ProjectResponse.DetailResponse> search(String projectName);
+
+    ResponseDto<ProjectResponse.DetailResponse> update(UserPrincipal userPrincipal, Long projectId, ProjectRequest.@Valid Update req);
 }

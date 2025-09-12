@@ -3,6 +3,7 @@ package com.example.petfriend.entity;
 import com.example.petfriend.entity.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ import java.util.List;
         },
         uniqueConstraints = {@UniqueConstraint(name = "uk_projects_name", columnNames = "name")}
 )
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Project extends BaseTimeEntity {
     @Id
@@ -54,14 +55,18 @@ public class Project extends BaseTimeEntity {
 
 
     @Builder
-    public Project(Long id, @NotNull User user, String name ){
+    public Project(Long id, User user, String name){
         this.id = id;
         this.user = user;
         this.name = name;
+
     }
+
+
     public void setName(String name){
         this.name = name;
     }
+
 
 
 

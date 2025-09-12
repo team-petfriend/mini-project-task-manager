@@ -68,29 +68,47 @@ public class GlobalExceptionHandler { // 공통응답 생성
         log.warn("Validation Error: {}", e.getMessage());
         return fail(ErrorCode.VALIDATION_ERROR, null, null);
     }
-    // == 401 : Unauthorized - 권한 없음 ==
+    // == 401 : Unauthorized - 권한 없음(잘못된 자젹 증명) ==
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ResponseDto<Object>> handleAuth(AuthenticationException e){
-        log.warn("UnAuthorized: {}", e.getMessage());
-        return fail(ErrorCode.UNAUTHORIZED, null, null);
+        log.warn("AUTH_INVALID: {}", e.getMessage());
+        return fail(ErrorCode.AUTH_INVALID, null, null);
     }
     // == 403 : FORBIDDEN ERROR - 접근 거부==
     @ExceptionHandler({AccessDeniedException.class, AuthorizationDeniedException.class})
     public ResponseEntity<ResponseDto<Object>> handleAccessDenied(AccessDeniedException e){
-        log.warn("FORBIDDEN ERROR: {}", e.getMessage());
-        return fail(ErrorCode.FORBIDDEN, null, null);
+        log.warn("AUTH_FORBIDDEN: {}", e.getMessage());
+        return fail(ErrorCode.AUTH_FORBIDDEN, null, null);
     }
-    // == 404 : NOT_FOUND - 엔티티 조회 실패 ==
+    // == 404 : NOT_FOUND - 엔티티 조회 실패(프로젝트가 존재하지 않음) ==
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ResponseDto<Object>> handleNotFound(EntityNotFoundException e){
-        log.warn("Not Found: {}", e.getMessage());
+    public ResponseEntity<ResponseDto<Object>> ProjectNotFound(EntityNotFoundException e){
+        log.warn("PROJECT_NOT_FOUND: {}", e.getMessage());
+        return fail(ErrorCode.NOT_FOUND, null, null);
+    }
+    // == 404 : NOT_FOUND - 엔티티 조회 실패(Task가 존재하지 않음) ==
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ResponseDto<Object>> TaskNotFound(EntityNotFoundException e){
+        log.warn("TASK_NOT_FOUND: {}", e.getMessage());
+        return fail(ErrorCode.NOT_FOUND, null, null);
+    }
+    // == 404 : NOT_FOUND - 엔티티 조회 실패(Tag가 존재하지 않음) ==
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ResponseDto<Object>> TagNotFound(EntityNotFoundException e){
+        log.warn("TAG_NOT_FOUND: {}", e.getMessage());
+        return fail(ErrorCode.NOT_FOUND, null, null);
+    }
+    // == 404 : NOT_FOUND - 엔티티 조회 실패(Comment가 존재하지 않음) ==
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ResponseDto<Object>> CommentNotFound(EntityNotFoundException e){
+        log.warn("COMMENT_NOT_FOUND: {}", e.getMessage());
         return fail(ErrorCode.NOT_FOUND, null, null);
     }
     // == 409 : CONFLICT - 무결성 위반 (중복/제약조건) ==
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ResponseDto<Object>> handleConflict(DataIntegrityViolationException e){
-        log.warn("Conflict: {}", e.getMessage());
-        return fail(ErrorCode.CONFLICT, null, null);
+        log.warn("USER_DUPLICATED: {}", e.getMessage());
+        return fail(ErrorCode.USER_DUPLICATED, null, null);
     }
     // == 500 : 그밖의 모든 에러==
     @ExceptionHandler(Exception.class)

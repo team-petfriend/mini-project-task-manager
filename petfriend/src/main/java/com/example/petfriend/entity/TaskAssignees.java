@@ -25,21 +25,21 @@ public class TaskAssignees {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "task_Id", nullable = false, foreignKey = @ForeignKey(name = "fk_task_assignees_task")
 	)
-    private Task task;
+    private Task assignessTask;
 
     /** user 테이블을 조인 */
     @MapsId("userId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_Id", nullable = false, foreignKey = @ForeignKey(name = "fk_task_assignees_user")
 	)
-    private User user;
+    private User assignessUser;
 
     /** tasks, user의 값을 가져와서 TaskAssignees 생성자를 생성해준다.
      * task, user의 값을 모두 사용 가능.
      * */
     public TaskAssignees(Task task, User user) {
-        this.task = task;
-        this.user = user;
+        this.assignessTask = assignessTask;
+        this.assignessUser = assignessUser;
         Long userId = user.getId();
         Long taskId = task.getId();
         this.id = new TaskAssigneesId(taskId, userId);

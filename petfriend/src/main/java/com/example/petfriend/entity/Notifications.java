@@ -7,47 +7,42 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(
-        name = "notifications",
-        indexes = {
-                @Index(name = "idx_notify_user_read", columnList = "user_id, is_read")
-        }
-)
+@Table(name = "notifications")
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Notifications extends BaseTimeEntity {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 사용자 (N:1 관계)
+    // 알림을 받을 사용자
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
-
+    // 알림 유형
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 30)
-    private Type type;
+    @Column(length = 30, nullable = false)
+    private Type type;  // TASK_ASSIGNED, MENTION, COMMENT, STATUS_CHANGED
 
+    // 참조 대상 종류
     @Enumerated(EnumType.STRING)
-    @Column(name = "ref_type", nullable = false, length = 20)
-    private RefType refType;
+    @Column(name = "ref_type", length = 20, nullable = false)
+    private RefType refType;  // TASK or COMMENT
 
+    // 참조 대상 ID
     @Column(name = "ref_id", nullable = false)
-    private Long refId; // 참조하는 엔티티 id (taskId or commentId)
+    private Long refId;
 
-    @Column(nullable = false, length = 255)
+    // 알림 메시지
+    @Column(length = 255, nullable = false)
     private String message;
 
+    // 읽음 여부
     @Column(name = "is_read", nullable = false)
-    private Boolean isRead = false;
+    private boolean isRead = false;
 
-    @PrePersist
-    public void prePersist() {
-        this.isRead = false;
+    public void markAsRead() {
+        this.isRead = true;
     }
 }

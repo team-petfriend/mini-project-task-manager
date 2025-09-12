@@ -4,11 +4,13 @@ import com.example.petfriend.dto.ResponseDto;
 import com.example.petfriend.dto.comment.request.CommentCreateRequestDto;
 import com.example.petfriend.dto.comment.request.CommentUpdateRequestDto;
 import com.example.petfriend.dto.comment.response.CommentResponseDto;
+import com.example.petfriend.security.UserPrincipal;
 import com.example.petfriend.service.CommentService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,9 +24,10 @@ public class CommentsController {
     @PostMapping
     public ResponseEntity<ResponseDto<CommentResponseDto>> createComment(
             @PathVariable("taskId") @Positive(message = "taskId는 1이상의 정수여야 합니다.") Long taskId,
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @Valid @RequestBody CommentCreateRequestDto dto
     ) {
-        ResponseDto<CommentResponseDto> response = commentService.createComment(taskId, dto);
+        ResponseDto<CommentResponseDto> response = commentService.createComment(taskId, userPrincipal, dto);
         return ResponseEntity.ok().body(response);
     }
 

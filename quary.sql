@@ -74,6 +74,19 @@ DEFAULT CHARSET = utf8mb4
 COLLATE = utf8mb4_unicode_ci
 COMMENT = '담당자';
 
+-- 프로젝트 멤버십(프로젝트 범위 역할)
+CREATE TABLE IF NOT EXISTS project_members (
+  project_id BIGINT NOT NULL,
+  user_id    BIGINT NOT NULL,
+  role_name  VARCHAR(30) NOT NULL DEFAULT 'USER', -- USER or MANAGER (프로젝트 단위)
+  created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  PRIMARY KEY (project_id, user_id),
+  CONSTRAINT fk_pm_project FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
+  CONSTRAINT fk_pm_user    FOREIGN KEY (user_id)    REFERENCES users(id)    ON DELETE CASCADE,
+  CONSTRAINT fk_pm_role    FOREIGN KEY (role_name)  REFERENCES user_roles(role) ON DELETE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
 
 -- 할 일 테이블
 --  `task_assignees`  수정필요 

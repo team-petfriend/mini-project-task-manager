@@ -28,7 +28,7 @@ public class Project extends BaseTimeEntity {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false,
+    @JoinColumn(name = "owner_id", nullable = false,
     foreignKey = @ForeignKey(name = "fk_project_user_id"))
     private User user;
 
@@ -37,8 +37,8 @@ public class Project extends BaseTimeEntity {
     private String name;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
-
     private List<Task> tasks = new ArrayList<>();
+
     public void addTask(Task task){
         tasks.add(task);
         task.setTask(null);
@@ -49,9 +49,15 @@ public class Project extends BaseTimeEntity {
         task.setTask(null);
     }
 
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Tag> tags;
+
+
     @Builder
-    public Project(@NotNull User user){
+    public Project(Long id, @NotNull User user, String name ){
+        this.id = id;
         this.user = user;
+        this.name = name;
     }
     public void setName(String name){
         this.name = name;

@@ -2,13 +2,10 @@ package com.example.petfriend.entity;
 
 import com.example.petfriend.entity.base.BaseTimeEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "comments")
@@ -33,6 +30,7 @@ public class Comments extends BaseTimeEntity {
     private String content;
 
 
+    @Builder
     private Comments(String content, User commenter) {
         this.content = content;
         this.commenter = commenter;

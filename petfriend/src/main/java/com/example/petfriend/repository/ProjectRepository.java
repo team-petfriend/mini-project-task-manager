@@ -1,12 +1,23 @@
 package com.example.petfriend.repository;
 
+import com.example.petfriend.dto.project.response.ProjectResponse;
 import com.example.petfriend.entity.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
 
 import java.util.Optional;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
     Optional<Project> getDetailById(Long projectId);
+
+import java.util.List;
+
+@Repository
+public interface ProjectRepository extends JpaRepository<Project, Long> {
+
+
+    Project getProjectByName(String projectName);
+
 }

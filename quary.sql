@@ -49,13 +49,15 @@ CREATE TABLE IF NOT EXISTS `users` (
 CREATE TABLE IF NOT EXISTS `projects`(
     id 				BIGINT PRIMARY KEY AUTO_INCREMENT,
     owner_id  		BIGINT NOT NULL,
+    tag_id			BIGINT NOT NULL,
     name 			VARCHAR(100) NOT NULL,
     created_at		DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     updated_at 		DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     CONSTRAINT `uk_projects_name` UNIQUE (name),
-    CONSTRAINT `fk_project_user_id` FOREIGN KEY (owner_id) REFERENCES users (id) ON DELETE CASCADE,
-    INDEX idx_project_name (name),
-    INDEX idx_project_createdAt (created_at)
+    CONSTRAINT `fk_projects_user_id` FOREIGN KEY (owner_id) REFERENCES users (id) ON DELETE CASCADE,
+    CONSTRAINT `fk_projects_tag_id` FOREIGN KEY (tag_id) REFERENCES tags (id) ON DELETE CASCADE,
+    INDEX idx_projects_name (name),
+    INDEX idx_projects_createdAt (created_at)
 )ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci
@@ -75,6 +77,7 @@ COLLATE = utf8mb4_unicode_ci
 COMMENT = '담당자';
 
 
+
 -- 할 일 테이블
 --  `task_assignees`  수정필요 
 CREATE TABLE IF NOT EXISTS `tasks` (
@@ -87,24 +90,23 @@ CREATE TABLE IF NOT EXISTS `tasks` (
 	due_date     		DATE NULL,
 	created_at	        DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
 	updated_at 			DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
-	CONSTRAINT fk_task_projects FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
-    CONSTRAINT fk_task_projects FOREIGN KEY (assignee_id) REFERENCES users(id) ON DELETE CASCADE,
-	CONSTRAINT chk_task_status CHECK (status IN ('TODO','IN_PROGRESS','DONE')),
-	CONSTRAINT chk_task_assignee CHECK (priority IN ('LOW','MEDIUM','HIGH')),
-	INDEX idx_task_project_status (project_id, status),
-	INDEX idx_task_assignee_due (due_date)
+	CONSTRAINT fk_tasks_project FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
+    CONSTRAINT fk_tasks_project FOREIGN KEY (assignee_id) REFERENCES users(id) ON DELETE CASCADE,
+	CONSTRAINT chk_tasks_status CHECK (status IN ('TODO','IN_PROGRESS','DONE')),
+	CONSTRAINT chk_tasks_assignees CHECK (priority IN ('LOW','MEDIUM','HIGH')),
+	INDEX idx_tasks_projects_status (project_id, status),
+	INDEX idx_tasks_assignees_due (due_date)
 )ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci
-  COMMENT = '할일';
+  COMMENT = '할일';	
 
 -- 태그 테이블
 CREATE TABLE IF NOT EXISTS `tags` (
 	id          	BIGINT PRIMARY KEY AUTO_INCREMENT,
 	name        	VARCHAR(50) NOT NULL UNIQUE,
-	color        	VARCHAR(20) NULL,
-	created_at		DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-	updated_at 		DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)
+	color        	VARCHAR(20) NOT NULL NULL,
+    CONSTRAINT `uk_tags_name` UNIQUE (name)
 ) ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci
@@ -120,6 +122,11 @@ CREATE TABLE IF NOT EXISTS `task_tag` (
 	CONSTRAINT fk_task_tag_tag  FOREIGN KEY (tag_id)  REFERENCES tags(id)  ON DELETE CASCADE,
     constraint uk_task_tag_task unique (task_id),
     constraint uk_task_tag_task unique (tag_id)
+	task_id  		BIGINT NOT NULL,
+	tag_id   		BIGINT NOT NULL,
+	PRIMARY KEY (task_id, tag_id),
+	CONSTRAINT fk_task_tag_task FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
+	CONSTRAINT fk_task_tag_tag  FOREIGN KEY (tag_id)  REFERENCES tags(id)  ON DELETE CASCADE
 )ENGINE=InnoDB
  DEFAULT CHARSET = utf8mb4
  COLLATE = utf8mb4_unicode_ci
@@ -141,16 +148,14 @@ USE `petfriend`;
 CREATE TABLE IF NOT EXISTS `comments` (
 	id			BIGINT NOT NULL AUTO_INCREMENT,
     task_id		BIGINT NOT NULL COMMENT 'tasks.id FK',
-    user_id 	BIGINT NOT NULL,
     content 	VARCHAR(500) NOT NULL COMMENT '댓글 내용',
-    commenter 	VARCHAR(100) NOT NULL COMMENT '댓글 작성자 표시명 또는 ID',
+    commenter 	BIGINT NOT NULL COMMENT '댓글 작성자 표시명 또는 ID',
     created_at	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
 	updated_at 	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     PRIMARY KEY (`id`),
     KEY `idx_comment_task_id` (task_id),
     KEY `idx_comment_commenter` (commenter),
-    CONSTRAINT `fk_comment_task` 	FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT `fk_comment_user_id` FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT `fk_comments_task` 	FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci
@@ -159,23 +164,23 @@ CREATE TABLE IF NOT EXISTS `comments` (
   
   select * from `comments`;
   
--- 옵션: 단순 알림 테이블(읽음 여부) 추후 구현 
--- CREATE TABLE IF NOT EXISTS `notifications` (
--- 	id            BIGINT PRIMARY KEY AUTO_INCREMENT,
--- 	user_id       BIGINT NOT NULL,
--- 	type          VARCHAR(30) NOT NULL,
--- 	ref_type      VARCHAR(20) NOT NULL,
--- 	ref_id        BIGINT NOT NULL,
--- 	message       VARCHAR(255) NOT NULL,
--- 	is_read       TINYINT(1) NOT NULL DEFAULT 0,
--- 	created_at    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
--- 	CONSTRAINT fk_notify_user FOREIGN KEY (user_id) REFERENCES users(id),
---     CONSTRAINT chk_notifications_type CHECK(type IN('TASK_ASSIGNED','MENTION','COMMENT','STATUS_CHANGED')),
---     CONSTRAINT chk_notifications_ref_type CHECK(ref_type IN('TASK','COMMENT')),
--- 	INDEX idx_notify_user_read (user_id, is_read)
--- )ENGINE=InnoDB
---  DEFAULT CHARSET = utf8mb4
---  COLLATE = utf8mb4_unicode_ci
---  COMMENT = '알림';
---  
---  select * from `notifications`
+-- 옵션: 단순 알림 테이블(읽음 여부) 
+CREATE TABLE IF NOT EXISTS `notifications` (
+	id            BIGINT PRIMARY KEY AUTO_INCREMENT,
+	user_id       BIGINT NOT NULL,
+	type          VARCHAR(30) NOT NULL,
+	ref_type      VARCHAR(20) NOT NULL,
+	ref_id        BIGINT NOT NULL,
+	message       VARCHAR(255) NOT NULL,
+	is_read       TINYINT(1) NOT NULL DEFAULT 0,
+	created_at    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	CONSTRAINT fk_notify_user FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT chk_notifications_type CHECK(type IN('TASK_ASSIGNED','MENTION','COMMENT','STATUS_CHANGED')),
+    CONSTRAINT chk_notifications_ref_type CHECK(ref_type IN('TASK','COMMENT')),
+	INDEX idx_notify_user_read (user_id, is_read)
+)ENGINE=InnoDB
+ DEFAULT CHARSET = utf8mb4
+ COLLATE = utf8mb4_unicode_ci
+ COMMENT = '알림';
+ 
+ select * from `notifications`

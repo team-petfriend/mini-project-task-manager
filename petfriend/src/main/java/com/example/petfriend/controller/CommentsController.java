@@ -2,6 +2,7 @@ package com.example.petfriend.controller;
 
 import com.example.petfriend.dto.ResponseDto;
 import com.example.petfriend.dto.comment.request.CommentCreateRequestDto;
+import com.example.petfriend.dto.comment.request.CommentUpdateRequestDto;
 import com.example.petfriend.dto.comment.response.CommentResponseDto;
 import com.example.petfriend.security.UserPrincipal;
 import com.example.petfriend.service.CommentService;
@@ -30,24 +31,22 @@ public class CommentsController {
         return ResponseEntity.ok().body(response);
     }
 
-    @PutMapping("/api/tasks/{taskId}/comments/{commentId}")
+    @PutMapping("{commentId}")
     public ResponseEntity<ResponseDto<CommentResponseDto>> updateComment(
             @PathVariable("taskId") @Positive(message = "taskId는 1이상의 정수여야 합니다.") Long taskId,
             @PathVariable("commentId") @Positive(message = "commentId는 1이상의 정수여야 합니다.") Long commentId,
-            @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @Valid @RequestBody CommentCreateRequestDto dto
+            @Valid @RequestBody CommentUpdateRequestDto dto
     ) {
-        ResponseDto<CommentResponseDto> response = commentService.updateComment(taskId, commentId, userPrincipal, dto);
+        ResponseDto<CommentResponseDto> response = commentService.updateComment(taskId, commentId, dto);
         return ResponseEntity.ok().body(response);
     }
 
-    @DeleteMapping("/api/tasks/{taskId}/comments/{commentId}")
+    @DeleteMapping("{commentId}")
     public ResponseEntity<ResponseDto<CommentResponseDto>> deleteComment(
             @PathVariable("taskId") @Positive(message = "taskId는 1이상의 정수여야 합니다.") Long taskId,
-            @PathVariable("commentId") @Positive(message = "commentId는 1이상의 정수여야 합니다.") Long commentId,
-            @AuthenticationPrincipal UserPrincipal userPrincipal
+            @PathVariable("commentId") @Positive(message = "commentId는 1이상의 정수여야 합니다.") Long commentId
     ) {
-        ResponseDto<CommentResponseDto> response = commentService.deleteComment(taskId, commentId, userPrincipal);
+        ResponseDto<CommentResponseDto> response = commentService.deleteComment(taskId, commentId);
         return ResponseEntity.ok().body(response);
     }
 }

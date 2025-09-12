@@ -17,8 +17,8 @@ import java.util.Set;
 @Table(
         name = "tasks",
         indexes = {
-                @Index(name = "idx_task_project_status", columnList = "project_id, status"),
-                @Index(name = "idx_task_due_date", columnList = "due_date")
+                @Index(name = "idx_tasks_projects_status", columnList = "project_id, status"),
+                @Index(name = "idx_tasks_assignees_due", columnList = "due_date")
         }
 )
 @Getter
@@ -69,6 +69,10 @@ public class Task {
     @OneToMany(mappedBy = "TaskTagTask", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TaskTag> taskTags = new HashSet<>();
 
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Comments> comments = new HashSet<>();
+
+
     /** 생성자*/
     @Builder
     public Task(
@@ -106,9 +110,6 @@ public class Task {
         if (!exists) {
             assignees.add(new TaskAssignees(this, user));
         }
-        if (!exists) {
-            assignees.add(new TaskAssignees(this, user));
-        }
     }
 
     /** 담당자 삭제 */
@@ -120,5 +121,14 @@ public class Task {
         this.project = project;
     }
 
+    public void addComment(Comments comment) {
+        comments.add(comment);
+        comment.setTask(this);
+    }
+
+    public void removeComment(Comments comment) {
+        comments.remove(comment);
+        comment.setTask(null);
+    }
 
 }

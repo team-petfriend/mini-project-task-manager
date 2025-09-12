@@ -114,6 +114,14 @@ CREATE TABLE IF NOT EXISTS `tags` (
 
 -- 할일 태그
 CREATE TABLE IF NOT EXISTS `task_tag` (
+	id 				bigint auto_increment,
+	task_id  		BIGINT,
+	tag_id   		BIGINT,
+	PRIMARY KEY (id),
+	CONSTRAINT fk_task_tag_task FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
+	CONSTRAINT fk_task_tag_tag  FOREIGN KEY (tag_id)  REFERENCES tags(id)  ON DELETE CASCADE,
+    constraint uk_task_tag_task unique (task_id),
+    constraint uk_task_tag_task unique (tag_id)
 	task_id  		BIGINT NOT NULL,
 	tag_id   		BIGINT NOT NULL,
 	PRIMARY KEY (task_id, tag_id),

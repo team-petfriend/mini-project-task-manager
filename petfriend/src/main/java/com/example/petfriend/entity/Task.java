@@ -1,12 +1,9 @@
 package com.example.petfriend.entity;
 
-import ch.qos.logback.core.status.Status;
 import com.example.petfriend.common.enums.TaskPriority;
 import com.example.petfriend.common.enums.TaskStatus;
-import jakarta.annotation.Priority;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jdk.jshell.Snippet;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -66,11 +63,15 @@ public class Task {
      *  mappedBy = task(owner)가 "주인이 아님을 명시하고, 반대편 필드가 FK를 관리함을 알려준다”
      *  cascade = CascadeType.ALL => PK가 삭제된다면 FK도 같이 삭제
      * */
-    @OneToMany(mappedBy = "tasks", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "assignessTask", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TaskAssignees> assignees = new HashSet<>();
+
+    @OneToMany(mappedBy = "TaskTagTask", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<TaskTag> taskTags = new HashSet<>();
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comments> comments = new HashSet<>();
+
 
     /** 생성자*/
     @Builder
@@ -105,7 +106,7 @@ public class Task {
     /** 담당자 부여 */
     public void addAssignees(User user, TaskAssignees taskAssignees) {
         boolean exists = assignees.stream()
-                .anyMatch(ta -> ta.getUser().equals(user));
+                .anyMatch(ta -> ta.getAssignessUser().equals(user));
         if (!exists) {
             assignees.add(new TaskAssignees(this, user));
         }
@@ -113,7 +114,7 @@ public class Task {
 
     /** 담당자 삭제 */
     public void deleteAssignees(User user) {
-        assignees.removeIf(ta -> ta.getUser().equals(user));
+        assignees.removeIf(ta -> ta.getAssignessUser().equals(user));
     }
 
     void setTask(Project project){

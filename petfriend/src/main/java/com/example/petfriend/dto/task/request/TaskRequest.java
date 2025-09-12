@@ -15,7 +15,7 @@ public class TaskRequest {
             @NotNull(message = "title은 필수 값 입니다.")
             String title,
             String description,
-            Set<Long> assigneesId, // 담당자
+            Set<TaskAssignees> assigneesId, // 담당자
             @NotNull(message = "taskStatus은 필수 값 입니다.")
             TaskStatus taskStatus,
             @NotNull(message = "taskStatus은 필수 값 입니다.")

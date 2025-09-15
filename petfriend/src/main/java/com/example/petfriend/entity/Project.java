@@ -54,9 +54,8 @@ public class Project extends BaseTimeEntity {
 
 
     @Builder
-    public Project(Long id, User user, String name){
+    public Project(Long id, String name){
         this.id = id;
-        this.user = user;
         this.name = name;
 
     }

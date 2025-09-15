@@ -33,11 +33,9 @@ public class ProjectServiceImpl implements ProjectService {
     public ResponseDto<ProjectResponse.DetailResponse> create(UserPrincipal userPrincipal, ProjectRequest.@Valid Create req) {
         ProjectResponse.DetailResponse data = null;
 
-        Long authUserId = userPrincipal.getId();
-        User userRef = em.getReference(User.class, authUserId);
 
         Project project = Project.builder()
-                .user(userRef)
+
                 .name(req.name())
                 .build();
 
@@ -57,17 +55,12 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ResponseDto<ProjectResponse.DetailResponse> search(String projectName) {
-        ProjectResponse.DetailResponse data = null;
-        Project project = projectRepository.getProjectByName(projectName);
-        data = new ProjectResponse.DetailResponse(
-                project.getId(),
-                project.getName(),
-                project.getCreatedAt(),
-                project.getUpdatedAt()
-        );
-
-        return ResponseDto.setSuccess("성공적으로 조회하였습니다.", data);
+    public ResponseDto<List<ProjectResponse.DetailResponse>> search(String projectName) {
+        List<Project> projects = projectRepository.findByNameContainingIgnoreCase(projectName);
+        List<ProjectResponse.DetailResponse> response = projects.stream()
+                .map(ProjectResponse.DetailResponse::from)
+                .toList();
+        return ResponseDto.setSuccess("성공적으로 조회하였습니다.", response);
     }
 
     @Override

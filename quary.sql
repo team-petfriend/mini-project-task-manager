@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `task_tag` (
 	CONSTRAINT fk_task_tag_task FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
 	CONSTRAINT fk_task_tag_tag  FOREIGN KEY (tag_id)  REFERENCES tags(id)  ON DELETE CASCADE,
     constraint uk_task_tag_task unique (task_id),
-    constraint uk_task_tag_task unique (tag_id)
+    constraint uk_task_tag_task unique (tag_id),
 	task_id  		BIGINT NOT NULL,
 	tag_id   		BIGINT NOT NULL,
 	PRIMARY KEY (task_id, tag_id),

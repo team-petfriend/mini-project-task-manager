@@ -6,18 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
-    Optional<Project> getDetailById(Long projectId);
 
-import java.util.List;
-
-@Repository
-public interface ProjectRepository extends JpaRepository<Project, Long> {
-
-
-    Project getProjectByName(String projectName);
+    List<Project> findByNameContainingIgnoreCase(String projectName);
 
 }

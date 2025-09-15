@@ -6,6 +6,7 @@ import com.example.petfriend.dto.project.response.ProjectResponse;
 import com.example.petfriend.security.UserPrincipal;
 import com.example.petfriend.service.ProjectService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -43,10 +44,12 @@ public class ProjectController {
     // 프로젝트 검색
     // 정렬은 나중 추가
     @GetMapping
-    public ResponseEntity<ResponseDto<ProjectResponse.DetailResponse>> search(
-            @RequestParam(required = false) String projectName
+    public ResponseEntity<ResponseDto<List<ProjectResponse.DetailResponse>>> search(
+            @RequestParam("projectName")
+            @NotBlank(message = "검색 키워드는 비워질 수 없습니다.")
+            String projectName
     ) {
-        ResponseDto<ProjectResponse.DetailResponse> response = projectService.search(projectName);
+        ResponseDto<List<ProjectResponse.DetailResponse>> response = projectService.search(projectName);
         return ResponseEntity.ok(response);
     }
 

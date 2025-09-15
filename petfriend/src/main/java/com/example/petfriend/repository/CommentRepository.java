@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface CommentRepository extends JpaRepository<Comments, Long> {
     Optional<Comments> findByIdAndTask(Long commentId, Task task);
+    
 }

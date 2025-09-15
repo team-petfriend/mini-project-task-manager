@@ -15,7 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/tasks/{taskId}/comments")
+@RequestMapping("/api/v1/tasks/{taskId}/comments")
 @RequiredArgsConstructor
 @Validated
 public class CommentsController {

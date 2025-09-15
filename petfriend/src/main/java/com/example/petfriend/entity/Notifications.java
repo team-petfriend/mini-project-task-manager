@@ -10,6 +10,8 @@ import lombok.*;
 @Table(name = "notifications")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class Notifications extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +19,8 @@ public class Notifications extends BaseTimeEntity {
 
     // 알림을 받을 사용자
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false,
+            foreignKey = @ForeignKey(name = "fk_notify_user"))
     private User user;
 
     // 알림 유형
@@ -42,7 +45,6 @@ public class Notifications extends BaseTimeEntity {
     @Column(name = "is_read", nullable = false)
     private boolean isRead = false;
 
-    @Builder
     public void markAsRead() {
         this.isRead = true;
     }

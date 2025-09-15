@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -74,6 +75,9 @@ public class Task {
     )
     private Set<Tag> tags;
 
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Comments> comments = new HashSet<>();
+
     /** 생성자*/
     @Builder
     public Task(
@@ -100,6 +104,16 @@ public class Task {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
+    }
+
+    public void addComment(Comments comment) {
+        comments.add(comment);
+        comment.setTask(this);
+    }
+
+    public void removeComment(Comments comment) {
+        comments.remove(comment);
+        comment.setTask(null);
     }
 
     public enum TaskStatus {

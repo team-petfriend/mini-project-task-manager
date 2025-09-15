@@ -10,14 +10,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(
         name = "tasks",
         indexes = {
-                @Index(name = "idx_tasks_projects_status", columnList = "project_id, status"),
+                @Index(name = "idx_tasks_projects_status", columnList = "project_id, task_status"),
                 @Index(name = "idx_tasks_assignees_due", columnList = "due_date")
         }
 )
@@ -40,12 +39,12 @@ public class Task {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "task_status", nullable = false, length = 50)
-    private TaskStatus status = TaskStatus.TODO;
+    @Column(name = "task_status", nullable = false, length = 250)
+    private TaskStatus taskStatus = TaskStatus.TODO;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "priority", nullable = false, length = 250)
-    private TaskPriority priority = TaskPriority.MEDIUM;
+    private TaskPriority taskPriority = TaskPriority.MEDIUM;
 
     @Column(name = "assignee_id")
     private Long assignee;
@@ -53,25 +52,27 @@ public class Task {
     @Column(name = "due_date")
     private LocalDateTime dueDate;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, columnDefinition = "DATETIME(6) DEFAULT CURRENT_TIMESTAMP(6)")
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at", nullable = false, updatable = false)
+    @Column(name = "updated_at", nullable = false,  columnDefinition = "DATETIME(6) DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)")
     private LocalDateTime updatedAt;
 
-    /** TaskAssigness 조인을 위해서 사용
-     *  mappedBy = task(owner)가 "주인이 아님을 명시하고, 반대편 필드가 FK를 관리함을 알려준다”
-     *  cascade = CascadeType.ALL => PK가 삭제된다면 FK도 같이 삭제
-     * */
-    @OneToMany(mappedBy = "assignessTask", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<TaskAssignees> assignees = new HashSet<>();
+    @ManyToMany
+    @JoinTable(
+            name = "task_assigness",
+            joinColumns = @JoinColumn(name = "task_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> assignees;
 
-    @OneToMany(mappedBy = "TaskTagTask", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<TaskTag> taskTags = new HashSet<>();
-
-    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Comments> comments = new HashSet<>();
-
+    @ManyToMany
+    @JoinTable(
+            name = "task_tag",
+            joinColumns = @JoinColumn(name = "task_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> tags;
 
     /** 생성자*/
     @Builder
@@ -79,56 +80,36 @@ public class Task {
             @NotNull Project project,
             String title,
             String description,
-            TaskStatus status,
+            TaskStatus taskStatus,
             TaskPriority priority,
             Set<TaskAssignees> assignees
     ) {
         this.project = project;
         this.title = title;
         this.description = description;
-        this.status = (status != null) ? status : TaskStatus.TODO;
-        this.priority = (priority != null) ? priority : TaskPriority.HIGH;
-        this.assignees = assignees;
+        this.taskStatus = taskStatus;
+        this.taskPriority = priority;
     }
 
-    public void changeTask(String title, String description) {
-        this.title = title;
-        this.description = description;
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = createdAt;
     }
 
-    /**
-     * === ★중요★ ===
-     * tasks에서 addAssignees 기능을 부여하는 이유
-     * tasks에 담당자를 부여하기 때문에 assignees(담당자)에 해당하는 기능을 Task Entity에 정의해준다.
-     * */
-
-
-    /** 담당자 부여 */
-    public void addAssignees(User user, TaskAssignees taskAssignees) {
-        boolean exists = assignees.stream()
-                .anyMatch(ta -> ta.getAssignessUser().equals(user));
-        if (!exists) {
-            assignees.add(new TaskAssignees(this, user));
-        }
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 
-    /** 담당자 삭제 */
-    public void deleteAssignees(User user) {
-        assignees.removeIf(ta -> ta.getAssignessUser().equals(user));
+    public enum TaskStatus {
+        TODO, IN_PROGRESS, DONE
     }
 
-    void setTask(Project project){
-        this.project = project;
+    public enum TaskPriority {
+        LOW, MEDIUM, HIGH
     }
 
-    public void addComment(Comments comment) {
-        comments.add(comment);
-        comment.setTask(this);
-    }
 
-    public void removeComment(Comments comment) {
-        comments.remove(comment);
-        comment.setTask(null);
-    }
 
 }

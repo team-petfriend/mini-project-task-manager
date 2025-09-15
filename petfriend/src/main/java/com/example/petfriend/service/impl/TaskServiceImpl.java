@@ -31,23 +31,13 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
     public ResponseDto<TaskResponse.DetailTaskResponse> create(Long projectId, UserPrincipal userPrincipal, TaskRequest.TaskCreateRequest req) {
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new IllegalStateException("프로젝트가 존재하지 않습니다."));
 
-        Task task = Task.builder()
-                .project(project)
-                .title(req.title())
-                .description(req.description())
-                .status(req.taskStatus())
-                .priority(req.taskPriority())
-                .build();
-        return ResponseDto.success("SUCCESS", req);
+        return;
     }
 
     @Override
     @Transactional
-    public ResponseDto<TaskResponse.DetailTaskResponse> update(Long projectId, Long taskId, TaskRequest.@Valid TaskUpdateRequest dto) {
-        Task task = taskRepository
+    public ResponseDto<TaskResponse.DetailTaskResponse> update(Long projectId, Long taskId, TaskRequest.@Valid TaskUpdateRequest dto)
 
         return null;
     }

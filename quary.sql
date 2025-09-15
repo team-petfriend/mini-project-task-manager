@@ -101,6 +101,19 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   COLLATE = utf8mb4_unicode_ci
   COMMENT = '할일';	
 
+-- task history
+CREATE TABLE IF NOT EXISTS `task_history`(
+	id			BIGINT AUTO_INCREMENT PRIMARY KEY,
+    task_id 	BIGINT NOT NULL,
+    actor_id	BIGINT NOT NULL,
+    field		ENUM('STATUS','ASSIGNEE','DUE_DATE','TITLE','PRIORITY','TAGS') NOT NULL,
+    old_value	VARCHAR(255),
+    new_value	VARCHAR(255),
+    created_at	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+	CONSTRAINT fk_task_history_task FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
+    CONSTRAINT fk_task_history_actor FOREIGN KEY (actor_id) REFERENCES users(id)
+);
+
 -- 태그 테이블
 CREATE TABLE IF NOT EXISTS `tags` (
 	id          	BIGINT PRIMARY KEY AUTO_INCREMENT,

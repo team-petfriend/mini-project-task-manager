@@ -15,7 +15,7 @@ public class TaskResponse {
             TaskPriority taskPriority,
             LocalDateTime created_at,
             LocalDateTime updated_at
-    ){
+    ) {
         public static DetailTaskResponse from(Task task) {
             return new DetailTaskResponse(
                     task.getTitle(),
@@ -32,6 +32,7 @@ public class TaskResponse {
     public record TaskListResponse(
             Long id,
             String title
-    ){}
+    ) {
+    }
 
 }

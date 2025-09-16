@@ -17,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -67,8 +69,13 @@ public class CommentServiceImpl implements CommentService {
         }
 
         Task task = comment.getTask();
-        task.removeComment(comment); // Task 엔티티에 removeComment 메서드 필요
+        task.removeComment(comment);
 
         return ResponseDto.setSuccess("SUCCESS", null);
+    }
+
+    @Override
+    public ResponseDto<List<CommentResponseDto>> getComments(Long taskId, Long commenterId, boolean latestFirst) {
+        return null;
     }
 }

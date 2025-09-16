@@ -14,6 +14,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/tasks/{taskId}/comments")
 @RequiredArgsConstructor
@@ -47,6 +49,18 @@ public class CommentsController {
             @PathVariable("commentId") @Positive(message = "commentId는 1이상의 정수여야 합니다.") Long commentId
     ) {
         ResponseDto<CommentResponseDto> response = commentService.deleteComment(taskId, commentId);
+        return ResponseEntity.ok().body(response);
+    }
+
+    // 최신댓글 순 정렬 (true = 최신순, false = 오래된 댓글 순)
+    @GetMapping
+    public ResponseEntity<ResponseDto<List<CommentResponseDto>>> getComments(
+            @PathVariable("taskId") @Positive Long taskId,
+            @RequestParam(required = false) Long commenterId,
+            @RequestParam(defaultValue = "true") boolean latestFirst
+    ) {
+        ResponseDto<List<CommentResponseDto>> response
+                = commentService.getComments(taskId, commenterId, latestFirst);
         return ResponseEntity.ok().body(response);
     }
 }

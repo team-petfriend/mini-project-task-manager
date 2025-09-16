@@ -14,7 +14,9 @@ import java.util.List;
 public interface TaskService {
 
 
-    ResponseDto<TaskResponse.DetailTaskResponse> create(Long projectId, UserPrincipal userPrincipal, TaskRequest.TaskCreateRequest req);
+    ResponseDto<TaskResponse.DetailTaskResponse> create(UserPrincipal userPrincipal, TaskRequest.@Valid TaskCreateRequest req);
+
+
 
     ResponseDto<TaskResponse.DetailTaskResponse> update(Long projectId, Long taskId, TaskRequest.@Valid TaskUpdateRequest dto);
 
@@ -22,5 +24,5 @@ public interface TaskService {
 
     ResponseDto<TaskResponse.DetailTaskResponse> getBuId(Long projectId, Long taskId);
 
-    ResponseDto<List<TaskListResponse>> getAllByProjectId(Long projectId);
+    ResponseDto<List<TaskResponse.TaskListResponse>> getAll();
 }

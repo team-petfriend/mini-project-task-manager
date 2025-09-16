@@ -2,6 +2,7 @@ package com.example.petfriend.entity;
 
 import com.example.petfriend.common.enums.TaskPriority;
 import com.example.petfriend.common.enums.TaskStatus;
+import com.example.petfriend.entity.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -9,7 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,7 +24,7 @@ import java.util.Set;
 )
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Task {
+public class Task extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -37,6 +38,7 @@ public class Task {
     private String title;
 
     @Lob
+    @Column(name = "description")
     private String description;
 
     @Enumerated(EnumType.STRING)
@@ -47,33 +49,9 @@ public class Task {
     @Column(name = "priority", nullable = false, length = 250)
     private TaskPriority taskPriority = TaskPriority.MEDIUM;
 
-    @Column(name = "assignee_id")
-    private Long assignee;
-
     @Column(name = "due_date")
-    private LocalDateTime dueDate;
+    private LocalDate dueDate;
 
-    @Column(name = "created_at", nullable = false, columnDefinition = "DATETIME(6) DEFAULT CURRENT_TIMESTAMP(6)")
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at", nullable = false,  columnDefinition = "DATETIME(6) DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)")
-    private LocalDateTime updatedAt;
-
-    @ManyToMany
-    @JoinTable(
-            name = "task_assigness",
-            joinColumns = @JoinColumn(name = "task_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private Set<User> assignees;
-
-    @ManyToMany
-    @JoinTable(
-            name = "task_tag",
-            joinColumns = @JoinColumn(name = "task_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
-    private Set<Tag> tags;
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comments> comments = new HashSet<>();
@@ -85,26 +63,15 @@ public class Task {
             String title,
             String description,
             TaskStatus taskStatus,
-            TaskPriority priority,
-            Set<TaskAssignees> assignees
+            TaskPriority priority
     ) {
         this.project = project;
         this.title = title;
         this.description = description;
-        this.taskStatus = taskStatus;
-        this.taskPriority = priority;
+        this.taskStatus = (taskStatus != null) ? taskStatus : TaskStatus.TODO;
+        this.taskPriority = (priority != null) ? priority : TaskPriority.MEDIUM;
     }
 
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = createdAt;
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
 
     public void addComment(Comments comment) {
         comments.add(comment);
@@ -115,15 +82,5 @@ public class Task {
         comments.remove(comment);
         comment.setTask(null);
     }
-
-    public enum TaskStatus {
-        TODO, IN_PROGRESS, DONE
-    }
-
-    public enum TaskPriority {
-        LOW, MEDIUM, HIGH
-    }
-
-
 
 }

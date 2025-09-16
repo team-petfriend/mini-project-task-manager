@@ -25,13 +25,14 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Task extends BaseTimeEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "project_id", nullable = false,
-    foreignKey = @ForeignKey(name = "fk_task_project"))
+            foreignKey = @ForeignKey(name = "fk_task_project"))
     private Project project;
 
     @Column(nullable = false, length = 200)
@@ -56,7 +57,9 @@ public class Task extends BaseTimeEntity {
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comments> comments = new HashSet<>();
 
-    /** 생성자*/
+    /**
+     * 생성자
+     */
     @Builder
     public Task(
             @NotNull Project project,

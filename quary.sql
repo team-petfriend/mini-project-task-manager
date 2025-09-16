@@ -112,7 +112,11 @@ CREATE TABLE IF NOT EXISTS `task_history`(
     created_at	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
 	CONSTRAINT fk_task_history_task FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
     CONSTRAINT fk_task_history_actor FOREIGN KEY (actor_id) REFERENCES users(id)
-);
+)ENGINE=InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci
+  COMMENT = 'Task History(logs)';
+
 
 -- 태그 테이블
 CREATE TABLE IF NOT EXISTS `tags` (
@@ -197,3 +201,53 @@ CREATE TABLE IF NOT EXISTS `notifications` (
  COMMENT = '알림';
  
  select * from `notifications`
+ 
+ 
+# task_history 트리거
+
+-- 최초 상태 지정 로그
+DELIMITER //
+CREATE TRIGGER trg_after_task_staus_create
+AFTER INSERT ON tasks
+FOR EACH ROW
+BEGIN
+	INSERT INTO task_history(task_id, actor_id, new_value)
+    VALUES (NEW.task_status, CONCAT('상태가 지정되었습니다. 현 상태 :', NEW.task_status));
+END //
+DELIMITER ;
+
+-- 상태 변경 로그 트리거
+DELIMITER //
+CREATE TRIGGER trg_after_task_status_update
+AFTER UPDATE ON tasks
+FOR EACH ROW
+BEGIN
+	IF NEW.field <> OLD.field THEN
+		INSERT INTO task_history(task_id, actor_id, old_value, new_value)
+        VALUES(NEW.task_status, CONCAT('Task의 상태가', OLD.task_status,'->',New.task_status, '로 변경되었습니다.'));
+	END IF;
+END //
+DELIMITER ;
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

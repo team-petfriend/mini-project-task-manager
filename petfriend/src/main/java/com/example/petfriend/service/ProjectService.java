@@ -7,14 +7,12 @@ import com.example.petfriend.security.UserPrincipal;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ProjectService {
     ResponseDto<ProjectResponse.DetailResponse> create(UserPrincipal userPrincipal, ProjectRequest.@Valid Create req);
 
     ResponseDto<List<ProjectResponse.DetailResponse>> getAllProject();
-
 
     ResponseDto<List<ProjectResponse.DetailResponse>> search(@NotBlank(message = "검색 키워드는 비워질 수 없습니다.") String projectName);
 

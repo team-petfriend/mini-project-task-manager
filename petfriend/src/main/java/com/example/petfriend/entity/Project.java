@@ -39,34 +39,16 @@ public class Project extends BaseTimeEntity {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> tasks = new ArrayList<>();
 
-    public void addTask(Task task){
-        tasks.add(task);
-        task.setTask(null);
-    }
-
-    public void removeTask(Task task){
-        tasks.remove(task);
-        task.setTask(null);
-    }
-
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Tag> tags;
-
 
     @Builder
     public Project(Long id, String name){
         this.id = id;
         this.name = name;
-
     }
-
-
     public void setName(String name){
         this.name = name;
     }
-
-
-
-
 
 }

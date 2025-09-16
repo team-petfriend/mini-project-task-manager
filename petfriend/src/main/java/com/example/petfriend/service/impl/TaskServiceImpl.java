@@ -32,12 +32,12 @@ public class TaskServiceImpl implements TaskService {
     @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
     public ResponseDto<TaskResponse.DetailTaskResponse> create(Long projectId, UserPrincipal userPrincipal, TaskRequest.TaskCreateRequest req) {
 
-        return;
+        return null;
     }
 
     @Override
     @Transactional
-    public ResponseDto<TaskResponse.DetailTaskResponse> update(Long projectId, Long taskId, TaskRequest.@Valid TaskUpdateRequest dto)
+    public ResponseDto<TaskResponse.DetailTaskResponse> update(Long projectId, Long taskId, TaskRequest.@Valid TaskUpdateRequest dto){
 
         return null;
     }

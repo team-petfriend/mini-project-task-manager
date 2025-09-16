@@ -30,7 +30,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional
     @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
-    public ResponseDto<TaskResponse.DetailTaskResponse> create(Long projectId, UserPrincipal userPrincipal, TaskRequest.TaskCreateRequest req) {
+    public ResponseDto<TaskResponse.DetailTaskResponse> create(UserPrincipal userPrincipal, TaskRequest.@Valid TaskCreateRequest req) {
 
         return null;
     }
@@ -53,7 +53,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public ResponseDto<List<TaskListResponse>> getAllByProjectId(Long projectId) {
+    public ResponseDto<List<TaskResponse.TaskListResponse>> getAll() {
         return null;
     }
 

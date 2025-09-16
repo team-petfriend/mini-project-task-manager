@@ -8,14 +8,10 @@ import com.example.petfriend.service.ProjectService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -64,6 +60,5 @@ public class ProjectController {
         ResponseDto<ProjectResponse.DetailResponse> response = projectService.update(userPrincipal, projectId, req);
         return ResponseEntity.ok(response);
     }
-
 
 }

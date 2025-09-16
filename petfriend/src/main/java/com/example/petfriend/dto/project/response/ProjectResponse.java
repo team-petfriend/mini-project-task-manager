@@ -1,8 +1,6 @@
 package com.example.petfriend.dto.project.response;
 
 import com.example.petfriend.entity.Project;
-import jakarta.validation.constraints.NotNull;
-
 import java.time.LocalDateTime;
 
 public class ProjectResponse {
@@ -13,7 +11,6 @@ public class ProjectResponse {
             LocalDateTime UpdatedAt
 
     ) {
-
 
         public static DetailResponse from(Project project) {
             return new DetailResponse(

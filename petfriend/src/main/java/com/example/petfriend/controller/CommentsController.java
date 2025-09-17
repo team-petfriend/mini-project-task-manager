@@ -1,5 +1,6 @@
 package com.example.petfriend.controller;
 
+import com.example.petfriend.common.contants.ApiMappingPattern;
 import com.example.petfriend.dto.ResponseDto;
 import com.example.petfriend.dto.comment.request.CommentCreateRequestDto;
 import com.example.petfriend.dto.comment.request.CommentUpdateRequestDto;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/tasks/{taskId}/comments")
+@RequestMapping(ApiMappingPattern.Comments.ROOT) //api/v1/tasks/{taskId}/comments
 @RequiredArgsConstructor
 @Validated
 public class CommentsController {
@@ -33,7 +34,7 @@ public class CommentsController {
         return ResponseEntity.ok().body(response);
     }
 
-    @PutMapping("{commentId}")
+    @PutMapping(ApiMappingPattern.Comments.ID_ONLY)
     public ResponseEntity<ResponseDto<CommentResponseDto>> updateComment(
             @PathVariable("taskId") @Positive(message = "taskId는 1이상의 정수여야 합니다.") Long taskId,
             @PathVariable("commentId") @Positive(message = "commentId는 1이상의 정수여야 합니다.") Long commentId,
@@ -43,7 +44,7 @@ public class CommentsController {
         return ResponseEntity.ok().body(response);
     }
 
-    @DeleteMapping("{commentId}")
+    @DeleteMapping(ApiMappingPattern.Comments.ID_ONLY)
     public ResponseEntity<ResponseDto<CommentResponseDto>> deleteComment(
             @PathVariable("taskId") @Positive(message = "taskId는 1이상의 정수여야 합니다.") Long taskId,
             @PathVariable("commentId") @Positive(message = "commentId는 1이상의 정수여야 합니다.") Long commentId
@@ -53,7 +54,7 @@ public class CommentsController {
     }
 
     // 최신댓글 순 정렬 (true = 최신순, false = 오래된 댓글 순)
-    @GetMapping
+    @GetMapping(ApiMappingPattern.Comments.SORT)
     public ResponseEntity<ResponseDto<List<CommentResponseDto>>> getComments(
             @PathVariable("taskId") @Positive Long taskId,
             @RequestParam(required = false) Long commenterId,

@@ -40,7 +40,7 @@ public class Project extends BaseTimeEntity {
     private List<Task> tasks = new ArrayList<>();
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Tag> tags;
+    private List<Tag> tags = new ArrayList<>();
 
     @Builder
     public Project(Long id, String name){

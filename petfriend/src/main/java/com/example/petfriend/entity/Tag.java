@@ -30,7 +30,9 @@ public class Tag {
     private String color;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "project_id", nullable = false)
+    @JoinColumn(name = "project_id", nullable = false,
+    foreignKey = @ForeignKey(name = "fk_tag_project")
+    )
     private Project project;
 
 

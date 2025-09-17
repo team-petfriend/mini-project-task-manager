@@ -43,29 +43,16 @@ CREATE TABLE IF NOT EXISTS `users` (
   COLLATE = utf8mb4_unicode_ci
   COMMENT = '사용자 권한';
 
--- 태그 테이블
-CREATE TABLE IF NOT EXISTS `tags` (
-	id          	BIGINT PRIMARY KEY AUTO_INCREMENT,
-	name        	VARCHAR(50) NOT NULL UNIQUE,
-	color        	VARCHAR(20) NOT NULL NULL,
-    CONSTRAINT `uk_tags_name` UNIQUE (name)
-) ENGINE=InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci
-  COMMENT = '태그';  
-
 -- 프로젝트 테이블
--- owerId -> 관리자
+-- ownerId -> 관리자
 CREATE TABLE IF NOT EXISTS `projects`(
     id 				BIGINT PRIMARY KEY AUTO_INCREMENT,
     owner_id  		BIGINT NOT NULL,
-    tag_id			BIGINT NOT NULL,
     name 			VARCHAR(100) NOT NULL,
     created_at		DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     updated_at 		DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     CONSTRAINT `uk_projects_name` UNIQUE (name),
     CONSTRAINT `fk_projects_user_id` FOREIGN KEY (owner_id) REFERENCES users (id) ON DELETE CASCADE,
-    CONSTRAINT `fk_projects_tag_id` FOREIGN KEY (tag_id) REFERENCES tags (id) ON DELETE CASCADE,
     INDEX idx_projects_name (name),
     INDEX idx_projects_createdAt (created_at)
 )ENGINE=InnoDB
@@ -73,13 +60,26 @@ CREATE TABLE IF NOT EXISTS `projects`(
   COLLATE = utf8mb4_unicode_ci
   COMMENT = '프로젝트';
 
+-- 태그 테이블
+CREATE TABLE IF NOT EXISTS `tags` (
+	id          	BIGINT PRIMARY KEY AUTO_INCREMENT,
+    project_id		BIGINT NOT NULL,
+	name        	VARCHAR(50) NOT NULL,
+	color        	VARCHAR(20) NOT NULL,
+    CONSTRAINT `uk_tags_name` UNIQUE (name),
+    CONSTRAINT fk_tag_project FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE
+) ENGINE=InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci
+  COMMENT = '태그';  
+
 -- 할 일 테이블
 --  `task_assignees`  수정필요 
 CREATE TABLE IF NOT EXISTS `tasks` (
 	id           		BIGINT PRIMARY KEY AUTO_INCREMENT,
 	project_id   		BIGINT NOT NULL,
 	title        		VARCHAR(200) NOT NULL,
-	description  		TEXT,
+	description  		LONGTEXT,
 	task_status       	VARCHAR(250) NOT NULL DEFAULT'TODO',
 	priority     		VARCHAR(250) NOT NULL DEFAULT'MEDIUM',
 	due_date     		DATE NULL,
@@ -117,13 +117,14 @@ CREATE TABLE IF NOT EXISTS `task_history`(
     old_value	VARCHAR(255),
     new_value	VARCHAR(255),
     created_at	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    updated_at 	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
 	CONSTRAINT fk_task_history_task FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
     CONSTRAINT fk_task_history_actor FOREIGN KEY (actor_id) REFERENCES users(id)
 )ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci
   COMMENT = 'Task History(logs)';
-
+DROP TABLE task_history;
 
 -- 할일 태그
 CREATE TABLE IF NOT EXISTS `task_tag` (
@@ -166,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   COLLATE = utf8mb4_unicode_ci
   COMMENT = '댓글';
   
-
+drop table `notifications`;
 -- 옵션: 단순 알림 테이블(읽음 여부) 
 CREATE TABLE IF NOT EXISTS `notifications` (
 	id            BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -176,7 +177,7 @@ CREATE TABLE IF NOT EXISTS `notifications` (
 	ref_id        BIGINT NOT NULL,
 	message       VARCHAR(255) NOT NULL,
 	is_read       TINYINT(1) NOT NULL DEFAULT 0,
-	created_at    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	created_at    DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
 	CONSTRAINT fk_notify_user FOREIGN KEY (user_id) REFERENCES users(id),
     CONSTRAINT chk_notifications_type CHECK(type IN('TASK_ASSIGNED','MENTION','COMMENT','STATUS_CHANGED')),
     CONSTRAINT chk_notifications_ref_type CHECK(ref_type IN('TASK','COMMENT')),

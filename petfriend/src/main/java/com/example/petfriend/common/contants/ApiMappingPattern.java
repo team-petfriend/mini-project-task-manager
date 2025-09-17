@@ -12,5 +12,22 @@ public class ApiMappingPattern {
 
         public static final String ROOT = BASE + "tasks";
         public static final String ID_ONLY = "/{taskId}";
+        public static final String By_ID = ROOT + ID_ONLY;
+    }
+
+    public static final class Comments {
+        private Comments() {}
+
+        public static final String ROOT = Tasks.By_ID + "/comments";
+        public static final String ID_ONLY = "/{commentId}";
+        public static final String SORT = "/sort";
+    }
+
+    public static final class Notifications {
+        private Notifications() {}
+
+        public static final String ROOT = BASE + "/notifications";
+        public static final String ID_ONLY = "/notificationId";
+        public static final String BY_ID = ROOT + ID_ONLY + "/read";
     }
 }

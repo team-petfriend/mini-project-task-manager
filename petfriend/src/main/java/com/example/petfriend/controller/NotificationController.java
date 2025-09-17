@@ -1,5 +1,6 @@
 package com.example.petfriend.controller;
 
+import com.example.petfriend.common.contants.ApiMappingPattern;
 import com.example.petfriend.dto.ResponseDto;
 import com.example.petfriend.dto.notification.request.NotificationCreateRequestDto;
 import com.example.petfriend.dto.notification.request.NotificationReadUpdateRequestDto;
@@ -17,16 +18,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/notifications")
+@RequestMapping(ApiMappingPattern.Notifications.ROOT)//api/v1/notifications
 @RequiredArgsConstructor
 @Validated
 public class NotificationController {
 
     private final NotificationService notificationService;
 
-    /**
-     * 특정 유저의 알림 조회
-     */
+    /** 특정 유저의 알림 조회 */
     @GetMapping
     public ResponseEntity<ResponseDto<List<NotificationResponseDto>>> getNotifications(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -38,9 +37,7 @@ public class NotificationController {
         return ResponseEntity.ok().body(response);
     }
 
-    /**
-     * 알림 생성
-     */
+    /** 알림 생성 */
     @PostMapping
     public ResponseEntity<ResponseDto<NotificationResponseDto>> createNotification(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -52,10 +49,8 @@ public class NotificationController {
         return ResponseEntity.ok().body(response);
     }
 
-    /**
-     * 알림 읽음 처리
-     */
-    @PatchMapping("/{id}/read")
+    /** 알림 읽음 처리 */
+    @PatchMapping(ApiMappingPattern.Notifications.BY_ID)
     public ResponseEntity<ResponseDto<NotificationResponseDto>> markAsRead(
             @PathVariable("id") @Positive(message = "알림 id는 1 이상의 정수여야 합니다.") Long id,
             @Valid @RequestBody NotificationReadUpdateRequestDto dto

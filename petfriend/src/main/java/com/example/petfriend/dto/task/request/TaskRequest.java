@@ -21,7 +21,7 @@ public class TaskRequest {
             String description,
             @NotNull(message = "taskStatus은 필수 값 입니다.")
             TaskStatus taskStatus,
-            @NotNull(message = "taskStatus은 필수 값 입니다.")
+            @NotNull(message = "taskPriority은 필수 값 입니다.")
             TaskPriority taskPriority
     ) {
 
@@ -33,7 +33,7 @@ public class TaskRequest {
             String description,
             @NotNull(message = "taskStatus은 필수 값 입니다")
             TaskStatus taskStatus,
-            @NotNull(message = "taskStatus은 필수 값 입니다.")
+            @NotNull(message = "taskPriority은 필수 값 입니다.")
             TaskPriority taskPriority
 
     ) {

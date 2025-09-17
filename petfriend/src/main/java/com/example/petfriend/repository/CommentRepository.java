@@ -21,8 +21,8 @@ public interface CommentRepository extends JpaRepository<Comments, Long> {
             """)
     List<Comments> findByTaskIdAndOptionalCommenterId(
             @Param("taskId") Long taskId,
-            @Param("commenterId") Long commenterId,
-            Sort sort
+            @Param("commenterId") Long commenterId
+            //Sort sort
     );
     
 }

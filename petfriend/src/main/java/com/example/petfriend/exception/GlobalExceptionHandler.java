@@ -66,7 +66,7 @@ public class GlobalExceptionHandler { // 공통응답 생성
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ResponseDto<Object>> handleValidation(MethodArgumentNotValidException e){
         log.warn("Validation Error: {}", e.getMessage());
-        return fail(ErrorCode.VALIDATION_ERROR, null, null);
+        return fail(ErrorCode.VALIDATION_ERROR, null, toFieldErrors(e));
     }
     // == 401 : Unauthorized - 권한 없음(잘못된 자젹 증명) ==
     @ExceptionHandler(AuthenticationException.class)
@@ -80,30 +80,38 @@ public class GlobalExceptionHandler { // 공통응답 생성
         log.warn("AUTH_FORBIDDEN: {}", e.getMessage());
         return fail(ErrorCode.AUTH_FORBIDDEN, null, null);
     }
+
+
     // == 404 : NOT_FOUND - 엔티티 조회 실패(프로젝트가 존재하지 않음) ==
+    // 조건문 추가해서 아래 Exception들 추가해야함
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ResponseDto<Object>> ProjectNotFound(EntityNotFoundException e){
         log.warn("PROJECT_NOT_FOUND: {}", e.getMessage());
-        return fail(ErrorCode.NOT_FOUND, null, null);
+        return fail(ErrorCode.PROJECT_NOT_FOUND, null, null);
     }
-    // == 404 : NOT_FOUND - 엔티티 조회 실패(Task가 존재하지 않음) ==
+
+
+   /*
+   // == 404 : NOT_FOUND - 엔티티 조회 실패(Task가 존재하지 않음) ==
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ResponseDto<Object>> TaskNotFound(EntityNotFoundException e){
         log.warn("TASK_NOT_FOUND: {}", e.getMessage());
-        return fail(ErrorCode.NOT_FOUND, null, null);
+        return fail(ErrorCode.TASK_NOT_FOUND, null, null);
     }
+
     // == 404 : NOT_FOUND - 엔티티 조회 실패(Tag가 존재하지 않음) ==
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ResponseDto<Object>> TagNotFound(EntityNotFoundException e){
         log.warn("TAG_NOT_FOUND: {}", e.getMessage());
-        return fail(ErrorCode.NOT_FOUND, null, null);
+        return fail(ErrorCode.TAG_NOT_FOUND, null, null);
     }
     // == 404 : NOT_FOUND - 엔티티 조회 실패(Comment가 존재하지 않음) ==
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ResponseDto<Object>> CommentNotFound(EntityNotFoundException e){
         log.warn("COMMENT_NOT_FOUND: {}", e.getMessage());
-        return fail(ErrorCode.NOT_FOUND, null, null);
+        return fail(ErrorCode.COMMENT_NOT_FOUND, null, null);
     }
+    */
     // == 409 : CONFLICT - 무결성 위반 (중복/제약조건) ==
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ResponseDto<Object>> handleConflict(DataIntegrityViolationException e){

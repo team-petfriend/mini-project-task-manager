@@ -1,5 +1,6 @@
 package com.example.petfriend.controller;
 
+import com.example.petfriend.common.contants.ApiMappingPattern;
 import com.example.petfriend.dto.ResponseDto;
 import com.example.petfriend.dto.project.request.ProjectRequest;
 import com.example.petfriend.dto.project.response.ProjectResponse;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/projects")
+@RequestMapping(ApiMappingPattern.Project.ROOT)
 @RequiredArgsConstructor
 public class ProjectController {
     private final ProjectService projectService;
@@ -31,7 +32,7 @@ public class ProjectController {
     }
 
     // 프로젝트 전체조회
-    @GetMapping("/api/v1/projects")
+    @GetMapping
     public ResponseEntity<ResponseDto<List<ProjectResponse.DetailResponse>>> searchAll() {
         ResponseDto<List<ProjectResponse.DetailResponse>> response = projectService.getAllProject();
         return ResponseEntity.ok(response);
@@ -39,7 +40,7 @@ public class ProjectController {
 
     // 프로젝트 검색
     // 정렬은 나중 추가
-    @GetMapping
+    @GetMapping(ApiMappingPattern.Project.ONLY_NAME)
     public ResponseEntity<ResponseDto<List<ProjectResponse.DetailResponse>>> search(
             @RequestParam("projectName")
             @NotBlank(message = "검색 키워드는 비워질 수 없습니다.")
@@ -51,7 +52,7 @@ public class ProjectController {
 
 
     //프로젝트 이름 수정
-    @PutMapping("/{projectId}")
+    @PutMapping(ApiMappingPattern.Project.ONLY_ID)
     public ResponseEntity<ResponseDto<ProjectResponse.DetailResponse>> update(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable Long projectId,

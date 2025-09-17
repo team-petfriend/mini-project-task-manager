@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS `petfriend`;
-
-USE `petfriend`;
+CREATE DATABASE IF NOT EXISTS `mini_project_task_manager`;
+DROP DATABASE `mini_project_task_manager`;
+USE `mini_project_task_manager`;
 
 DROP TABLE IF EXISTS `task_tag`;
 DROP TABLE IF EXISTS `tags`;
@@ -42,7 +42,17 @@ CREATE TABLE IF NOT EXISTS `users` (
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci
   COMMENT = '사용자 권한';
-  
+
+-- 태그 테이블
+CREATE TABLE IF NOT EXISTS `tags` (
+	id          	BIGINT PRIMARY KEY AUTO_INCREMENT,
+	name        	VARCHAR(50) NOT NULL UNIQUE,
+	color        	VARCHAR(20) NOT NULL NULL,
+    CONSTRAINT `uk_tags_name` UNIQUE (name)
+) ENGINE=InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci
+  COMMENT = '태그';  
 
 -- 프로젝트 테이블
 -- owerId -> 관리자
@@ -63,21 +73,6 @@ CREATE TABLE IF NOT EXISTS `projects`(
   COLLATE = utf8mb4_unicode_ci
   COMMENT = '프로젝트';
 
-
--- 담당자
-CREATE TABLE IF NOT EXISTS `task_assignees` (
-	task_id 			BIGINT NOT NULL,
-	user_id 			BIGINT NOT NULL,
-    PRIMARY KEY(task_id, user_id),
-	CONSTRAINT fk_task_assignees_task FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
-    CONSTRAINT fk_task_assignees_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-)ENGINE=InnoDB
-DEFAULT CHARSET = utf8mb4
-COLLATE = utf8mb4_unicode_ci
-COMMENT = '담당자';
-
-
-
 -- 할 일 테이블
 --  `task_assignees`  수정필요 
 CREATE TABLE IF NOT EXISTS `tasks` (
@@ -91,15 +86,27 @@ CREATE TABLE IF NOT EXISTS `tasks` (
 	created_at	        DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
 	updated_at 			DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
 	CONSTRAINT fk_tasks_project FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
-    CONSTRAINT fk_tasks_project FOREIGN KEY (assignee_id) REFERENCES users(id) ON DELETE CASCADE,
-	CONSTRAINT chk_tasks_status CHECK (status IN ('TODO','IN_PROGRESS','DONE')),
+	CONSTRAINT chk_tasks_status CHECK (task_status IN ('TODO','IN_PROGRESS','DONE')),
 	CONSTRAINT chk_tasks_assignees CHECK (priority IN ('LOW','MEDIUM','HIGH')),
-	INDEX idx_tasks_projects_status (project_id, status),
+	INDEX idx_tasks_projects_status (project_id, task_status),
 	INDEX idx_tasks_assignees_due (due_date)
 )ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci
   COMMENT = '할일';	
+
+
+-- 담당자
+CREATE TABLE IF NOT EXISTS `task_assignees` (
+	task_id 			BIGINT NOT NULL,
+	user_id 			BIGINT NOT NULL,
+    PRIMARY KEY(task_id, user_id),
+	CONSTRAINT fk_task_assignees_task FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
+    CONSTRAINT fk_task_assignees_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+)ENGINE=InnoDB
+DEFAULT CHARSET = utf8mb4
+COLLATE = utf8mb4_unicode_ci
+COMMENT = '담당자';
 
 -- task history
 CREATE TABLE IF NOT EXISTS `task_history`(
@@ -118,48 +125,29 @@ CREATE TABLE IF NOT EXISTS `task_history`(
   COMMENT = 'Task History(logs)';
 
 
--- 태그 테이블
-CREATE TABLE IF NOT EXISTS `tags` (
-	id          	BIGINT PRIMARY KEY AUTO_INCREMENT,
-	name        	VARCHAR(50) NOT NULL UNIQUE,
-	color        	VARCHAR(20) NOT NULL NULL,
-    CONSTRAINT `uk_tags_name` UNIQUE (name)
-) ENGINE=InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci
-  COMMENT = '태그';
-
 -- 할일 태그
 CREATE TABLE IF NOT EXISTS `task_tag` (
 	id 				bigint auto_increment,
-	task_id  		BIGINT,
-	tag_id   		BIGINT,
+	task_id  		BIGINT NOT NULL,
+	tag_id   		BIGINT NOT NULL,
 	PRIMARY KEY (id),
 	CONSTRAINT fk_task_tag_task FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
 	CONSTRAINT fk_task_tag_tag  FOREIGN KEY (tag_id)  REFERENCES tags(id)  ON DELETE CASCADE,
     constraint uk_task_tag_task unique (task_id),
-    constraint uk_task_tag_task unique (tag_id),
-	task_id  		BIGINT NOT NULL,
+    constraint uk_task_tag_tag unique (tag_id)
+	/*
+    task_id  		BIGINT NOT NULL,
 	tag_id   		BIGINT NOT NULL,
 	PRIMARY KEY (task_id, tag_id),
 	CONSTRAINT fk_task_tag_task FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
 	CONSTRAINT fk_task_tag_tag  FOREIGN KEY (tag_id)  REFERENCES tags(id)  ON DELETE CASCADE
+    */
 )ENGINE=InnoDB
  DEFAULT CHARSET = utf8mb4
  COLLATE = utf8mb4_unicode_ci
  COMMENT = '할일 태그';
 
 
-SELECT * FROM `task_tag`;
-SELECT * FROM `tags`;
-SELECT * FROM `tasks`;
-SELECT * FROM `projects`;
-SELECT * FROM `user_roles`;
-SELECT * FROM `users`;
-
-CREATE DATABASE IF NOT EXISTS `petfriend`;
-
-USE `petfriend`;
 
 -- 댓글 테이블
 CREATE TABLE IF NOT EXISTS `comments` (
@@ -170,17 +158,15 @@ CREATE TABLE IF NOT EXISTS `comments` (
     created_at	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
 	updated_at 	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     PRIMARY KEY (`id`),
-    KEY `idx_comment_task_id` (task_id),
-    KEY `idx_comment_commenter` (commenter),
+    INDEX `idx_comment_task_id` (task_id),
+    INDEX `idx_comment_commenter` (commenter),
     CONSTRAINT `fk_comments_task` 	FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci
   COMMENT = '댓글';
   
-  
-  select * from `comments`;
-  
+
 -- 옵션: 단순 알림 테이블(읽음 여부) 
 CREATE TABLE IF NOT EXISTS `notifications` (
 	id            BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -200,8 +186,16 @@ CREATE TABLE IF NOT EXISTS `notifications` (
  COLLATE = utf8mb4_unicode_ci
  COMMENT = '알림';
  
- select * from `notifications`
- 
+ select * from `notifications`;
+   select * from `comments`;
+SELECT * FROM `task_tag`;
+SELECT * FROM `tags`;
+SELECT * FROM `tasks`;
+SELECT * FROM `projects`;
+SELECT * FROM `user_roles`;
+SELECT * FROM `users`;
+
+
  
 # task_history 트리거
 

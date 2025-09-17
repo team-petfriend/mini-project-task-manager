@@ -1,6 +1,7 @@
 package com.example.petfriend.controller;
 
 import com.example.petfriend.common.contants.ApiMappingPattern;
+import com.example.petfriend.common.enums.TaskPriority;
 import com.example.petfriend.dto.ResponseDto;
 import com.example.petfriend.dto.task.request.TaskRequest;
 import com.example.petfriend.dto.task.response.TaskResponse;
@@ -59,6 +60,25 @@ public class TasksController {
     ) {
         ResponseDto<TaskResponse.DetailTaskResponse> response = taskService.update(projectId, taskId, req);
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping(ApiMappingPattern.Tasks.ID_ONLY)
+    public ResponseEntity<ResponseDto<TaskResponse.DetailTaskResponse>> statusUpdate(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable Long taskId
+    ){
+        ResponseDto<TaskResponse.DetailTaskResponse> response = taskService.statusUpdate(userPrincipal, taskId);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping(ApiMappingPattern.Tasks.ID_ONLY)
+    public ResponseEntity<ResponseDto<TaskResponse.DetailTaskResponse>> priorityUpdate(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable Long taskId
+    ){
+        ResponseDto<TaskResponse.DetailTaskResponse> response = taskService.priorityUpdate(userPrincipal, taskId);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+
     }
 
 

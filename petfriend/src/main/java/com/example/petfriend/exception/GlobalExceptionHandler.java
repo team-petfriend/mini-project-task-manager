@@ -85,13 +85,14 @@ public class GlobalExceptionHandler { // 공통응답 생성
     // == 404 : NOT_FOUND - 엔티티 조회 실패(프로젝트가 존재하지 않음) ==
     // 조건문 추가해서 아래 Exception들 추가해야함
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ResponseDto<Object>> ProjectNotFound(EntityNotFoundException e){
+        public ResponseEntity<ResponseDto<Object>> ProjectNotFound(EntityNotFoundException e){
+
         log.warn("PROJECT_NOT_FOUND: {}", e.getMessage());
         return fail(ErrorCode.PROJECT_NOT_FOUND, null, null);
     }
 
 
-   /*
+   /*j
    // == 404 : NOT_FOUND - 엔티티 조회 실패(Task가 존재하지 않음) ==
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ResponseDto<Object>> TaskNotFound(EntityNotFoundException e){

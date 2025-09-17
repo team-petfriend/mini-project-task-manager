@@ -44,7 +44,7 @@ public class ProjectController {
     public ResponseEntity<ResponseDto<List<ProjectResponse.DetailResponse>>> search(
             @RequestParam("projectName")
             @NotBlank(message = "검색 키워드는 비워질 수 없습니다.")
-            String projectName
+            @PathVariable String projectName
     ) {
         ResponseDto<List<ProjectResponse.DetailResponse>> response = projectService.search(projectName);
         return ResponseEntity.ok(response);

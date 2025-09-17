@@ -5,16 +5,21 @@ import com.example.petfriend.common.enums.Type;
 import com.example.petfriend.entity.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "notifications")
+@Table(name = "notifications",
+        indexes = @Index(name = "idx_notify_user_read", columnList = "user_id, is_read"))
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class Notifications extends BaseTimeEntity {
+public class Notifications{
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     // 알림을 받을 사용자
@@ -44,6 +49,10 @@ public class Notifications extends BaseTimeEntity {
     // 읽음 여부
     @Column(name = "is_read", nullable = false)
     private boolean isRead = false;
+
+    @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "DATETIME(6)")
+    private LocalDateTime createdAt;
 
     public void markAsRead() {
         this.isRead = true;

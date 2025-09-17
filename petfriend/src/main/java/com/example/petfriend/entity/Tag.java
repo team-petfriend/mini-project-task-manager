@@ -33,9 +33,6 @@ public class Tag {
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
-    @ManyToMany(mappedBy = "tags")
-    private Set<Task> tasks = new HashSet<>();
-
 
     @Builder
     public Tag(String name, String color, Project project) {

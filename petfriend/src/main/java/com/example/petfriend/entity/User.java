@@ -61,7 +61,7 @@ public class User extends BaseTimeEntity {
      *  mappedBy = user(owner)가 "주인이 아님을 명시하고, 반대편 필드가 FK를 관리함을 알려준다”
      *  cascade = CascadeType.ALL => PK가 삭제된다면 FK도 같이 삭제
      * */
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "assignessUser", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TaskAssignees> assignees = new HashSet<>();
 
     @OneToMany(mappedBy = "commenter", cascade = CascadeType.ALL, orphanRemoval = true)

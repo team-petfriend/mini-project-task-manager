@@ -1,5 +1,6 @@
 package com.example.petfriend.controller;
 
+import com.example.petfriend.common.contants.ApiMappingPattern;
 import com.example.petfriend.dto.ResponseDto;
 import com.example.petfriend.dto.task.request.TaskRequest;
 import com.example.petfriend.dto.task.response.TaskResponse;
@@ -15,13 +16,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/projects/{projectId}")
+@RequestMapping(ApiMappingPattern.Tasks.ROOT)
 @RequiredArgsConstructor
 public class TasksController {
     private final TaskService taskService;
 
 
-    @PostMapping("/tasks")
+    @PostMapping
     public ResponseEntity<ResponseDto<TaskResponse.DetailTaskResponse>> create(
             @PathVariable Long projectId,
             @AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -31,7 +32,7 @@ public class TasksController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @GetMapping("/tasks")
+    @GetMapping
     public ResponseEntity<ResponseDto<List<TaskResponse.TaskListResponse>>> getAll(
             @PathVariable Long projectId
     ) {
@@ -40,7 +41,7 @@ public class TasksController {
     }
 
     // 정렬 및 필터링 추가 예정
-    @GetMapping("/tasks/{taskId}")
+    @GetMapping(ApiMappingPattern.Tasks.ID_ONLY)
     public ResponseEntity<ResponseDto<TaskResponse.DetailTaskResponse>> getById(
             @PathVariable Long projectId,
             @PathVariable Long taskId
@@ -50,7 +51,7 @@ public class TasksController {
     }
 
 
-    @PutMapping("/tasks/{taskId}")
+    @PutMapping(ApiMappingPattern.Tasks.ID_ONLY)
     public ResponseEntity<ResponseDto<TaskResponse.DetailTaskResponse>> update(
             @PathVariable Long projectId,
             @PathVariable Long taskId,
@@ -61,7 +62,7 @@ public class TasksController {
     }
 
 
-    @DeleteMapping("/tasks/{taskId}")
+    @DeleteMapping(ApiMappingPattern.Tasks.ID_ONLY)
     public ResponseEntity<ResponseDto<Void>> delete(
             @PathVariable Long projectId,
             @PathVariable Long taskId

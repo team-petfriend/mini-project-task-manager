@@ -84,4 +84,17 @@ public class Task extends BaseTimeEntity {
         comments.remove(comment);
         comment.setTask(null);
     }
+
+    public void update(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+
+    public void setTaskStatus(TaskStatus taskStatus) {
+        this.taskStatus = taskStatus;
+    }
+
+    public void setTaskPriority(TaskPriority taskPriority) {
+        this.taskPriority = taskPriority;
+    }
 }

@@ -71,7 +71,7 @@ public class TasksController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @PostMapping(ApiMappingPattern.Tasks.ID_ONLY)
+    @PostMapping(ApiMappingPattern.Tasks.STATUS)
     public ResponseEntity<ResponseDto<TaskResponse.DetailTaskResponse>> priorityUpdate(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable Long taskId
@@ -82,7 +82,7 @@ public class TasksController {
     }
 
 
-    @DeleteMapping(ApiMappingPattern.Tasks.ID_ONLY)
+    @DeleteMapping(ApiMappingPattern.Tasks.PRIORITY)
     public ResponseEntity<ResponseDto<Void>> delete(
             @PathVariable Long projectId,
             @PathVariable Long taskId

@@ -13,6 +13,8 @@ public class ApiMappingPattern {
         public static final String ROOT = BASE + "/tasks";
         public static final String ID_ONLY = "/{taskId}";
         public static final String By_ID = ROOT + ID_ONLY;
+        public static final String STATUS = ID_ONLY +"/statusUpdate";
+        public static final String PRIORITY = ID_ONLY + "/priority";
     }
 
     public static final class Project{

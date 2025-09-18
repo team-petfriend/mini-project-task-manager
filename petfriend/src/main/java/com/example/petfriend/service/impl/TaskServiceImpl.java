@@ -75,7 +75,7 @@ public class TaskServiceImpl implements TaskService {
         if (projectId == null) throw new IllegalArgumentException("PROJECT_ID는 필수입니다.");
 
         Task task = taskRepository.findById(projectId)
-                .orElseThrow(() -> new IllegalStateException("TASK를 찾을수가 없습니다."));
+                .orElseThrow(() -> new IllegalStateException("TASK를 찾을 수 없습니다."));
         data = TaskResponse.DetailTaskResponse.from(task);
         return ResponseDto.setSuccess("SUCCESS",data);
     }
@@ -84,7 +84,13 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     @PreAuthorize("isAuthenticated()")
     public ResponseDto<TaskResponse.DetailTaskResponse> update(Long projectId, Long taskId, TaskRequest.@Valid TaskUpdateRequest req) {
-        validateTitleAndDescription(request)
+
+
+        if (projectId == null) throw new IllegalArgumentException("PROJECT_ID는 필수 입니다.");
+
+        Task task = taskRepository.findById(projectId)
+                .orElseThrow(() -> new IllegalStateException("TASK를 찾울 수 없습니다"));
+        
         return null;
     }
 

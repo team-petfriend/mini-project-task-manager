@@ -6,7 +6,6 @@ import com.example.petfriend.entity.Task;
 
 import java.time.LocalDateTime;
 
-
 public class TaskResponse {
     public record DetailTaskResponse(
             String title,
@@ -26,13 +25,16 @@ public class TaskResponse {
                     task.getUpdatedAt()
             );
         }
-
     }
-
     public record TaskListResponse(
             Long id,
             String title
     ) {
+         public static TaskListResponse from(Task task) {
+             return new TaskListResponse(
+                        task.getId(),
+                        task.getTitle()
+             );
+         }
     }
-
 }

@@ -6,11 +6,11 @@ import com.example.petfriend.dto.task.request.TaskRequest;
 import com.example.petfriend.dto.task.response.TaskResponse;
 import com.example.petfriend.entity.Project;
 import com.example.petfriend.entity.Task;
-import com.example.petfriend.entity.User;
 import com.example.petfriend.repository.ProjectRepository;
 import com.example.petfriend.repository.TaskRepository;
 import com.example.petfriend.repository.UserRepository;
 import com.example.petfriend.security.UserPrincipal;
+import com.example.petfriend.security.util.AuthorizationChecker;
 import com.example.petfriend.service.TaskService;;
 import jakarta.persistence.EntityManager;
 import jakarta.validation.Valid;
@@ -29,6 +29,7 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
+    private final AuthorizationChecker authorizationChecker;
 
     @Override
     @Transactional
@@ -37,7 +38,7 @@ public class TaskServiceImpl implements TaskService {
         TaskResponse.DetailTaskResponse data =null;
 
         if (req.tasks() == null || req.tasks().isEmpty())
-            throw new IllegalArgumentException("할일 항목이 비어있읍니다.");
+            throw new IllegalArgumentException("TASK 항목이 비어있습니다.");
 
         Long authProject = userPrincipal.getId();
 
@@ -54,24 +55,36 @@ public class TaskServiceImpl implements TaskService {
         }
         Task saved = taskRepository.save(task);
 
-        return ResponseDto.setSuccess("할일이 성공적으로 등록되었습니다.", data);
+        return ResponseDto.setSuccess("TASK가  성공적으로 등록되었습니다.", data);
     }
 
     @Override
     public ResponseDto<List<TaskResponse.TaskListResponse>> getAll(Long projectId) {
+        List<TaskResponse.TaskListResponse> data = null;
 
-
-        return null;
+        data = taskRepository.findAll().stream()
+                .map(TaskResponse.TaskListResponse::from)
+                .toList();
+        return ResponseDto.setSuccess("SUCCESS", data);
     }
 
     @Override
     public ResponseDto<TaskResponse.DetailTaskResponse> getById(Long projectId, Long taskId) {
-        return null;
+        TaskResponse.DetailTaskResponse data = null;
+
+        if (projectId == null) throw new IllegalArgumentException("PROJECT_ID는 필수입니다.");
+
+        Task task = taskRepository.findById(projectId)
+                .orElseThrow(() -> new IllegalStateException("TASK를 찾을수가 없습니다."));
+        data = TaskResponse.DetailTaskResponse.from(task);
+        return ResponseDto.setSuccess("SUCCESS",data);
     }
 
     @Override
+    @Transactional
+    @PreAuthorize("isAuthenticated()")
     public ResponseDto<TaskResponse.DetailTaskResponse> update(Long projectId, Long taskId, TaskRequest.@Valid TaskUpdateRequest req) {
-        TaskResponse.DetailTaskResponse data = null;
+        validateTitleAndDescription(request)
         return null;
     }
 

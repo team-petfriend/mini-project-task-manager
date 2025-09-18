@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "task_history")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TaskHistory extends BaseTimeEntity {
+public class UpperCamelCase extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

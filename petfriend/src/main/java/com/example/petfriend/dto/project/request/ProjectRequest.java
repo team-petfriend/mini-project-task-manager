@@ -1,14 +1,19 @@
 package com.example.petfriend.dto.project.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ProjectRequest {
-    // 현재 상태 : base 
-    // 이후 어노테이션 보완 필요
     public record Create(
+            @NotBlank @Size(max = 100)
             String name
     ) {
     }
 
     public record Update(
+            @NotBlank @Size(max = 100)
             String name
     ) {
     }

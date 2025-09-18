@@ -16,9 +16,7 @@ import java.util.List;
         indexes = {
                 @Index(name = "idx_project_name", columnList = "name"),
                 @Index(name = "idx_project_createAt", columnList = "created_at")
-        },
-        uniqueConstraints = {@UniqueConstraint(name = "uk_projects_name", columnNames = "name")}
-)
+        }, uniqueConstraints = {@UniqueConstraint(name = "uk_projects_name", columnNames = "name")})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Project extends BaseTimeEntity {
@@ -29,7 +27,7 @@ public class Project extends BaseTimeEntity {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "owner_id", nullable = false,
-    foreignKey = @ForeignKey(name = "fk_project_user_id"))
+            foreignKey = @ForeignKey(name = "fk_project_user_id"))
     private User user;
 
     @NotNull
@@ -43,12 +41,12 @@ public class Project extends BaseTimeEntity {
     private List<Tag> tags = new ArrayList<>();
 
     @Builder
-    public Project(Long id, String name){
+    public Project(Long id, String name) {
         this.id = id;
         this.name = name;
     }
-    public void setName(String name){
+
+    public void setName(String name) {
         this.name = name;
     }
-
 }

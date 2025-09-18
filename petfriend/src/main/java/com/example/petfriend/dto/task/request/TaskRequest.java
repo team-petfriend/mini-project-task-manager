@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
-
 public class TaskRequest {
 
     public record TaskCreateRequest(
@@ -24,7 +23,6 @@ public class TaskRequest {
             @NotNull(message = "taskPriority은 필수 값 입니다.")
             TaskPriority taskPriority
     ) {
-
     }
 
     public record TaskUpdateRequest(
@@ -35,7 +33,6 @@ public class TaskRequest {
             TaskStatus taskStatus,
             @NotNull(message = "taskPriority은 필수 값 입니다.")
             TaskPriority taskPriority
-
     ) {
     }
 }

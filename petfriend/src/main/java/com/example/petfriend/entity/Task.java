@@ -60,9 +60,6 @@ public class Task extends BaseTimeEntity {
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comments> comments = new HashSet<>();
 
-    /**
-     * 생성자
-     */
     @Builder
     public Task(
             @NotNull Project project,
@@ -78,7 +75,6 @@ public class Task extends BaseTimeEntity {
         this.taskPriority = (priority != null) ? priority : TaskPriority.MEDIUM;
     }
 
-
     public void addComment(Comments comment) {
         comments.add(comment);
         comment.setTask(this);
@@ -88,5 +84,4 @@ public class Task extends BaseTimeEntity {
         comments.remove(comment);
         comment.setTask(null);
     }
-
 }

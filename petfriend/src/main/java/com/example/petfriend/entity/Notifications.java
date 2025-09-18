@@ -2,7 +2,6 @@ package com.example.petfriend.entity;
 
 import com.example.petfriend.common.enums.RefType;
 import com.example.petfriend.common.enums.Type;
-import com.example.petfriend.entity.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -16,10 +15,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class Notifications{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Notifications {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     // 알림을 받을 사용자
@@ -31,12 +28,12 @@ public class Notifications{
     // 알림 유형
     @Enumerated(EnumType.STRING)
     @Column(length = 30, nullable = false)
-    private Type type;  // TASK_ASSIGNED, MENTION, COMMENT, STATUS_CHANGED
+    private Type type;
 
     // 참조 대상 종류
     @Enumerated(EnumType.STRING)
     @Column(name = "ref_type", length = 20, nullable = false)
-    private RefType refType;  // TASK or COMMENT
+    private RefType refType;
 
     // 참조 대상 ID
     @Column(name = "ref_id", nullable = false)

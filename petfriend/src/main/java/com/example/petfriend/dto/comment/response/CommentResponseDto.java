@@ -3,7 +3,6 @@ package com.example.petfriend.dto.comment.response;
 import com.example.petfriend.entity.Comments;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Builder;
 
 import java.time.LocalDateTime;
 

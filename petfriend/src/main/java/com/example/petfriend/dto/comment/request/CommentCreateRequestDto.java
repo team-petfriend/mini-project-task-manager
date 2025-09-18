@@ -13,5 +13,4 @@ public record CommentCreateRequestDto(
 
         @NotBlank(message = "작성자는 필수 입력 값입니다.")
         User commenter
-) {
-}
+) {}

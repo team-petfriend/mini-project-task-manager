@@ -9,6 +9,4 @@ public record NotificationCreateRequestDto(
         RefType refType,
         Long refId,
         String message
-) {
-
-}
+) {}

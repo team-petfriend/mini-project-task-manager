@@ -9,14 +9,14 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "comments",
-indexes = {
-        @Index(name = "idx_comment_task_id", columnList = "task_id"),
-        @Index(name = "idx_comment_commenter", columnList = "commenter")
-})
+        indexes = {
+                @Index(name = "idx_comment_task_id", columnList = "task_id"),
+                @Index(name = "idx_comment_commenter", columnList = "commenter")})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comments extends BaseTimeEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -29,7 +29,6 @@ public class Comments extends BaseTimeEntity {
 
     @Column(nullable = false, length = 500)
     private String content;
-
 
     @Builder
     private Comments(String content, User commenter) {

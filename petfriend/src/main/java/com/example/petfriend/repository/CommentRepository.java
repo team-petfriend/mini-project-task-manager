@@ -2,6 +2,7 @@ package com.example.petfriend.repository;
 
 import com.example.petfriend.entity.Comments;
 import com.example.petfriend.entity.Task;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,8 +22,8 @@ public interface CommentRepository extends JpaRepository<Comments, Long> {
             """)
     List<Comments> findByTaskIdAndOptionalCommenterId(
             @Param("taskId") Long taskId,
-            @Param("commenterId") Long commenterId
-            //Sort sort
+            @Param("commenterId") Long commenterId,
+            Sort sort
     );
     
 }

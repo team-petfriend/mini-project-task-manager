@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(ApiMappingPattern.Comments.ROOT) //api/v1/tasks/{taskId}/comments
+@RequestMapping(ApiMappingPattern.Comments.ROOT)
 @RequiredArgsConstructor
 @Validated
 public class CommentsController {

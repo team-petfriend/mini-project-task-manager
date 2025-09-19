@@ -14,6 +14,7 @@ import com.example.petfriend.security.UserPrincipal;
 import com.example.petfriend.service.CommentService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,7 @@ public class CommentServiceImpl implements CommentService {
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public ResponseDto<CommentResponseDto> createComment(Long taskId, UserPrincipal userPrincipal, CommentCreateRequestDto dto) {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 Task를 찾을 수 없습니다."));
@@ -76,6 +78,16 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public ResponseDto<List<CommentResponseDto>> getComments(Long taskId, Long commenterId, boolean latestFirst) {
-        return null;
+        Sort sort = latestFirst
+                ? Sort.by(Sort.Direction.DESC, "createdAt")
+                : Sort.by(Sort.Direction.ASC, "createdAt");
+
+        List<Comments> comments = commentRepository.findByTaskIdAndOptionalCommenterId(taskId, commenterId, sort);
+
+        List<CommentResponseDto> rep = comments.stream()
+                .map(CommentResponseDto::from)
+                .toList();
+
+        return ResponseDto.setSuccess("SUCCESS", rep);
     }
 }

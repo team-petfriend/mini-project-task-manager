@@ -52,12 +52,9 @@ public class NotificationController {
     /** 알림 읽음 처리 */
     @PatchMapping(ApiMappingPattern.Notifications.BY_ID)
     public ResponseEntity<ResponseDto<NotificationResponseDto>> markAsRead(
-            @PathVariable("id") @Positive(message = "알림 id는 1 이상의 정수여야 합니다.") Long id,
+            @PathVariable("notificationId") @Positive(message = "알림 id는 1 이상의 정수여야 합니다.") Long notificationId,
             @Valid @RequestBody NotificationReadUpdateRequestDto dto
     ) {
-        ResponseDto<NotificationResponseDto> response =
-                notificationService.markAsRead(id, dto);
-
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(notificationService.markAsRead(notificationId, dto));
     }
 }

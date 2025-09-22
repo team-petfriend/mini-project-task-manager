@@ -4,7 +4,9 @@ import com.example.petfriend.dto.ResponseDto;
 import com.example.petfriend.dto.project.request.ProjectRequest;
 import com.example.petfriend.dto.project.response.ProjectResponse;
 import com.example.petfriend.entity.Project;
+import com.example.petfriend.entity.User;
 import com.example.petfriend.repository.ProjectRepository;
+import com.example.petfriend.repository.UserRepository;
 import com.example.petfriend.security.UserPrincipal;
 import com.example.petfriend.service.ProjectService;
 import jakarta.persistence.EntityManager;
@@ -14,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -23,19 +26,18 @@ import java.util.Objects;
 @Transactional(readOnly = true)
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
-    private final EntityManager em;
+    private final UserRepository userRepository;
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseDto<ProjectResponse.DetailResponse> create(UserPrincipal userPrincipal, ProjectRequest.@Valid Create req) {
-        ProjectResponse.DetailResponse data = null;
-        Project project = Project.builder()
-
-                .name(req.name())
-                .build();
-        Project saved = projectRepository.save(project);
-        data = ProjectResponse.DetailResponse.from(saved);
+        validateName(req.name());
+        final String loginId = userPrincipal.getUsername();
+        User user = userRepository.findByLoginId(loginId)
+                .orElseThrow(()-> new IllegalArgumentException("AUTHOR_NOT_FOUND"));
+        Project saved = projectRepository.save(Project.create(req.name(), user));
+        ProjectResponse.DetailResponse data = ProjectResponse.DetailResponse.from(saved);
         return ResponseDto.setSuccess("프로젝트가 성공적으로 생성되었습니다.", data);
     }
 
@@ -47,6 +49,8 @@ public class ProjectServiceImpl implements ProjectService {
                 .toList();
         return ResponseDto.setSuccess("프로젝트 전체 목록을 가져왔습니다.", response);
     }
+
+//----------------------------------------위까지 검증 완------------------------------------------------------//
 
     @Override
     public ResponseDto<List<ProjectResponse.DetailResponse>> search(String projectName) {
@@ -77,5 +81,13 @@ public class ProjectServiceImpl implements ProjectService {
                 project.getUpdatedAt()
         );
         return ResponseDto.setSuccess("수정이 완료되었습니다.", data);
+    }
+
+
+    private void validateName(String name) {
+        if (!StringUtils.hasText(name)) {
+            throw new IllegalArgumentException("NAME_REQUIRED");
+        }
+
     }
 }

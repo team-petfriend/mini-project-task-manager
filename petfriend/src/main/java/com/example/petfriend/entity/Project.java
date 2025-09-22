@@ -40,10 +40,12 @@ public class Project extends BaseTimeEntity {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Tag> tags = new ArrayList<>();
 
-    @Builder
-    public Project(Long id, String name) {
-        this.id = id;
+    public Project(String name, User user) {
         this.name = name;
+        this.user = user;
+    }
+    public static Project create(String name, User user){
+        return new Project(name, user);
     }
 
     public void setName(String name) {

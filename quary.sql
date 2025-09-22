@@ -161,7 +161,8 @@ CREATE TABLE IF NOT EXISTS `comments` (
     PRIMARY KEY (`id`),
     INDEX `idx_comment_task_id` (task_id),
     INDEX `idx_comment_commenter` (commenter),
-    CONSTRAINT `fk_comments_task` 	FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT `fk_comments_task` 	FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `fk_comments_user` 	FOREIGN KEY (commenter) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci

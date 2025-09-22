@@ -11,10 +11,12 @@ import com.example.petfriend.repository.CommentRepository;
 import com.example.petfriend.repository.TaskRepository;
 import com.example.petfriend.repository.UserRepository;
 import com.example.petfriend.security.UserPrincipal;
+import com.example.petfriend.security.util.AuthorizationChecker;
 import com.example.petfriend.service.CommentService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,7 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
+    private final AuthorizationChecker authorizationChecker;
 
     @Override
     @Transactional
@@ -44,8 +47,10 @@ public class CommentServiceImpl implements CommentService {
         return ResponseDto.setSuccess("SUCCESS", CommentResponseDto.from(saved));
     }
 
+    // 작성자만 수정가능
     @Override
     @Transactional
+    @PreAuthorize("@authz.isCommentAuthor(#commentId, authentication)")
     public ResponseDto<CommentResponseDto> updateComment(Long taskId, Long commentId, CommentUpdateRequestDto dto) {
         Comments comments = commentRepository.findById(commentId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 댓글을 찾을 수 없습니다."));
@@ -60,8 +65,10 @@ public class CommentServiceImpl implements CommentService {
 
     }
 
+    // 작성자 또는 ADMIN만 삭제 가능
     @Override
     @Transactional
+    @PreAuthorize("@authz.isCommentAuthorOrAdmin(#commentId, authentication)")
     public ResponseDto<CommentResponseDto> deleteComment(Long taskId, Long commentId) {
         Comments comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 Task의 댓글을 찾을 수 없습니다."));
@@ -77,6 +84,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public ResponseDto<List<CommentResponseDto>> getComments(Long taskId, Long commenterId, boolean latestFirst) {
         Sort sort = latestFirst
                 ? Sort.by(Sort.Direction.DESC, "createdAt")

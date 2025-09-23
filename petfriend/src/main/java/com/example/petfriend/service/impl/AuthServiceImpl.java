@@ -41,22 +41,17 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public void signUp(SignUpRequest req) {
-        /** @NotBlank를 사용했기 때문에 중복성 검사를 해준다. */
         if (userRepository.existsByLoginId(req.loginId())) {
             throw new IllegalArgumentException("이미 사용 중인 로그인 아이디입니다.");
         }
-        /** @NotBlank를 사용했기 때문에 중복성 검사를 해준다. */
         if (userRepository.existsByEmail(req.email())) {
             throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
         }
-        /** @NotBlank를 사용했기 때문에 중복성 검사를 해준다. */
         if (userRepository.existsByNickname(req.nickname())) {
             throw new IllegalArgumentException("이미 사용 중인 닉네임입니다.");
         }
-        /** 비밀번호 해시코드 저장 */
         String encoded = passwordEncoder.encode(req.password());
 
-        /** 엔티티 생성 */
         User user = User.builder()
                 .loginId(req.loginId())
                 .password(encoded)
@@ -67,7 +62,6 @@ public class AuthServiceImpl implements AuthService {
         Role defaultRole = roleRepository.getReferenceById(RoleType.USER);
         user.grantRole(defaultRole);
 
-        /** 생성된 엔티티를 저장한다. */
         userRepository.save(user);
     }
 
@@ -76,16 +70,13 @@ public class AuthServiceImpl implements AuthService {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(req.loginId(), req.password())
         );
-        /** GrantedAuthority가 담고있는 ("ROLE_USER")의 값을 "ROLE_USER"로 추출한다. */
         Set<String> roles = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toSet());
-        /** JWT 발급에 핗요한 인자 => req.loginId()와 roles가 필요 */
         String accessToken = jwtProvider.generateJwtToken(req.loginId(), roles);
-        /** 만료 시각을 추출*/
         Claims claims = jwtProvider.getClaims(accessToken);
         long expiresAt = claims.getExpiration().getTime();
-        /** 추출한 값을 가지고 SignInResponse을 생성해준다. */
+
         SignInResponse response = new SignInResponse(
           "Bearer",
           accessToken,

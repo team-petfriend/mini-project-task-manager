@@ -69,6 +69,13 @@ INSERT INTO roles (role_name) VALUES
     drop table roles;
 	drop table user_roles;
 
+INSERT INTO user_roles (user_id, role_name) VALUES
+	(1, 'USER'),
+    (1, 'MANAGER'),
+    (1, 'ADMIN')
+    ON DUPLICATE KEY UPDATE role_name = VALUES(role_name);
+    
+
 
 -- 프로젝트 테이블
 -- ownerId -> 관리자

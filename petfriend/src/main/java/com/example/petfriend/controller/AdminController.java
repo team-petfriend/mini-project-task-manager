@@ -14,14 +14,14 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(ApiMappingPattern.User.ADMIN)
+@RequestMapping("/api/v1/admin")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
     private final AdminService adminService;
 
 
-    @PostMapping(ApiMappingPattern.User.ADD_ROLES)
+    @PostMapping("/roles/add")
     public ResponseEntity<ResponseDto<RoleResponse.AddRoleResponse>> addRole(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @Valid @RequestBody RoleRequest.AddRoleRequest req
@@ -31,7 +31,7 @@ public class AdminController {
         return ResponseEntity.ok().body(response);
     }
 
-    @PutMapping(ApiMappingPattern.User.REPLACE_ROLES)
+    @PutMapping("/roles/replace")
     public ResponseEntity<ResponseDto<RoleResponse.ReplaceResponse>> replaceRole(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @Valid @RequestBody RoleRequest.ReplaceRequest req
@@ -40,7 +40,7 @@ public class AdminController {
         return ResponseEntity.ok().body(response);
     }
 
-    @PostMapping(ApiMappingPattern.User.REMOVE_ROLES)
+    @PostMapping("/roles/remove")
     public ResponseEntity<ResponseDto<RoleResponse.DeleteResponse>> deleteRole(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @Valid @RequestBody RoleRequest.DeleteRequest req

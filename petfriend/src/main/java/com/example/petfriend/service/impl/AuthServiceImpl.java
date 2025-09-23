@@ -1,11 +1,14 @@
 package com.example.petfriend.service.impl;
 
+import com.example.petfriend.common.enums.RoleType;
 import com.example.petfriend.dto.ResponseDto;
 import com.example.petfriend.dto.auth.request.SignInRequest;
 import com.example.petfriend.dto.auth.request.SignUpRequest;
 import com.example.petfriend.dto.auth.response.SignInResponse;
+import com.example.petfriend.entity.Role;
 import com.example.petfriend.entity.User;
 import com.example.petfriend.provider.JwtProvider;
+import com.example.petfriend.repository.RoleRepository;
 import com.example.petfriend.repository.UserRepository;
 import com.example.petfriend.service.AuthService;
 import io.jsonwebtoken.Claims;
@@ -32,6 +35,7 @@ public class AuthServiceImpl implements AuthService {
     //      , 스프링 컨테이너에 등록될 때 PasswordEncoder 타입으로 인식 (주입 시 해당 타입으로 정의 권장)
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
+    private final RoleRepository roleRepository;
 
     /** 회원가입 */
     @Override
@@ -59,6 +63,10 @@ public class AuthServiceImpl implements AuthService {
                 .email(req.email())
                 .nickname(req.nickname())
                 .build();
+
+        Role defaultRole = roleRepository.getReferenceById(RoleType.USER);
+        user.grantRole(defaultRole);
+
         /** 생성된 엔티티를 저장한다. */
         userRepository.save(user);
     }

@@ -1,5 +1,6 @@
 package com.example.petfriend.controller;
 
+import com.example.petfriend.common.contants.ApiMappingPattern;
 import com.example.petfriend.dto.ResponseDto;
 import com.example.petfriend.dto.auth.request.SignInRequest;
 import com.example.petfriend.dto.auth.request.SignUpRequest;
@@ -12,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping(ApiMappingPattern.User.AUTH)
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;

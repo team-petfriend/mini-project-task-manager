@@ -4,7 +4,9 @@ import com.example.petfriend.common.enums.RoleType;
 import com.example.petfriend.dto.ResponseDto;
 import com.example.petfriend.dto.admin.request.RoleRequest;
 import com.example.petfriend.dto.admin.response.RoleResponse;
+import com.example.petfriend.entity.Role;
 import com.example.petfriend.entity.User;
+import com.example.petfriend.repository.RoleRepository;
 import com.example.petfriend.repository.UserRepository;
 import com.example.petfriend.security.UserPrincipal;
 import com.example.petfriend.service.AdminService;
@@ -22,6 +24,7 @@ import java.util.Set;
 public class AdminServiceImpl implements AdminService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     /** 권한추가 */
     @Override
@@ -30,15 +33,18 @@ public class AdminServiceImpl implements AdminService {
         User user  = userRepository.findWithRolesById(req.userId())
                 .orElseThrow( () -> new EntityNotFoundException("해당 ID의 사용자가 존재하지 않습니다. 다시 확인해주세요."));
 
-        RoleType added = req.role();
-        user.addRole(added);
+        Role role = roleRepository.findById(req.role())
+                .orElseThrow(() -> new EntityNotFoundException("해당 권한을 찾을 수 없습니다."));
+
+
+        user.grantRole(role);
         userRepository.flush();
 
         RoleResponse.AddRoleResponse addResponse = new RoleResponse.AddRoleResponse(
                 user.getId(),
                 user.getLoginId(),
-                added,
-                Set.copyOf(user.getRoles()),
+                req.role(),
+                Set.copyOf(user.getRoleTypes()),
                 user.getUpdatedAt()
         );
 
@@ -51,14 +57,14 @@ public class AdminServiceImpl implements AdminService {
         User user  = userRepository.findWithRolesById(req.userId())
                 .orElseThrow( () -> new EntityNotFoundException("해당 ID의 사용자가 존재하지 않습니다. 다시 확인해주세요."));
 
-        user.getRoles().clear();
-        req.roles().forEach(user::addRole);
+        user.getUserRoles().clear();
 
+        userRepository.flush();
 
         RoleResponse.ReplaceResponse replaceResponse = new RoleResponse.ReplaceResponse(
                 user.getId(),
                 user.getLoginId(),
-                Set.copyOf(user.getRoles()),
+                Set.copyOf(user.getRoleTypes()),
                 user.getUpdatedAt()
         );
 
@@ -71,15 +77,21 @@ public class AdminServiceImpl implements AdminService {
         User user  = userRepository.findWithRolesById(req.userId())
                 .orElseThrow( () -> new EntityNotFoundException("해당 ID의 사용자가 존재하지 않습니다. 다시 확인해주세요."));
 
-        RoleType deleted = req.role();
-        user.removeRole(deleted);
+        Role role = roleRepository.findById(req.role())
+                        .orElseThrow(() -> new EntityNotFoundException("해당 권한을 찾을 수 없습니다."));
 
+        user.revokeRole(role);
         userRepository.flush();
+
+        if (user.getUserRoles().isEmpty()) {
+            user.grantRole(roleRepository.getReferenceById(RoleType.USER));
+        }
+
         RoleResponse.DeleteResponse deleteResponse = new RoleResponse.DeleteResponse(
                 user.getId(),
                 user.getLoginId(),
-                deleted,
-                Set.copyOf(user.getRoles()),
+                req.role(),
+                Set.copyOf(user.getRoleTypes()),
                 user.getUpdatedAt()
         );
 

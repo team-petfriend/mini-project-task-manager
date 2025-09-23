@@ -48,7 +48,7 @@ public class Project extends BaseTimeEntity {
         return new Project(name, user);
     }
 
-    public void setName(String name) {
+    public void update(String name){
         this.name = name;
     }
 }

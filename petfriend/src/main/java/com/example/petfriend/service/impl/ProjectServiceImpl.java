@@ -55,32 +55,24 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ResponseDto<List<ProjectResponse.DetailResponse>> search(String projectName) {
         List<Project> projects = projectRepository.findByNameContainingIgnoreCase(projectName);
-        List<ProjectResponse.DetailResponse> response = projects.stream()
+        List<ProjectResponse.DetailResponse> result = projects.stream()
                 .map(ProjectResponse.DetailResponse::from)
                 .toList();
-        return ResponseDto.setSuccess("성공적으로 조회하였습니다.", response);
+        return ResponseDto.setSuccess("성공적으로 조회되었습니다.", result);
     }
 
     @Override
     @Transactional
-    @PreAuthorize("hasAnyRole('OWNER','ADMIN','MANAGER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseDto<ProjectResponse.DetailResponse> update(UserPrincipal userPrincipal, Long projectId, ProjectRequest.@Valid Update req) {
-        ProjectResponse.DetailResponse data = null;
+        validateName(req.name());
+        if(projectId == null) throw new IllegalArgumentException("PROJECT_ID_REQUIRED");
         Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new EntityNotFoundException("프로젝트를 찾을 수 없습니다"));
-        if (req.name() == null) {
-            throw new IllegalArgumentException("수정할 데이터 없음");
-        }
-        boolean nameChanged = req.name() != null && !Objects.equals(project.getName(), req.name());
-        if (!nameChanged) throw new IllegalArgumentException("변경된 데이터가 없습니다.");
-        if (req.name() != null) project.setName(req.name());
-        data = new ProjectResponse.DetailResponse(
-                project.getId(),
-                project.getName(),
-                project.getCreatedAt(),
-                project.getUpdatedAt()
-        );
-        return ResponseDto.setSuccess("수정이 완료되었습니다.", data);
+                .orElseThrow(()-> new IllegalArgumentException("PROJECT_NOT_FOUND"));
+        project.update(req.name());
+        projectRepository.flush();
+        ProjectResponse.DetailResponse data = ProjectResponse.DetailResponse.from(project);
+        return ResponseDto.setSuccess("성공적으로 수정되었습니다.", data);
     }
 
 

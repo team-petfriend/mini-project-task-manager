@@ -40,11 +40,9 @@ public class ProjectController {
 
     // 프로젝트 검색
     // 정렬은 나중 추가
-    @GetMapping(ApiMappingPattern.Project.ONLY_NAME)
+    @GetMapping(ApiMappingPattern.Project.SEARCH)
     public ResponseEntity<ResponseDto<List<ProjectResponse.DetailResponse>>> search(
-            @RequestParam("projectName")
-            @NotBlank(message = "검색 키워드는 비워질 수 없습니다.")
-            @PathVariable String projectName
+            @RequestParam("projectName") @NotBlank(message = "검색 키워드는 비워질 수 없습니다.") String projectName
     ) {
         ResponseDto<List<ProjectResponse.DetailResponse>> response = projectService.search(projectName);
         return ResponseEntity.ok(response);

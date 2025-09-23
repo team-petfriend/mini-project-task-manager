@@ -31,17 +31,44 @@ CREATE TABLE IF NOT EXISTS `users` (
    COLLATE = UTF8MB4_UNICODE_CI 
    COMMENT='사용자';
 
--- 사용자 권한 테이블
-   CREATE TABLE IF NOT EXISTS `user_roles`(
-    user_id 				BIGINT NOT NULL,
-    role 					VARCHAR(30) NOT NULL,
-    CONSTRAINT fk_user_roles_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    CONSTRAINT uk_user_roles 	  UNIQUE (user_id, role),
-    CONSTRAINT chk_user_roles_role CHECK (role IN ('USER','ADMIN'))
-)ENGINE=InnoDB
+# 0910 (G_Role)
+-- 권한 코드 테이블
+CREATE TABLE IF NOT EXISTS `roles` (
+	role_name VARCHAR(30) PRIMARY KEY
+) ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci
-  COMMENT = '사용자 권한';
+  COMMENT = '권한 코드(USER, MANAGER, OWNER 등)';
+  
+
+-- 사용자 권한 테이블
+# DROP TABLE IF EXISTS `user_roles`; (기존의 user_roles 제거)
+CREATE TABLE IF NOT EXISTS `user_roles` (
+	user_id 	BIGINT NOT NULL,
+    role_name 	VARCHAR(30) NOT NULL,
+    PRIMARY KEY (user_id, role_name),
+    CONSTRAINT fk_user_roles_user FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT fk_user_roles_role FOREIGN KEY (role_name) REFERENCES roles(role_name)
+) ENGINE=InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci
+  COMMENT = '사용자 권한 매핑';
+
+INSERT INTO roles (role_name) VALUES
+	('USER'),
+    ('MANAGER'),
+    ('ADMIN')
+    # 이미 값이 있는 경우(DUPLICATE, 중복)
+    # , 에러 대신 그대로 유지할 것을 설정 
+    ON DUPLICATE KEY UPDATE role_name = VALUES(role_name);
+    
+    select * from roles;
+    
+    select * from user_roles;
+    
+    drop table roles;
+	drop table user_roles;
+
 
 -- 프로젝트 테이블
 -- ownerId -> 관리자
@@ -198,7 +225,7 @@ SELECT * FROM `user_roles`;
 SELECT * FROM `users`;
 
 
- 
+\\
 
 # task_history 트리거
 -- 초안
@@ -255,8 +282,8 @@ DELIMITER ;
 
  
  
- 
- 
+ SHOW TABLES;
+ SHOW CREATE TABLE comments;
  
  
  

@@ -1,6 +1,7 @@
 package com.example.petfriend.security.util;
 
 import com.example.petfriend.repository.CommentRepository;
+import com.example.petfriend.repository.NotificationRepository;
 import com.example.petfriend.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class AuthorizationChecker {
     private final CommentRepository commentRepository;
+    private final NotificationRepository notificationRepository;
 
     /** Comment 작성자 본인인지 확인 */
     public boolean isCommentAuthor(Long commentId, Authentication authentication) {
@@ -22,16 +24,15 @@ public class AuthorizationChecker {
                 .orElse(false);
     }
 
-    /** 작성자 본인 또는 ADMIN 확인 */
-    public boolean isCommentAuthorOrAdmin(Long commentId, Authentication authentication) {
-        if (authentication == null) return false;
+    /** 알림 소유자 확인 */
+    public boolean isNotificationOwner(Long notificationId, Authentication authentication) {
+        if (notificationId == null || authentication == null) return false;
 
-        boolean isAdmin = authentication.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("ADMIN"));
+        Long me = extractUserId(authentication);
 
-        if (isAdmin) return true;
-
-        return isCommentAuthor(commentId, authentication);
+        return notificationRepository.findById(notificationId)
+                .map(notification -> notification.getUser().getId().equals(me))
+                .orElse(false);
     }
 
     // == 프로젝트의 Principal 구조에 맞게 사용자 ID 추출 == //
@@ -44,5 +45,4 @@ public class AuthorizationChecker {
         }
         return null;
     }
-
 }

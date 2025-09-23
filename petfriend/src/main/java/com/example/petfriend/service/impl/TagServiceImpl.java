@@ -28,8 +28,6 @@ public class TagServiceImpl implements TagService {
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
     @Transactional
     public ResponseDto<TagResponse.DetailTag> createTag(UserPrincipal userPrincipal, TagRequest.@Valid createTag req) {
-
-
         Project project = projectRepository.findById(req.projectId())
                 .orElseThrow(() -> new RuntimeException("프로젝트에 해당하는 ID가 존재하지 않습니다. id = " + req.projectId()));
 

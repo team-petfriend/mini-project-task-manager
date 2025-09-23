@@ -20,17 +20,12 @@ public class ApiMappingPattern {
     public static final class User {
         private User() {}
         public static final String AUTH = BASE + "/auth";
-
-        public static final String ADMIN = BASE + "/admin";
-        public static final String ADD_ROLES = ADMIN + "/roles/add";
-        public static final String REPLACE_ROLES = ADMIN + "/roles/replace";
-        public static final String REMOVE_ROLES = ADMIN + "/roles/remove";
     }
 
     public static final class Project{
         private Project(){}
 
-        public static final String ROOT = BASE + "/projects";
+        public static final String ROOT = BASE + "/project";
         public static final String SEARCH = "/search";
         public static final String ONLY_ID ="/{projectId}";
     }

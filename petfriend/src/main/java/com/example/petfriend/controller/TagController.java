@@ -37,7 +37,7 @@ public class TagController {
     public ResponseEntity<ResponseDto<TagResponse.DetailTag>> updateTag(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @Valid @RequestBody TagRequest.updateTag req,
-            @RequestParam Long id
+            @PathVariable Long id
     ) {
         ResponseDto<TagResponse.DetailTag> response = tagService.updateTag(userPrincipal, req, id); {
             return ResponseEntity.ok().body(response);
@@ -47,7 +47,7 @@ public class TagController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDto<Void>> deleteTag(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @RequestParam Long id
+            @PathVariable Long id
             ) {
         ResponseDto<Void> response = tagService.delete(userPrincipal, id);
         return ResponseEntity.ok().body(response);

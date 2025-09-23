@@ -18,7 +18,7 @@ import java.util.Set;
         name = "users",
         uniqueConstraints = {
                 @UniqueConstraint(name = "uk_users_login_id", columnNames = "login_id"),
-                @UniqueConstraint(name = "uk_users_login_id", columnNames = "email"),
+                @UniqueConstraint(name = "uk_users_email", columnNames = "email"),
                 @UniqueConstraint(name = "uk_users_nickname", columnNames = "nickname")
         }
 )
@@ -65,7 +65,7 @@ public class User extends BaseTimeEntity {
     private Set<TaskAssignees> assignees = new HashSet<>();
 
     @OneToMany(mappedBy = "commenter", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Comments> taskComment = new HashSet<>();
+    private Set<Comments> userComment = new HashSet<>();
 
     @Builder
     private User(String loginId, String password, String email, String nickname, Gender gender, Set<RoleType> roles) {

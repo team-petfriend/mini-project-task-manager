@@ -58,7 +58,6 @@ public class AuthServiceImpl implements AuthService {
                 .password(encoded)
                 .email(req.email())
                 .nickname(req.nickname())
-//                .gender(req.gender()) - null 허용
                 .build();
         /** 생성된 엔티티를 저장한다. */
         userRepository.save(user);

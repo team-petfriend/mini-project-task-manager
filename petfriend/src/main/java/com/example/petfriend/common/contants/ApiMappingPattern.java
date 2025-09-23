@@ -17,6 +17,10 @@ public class ApiMappingPattern {
         public static final String PRIORITY = ID_ONLY + "/priority";
     }
 
+    public static final class User {
+        private User() {}
+    }
+
     public static final class Project{
         private Project(){}
 

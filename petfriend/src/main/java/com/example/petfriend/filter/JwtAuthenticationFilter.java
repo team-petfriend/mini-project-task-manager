@@ -77,7 +77,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             /** 추출한 JWT 토큰의 값이 존재하는지 검증*/
             if (authorization == null || authorization.isBlank()) {
-                unauthorized(response, "Authorization 헤더에 값이 존재하지 않습니다.");
                 filterChain.doFilter(request, response);
                 return;
             }
@@ -98,6 +97,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             /** 토큰의 유효성을 검증 */
             if (!jwtProvider.isValidToken(token)) {
                 unauthorized(response, "토큰이 유효하지 않거나 유효기간이 만료되었습니다.");
+                return;
             }
 
             /** jwtProvider.getUsernameFromJwt 토큰을 통해 사용자의 값을 추출 */
@@ -176,6 +176,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     {"result":"fail","message","%s"}
                 """.formatted(message));
     }
-
-
 }

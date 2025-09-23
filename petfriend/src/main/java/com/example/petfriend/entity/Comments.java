@@ -20,15 +20,18 @@ public class Comments extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "task_id", nullable = false)
+    @JoinColumn(name = "task_id", nullable = false
+            , foreignKey = @ForeignKey(name = "fk_comments_task")
+    )
     private Task task;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "commenter", nullable = false)
-    private User commenter;
 
     @Column(nullable = false, length = 500)
     private String content;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "commenter", nullable = false
+            , foreignKey = @ForeignKey(name = "fk_comments_user"))
+    private User commenter;
 
     @Builder
     private Comments(String content, User commenter) {

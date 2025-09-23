@@ -17,12 +17,11 @@ public class UserRole {
 
     @MapsId("userId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn
-            (
+    @JoinColumn(
                     name = "user_id",
                     nullable = false,
                     foreignKey = @ForeignKey(name = "fk_user_roles_user")
-            )
+    )
     private User user;
 
     @MapsId("roleName")

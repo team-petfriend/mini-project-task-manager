@@ -47,17 +47,6 @@ public class User extends BaseTimeEntity {
     @Column(name = "gender", length = 20)
     private Gender gender;
 
-//    @ElementCollection(fetch = FetchType.LAZY)
-//    @CollectionTable(
-//            name = "user_roles",
-//            joinColumns = @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_user_roles_user"))
-//            ,
-//            uniqueConstraints = @UniqueConstraint(name = "uk_user_roles", columnNames = {"user_id", "role"})
-//    )
-//    @Column(name = "role", length = 30, nullable = false)
-//    @Enumerated(EnumType.STRING)
-//    private Set<RoleType> roles = new HashSet<>();
-
     @OneToMany(mappedBy = "assignessUser", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TaskAssignees> assignees = new HashSet<>();
 
@@ -68,7 +57,7 @@ public class User extends BaseTimeEntity {
     private Set<UserRole> userRoles = new HashSet<>();
 
     @Builder
-    private User(String loginId, String password, String email, String nickname, Gender gender, Set<RoleType> roles) {
+    private User(String loginId, String password, String email, String nickname, Gender gender) {
         this.loginId = loginId;
         this.password = password;
         this.email = email;

@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(
@@ -46,26 +47,25 @@ public class User extends BaseTimeEntity {
     @Column(name = "gender", length = 20)
     private Gender gender;
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_user_roles_user"))
-            ,
-            uniqueConstraints = @UniqueConstraint(name = "uk_user_roles", columnNames = {"user_id", "role"})
-    )
-    @Column(name = "role", length = 30, nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Set<RoleType> roles = new HashSet<>();
+//    @ElementCollection(fetch = FetchType.LAZY)
+//    @CollectionTable(
+//            name = "user_roles",
+//            joinColumns = @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_user_roles_user"))
+//            ,
+//            uniqueConstraints = @UniqueConstraint(name = "uk_user_roles", columnNames = {"user_id", "role"})
+//    )
+//    @Column(name = "role", length = 30, nullable = false)
+//    @Enumerated(EnumType.STRING)
+//    private Set<RoleType> roles = new HashSet<>();
 
-    /** TaskAssigness 조인을 위해서 사용
-     *  mappedBy = user(owner)가 "주인이 아님을 명시하고, 반대편 필드가 FK를 관리함을 알려준다”
-     *  cascade = CascadeType.ALL => PK가 삭제된다면 FK도 같이 삭제
-     * */
     @OneToMany(mappedBy = "assignessUser", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TaskAssignees> assignees = new HashSet<>();
 
     @OneToMany(mappedBy = "commenter", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comments> userComment = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserRole> userRoles = new HashSet<>();
 
     @Builder
     private User(String loginId, String password, String email, String nickname, Gender gender, Set<RoleType> roles) {
@@ -74,7 +74,6 @@ public class User extends BaseTimeEntity {
         this.email = email;
         this.nickname = nickname;
         this.gender = gender;
-        this.roles = (roles == null || roles.isEmpty()) ? new HashSet<>(Set.of(RoleType.USER)) : roles;
     }
 
     public void changeProfile(String nickname, Gender gender) {
@@ -82,7 +81,24 @@ public class User extends BaseTimeEntity {
         this.gender = gender;
     }
 
-    public void addRole(RoleType role) { this.roles.add(role); }
-    public void removeRole(RoleType role) { this.roles.remove(role); }
+
+    public void grantRole(Role role) {
+        boolean exists = userRoles.stream().anyMatch(ur -> ur.getRole().equals(role));
+
+        if (!exists) {
+            userRoles.add(new UserRole(this, role));
+        }
+    }
+
+    public void revokeRole(Role role) {
+        userRoles.removeIf(ur -> ur.getRole().equals(role));
+    }
+
+    public Set<RoleType> getRoleTypes() {
+        return userRoles.stream()
+                .map(ur -> ur.getRole().getName())
+                .collect(Collectors.toUnmodifiableSet());
+    }
+
 }
 

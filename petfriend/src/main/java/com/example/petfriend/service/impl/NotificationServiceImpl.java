@@ -12,6 +12,7 @@ import com.example.petfriend.security.UserPrincipal;
 import com.example.petfriend.service.NotificationService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     @Transactional(readOnly = true)
+    @PreAuthorize("isAuthenticated()")
     public ResponseDto<List<NotificationResponseDto>> getNotifications(UserPrincipal userPrincipal, Boolean isRead) {
         List<Notifications> notifications;
 
@@ -43,6 +45,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
     public ResponseDto<NotificationResponseDto> createNotification(UserPrincipal userPrincipal, NotificationCreateRequestDto dto) {
         User user = userRepository.findById(dto.userId())
                 .orElseThrow(() ->new EntityNotFoundException("해당 ID 사용자를 찾을 수 없습니다."));
@@ -61,13 +64,20 @@ public class NotificationServiceImpl implements NotificationService {
         return ResponseDto.setSuccess("SUCCESS", NotificationResponseDto.from(saved));
     }
 
+    /** 본인 소유의 알림만 읽음 처리 가능 */
     @Override
     @Transactional
+    @PreAuthorize("@authz.isNotificationOwner(#id, authentication)")
     public ResponseDto<NotificationResponseDto> markAsRead(Long id, NotificationReadUpdateRequestDto dto) {
         Notifications notifications = notificationRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("해당 ID의 알림"));
 
-        notifications.setRead(dto.isRead());
+        if (dto.isRead()) {
+            notifications.markAsRead();
+        } else {
+            notifications.setRead(false);
+        }
+
         Notifications saved = notificationRepository.save(notifications);
 
         return ResponseDto.setSuccess("SUCCESS", NotificationResponseDto.from(saved));

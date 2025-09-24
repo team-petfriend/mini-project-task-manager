@@ -55,7 +55,6 @@ public class Notifications {
         this.isRead = true;
     }
 
-
     public void setRead(boolean isRead) {
         this.isRead = isRead;
     }

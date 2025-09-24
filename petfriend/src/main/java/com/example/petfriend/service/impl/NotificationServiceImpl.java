@@ -47,7 +47,8 @@ public class NotificationServiceImpl implements NotificationService {
     @Transactional
     @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
     public ResponseDto<NotificationResponseDto> createNotification(UserPrincipal userPrincipal, NotificationCreateRequestDto dto) {
-        User user = userRepository.findById(dto.userId())
+        final Long loginId = userPrincipal.getId();
+        User user = userRepository.findById(loginId)
                 .orElseThrow(() ->new EntityNotFoundException("해당 ID 사용자를 찾을 수 없습니다."));
 
         Notifications notifications = Notifications.builder()

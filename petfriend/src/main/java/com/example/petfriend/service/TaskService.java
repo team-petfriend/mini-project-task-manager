@@ -10,11 +10,16 @@ import java.util.List;
 
 
 public interface TaskService {
-    ResponseDto<TaskResponse.DetailTaskResponse> create(Long projectId, UserPrincipal userPrincipal, TaskRequest.@Valid TaskCreateRequest req);
     ResponseDto<List<TaskResponse.TaskListResponse>> getAll(Long projectId);
     ResponseDto<TaskResponse.DetailTaskResponse> getById(Long projectId, Long taskId);
-    ResponseDto<TaskResponse.DetailTaskResponse> update(Long projectId, Long taskId, TaskRequest.@Valid TaskUpdateRequest req);
-    ResponseDto<Object> delete(Long projectId, Long taskId);
     ResponseDto<TaskResponse.DetailTaskResponse> statusUpdate(UserPrincipal userPrincipal, Long taskId);
     ResponseDto<TaskResponse.DetailTaskResponse> priorityUpdate(UserPrincipal userPrincipal, Long taskId);
+
+
+    // ==================== CRUD ==========================
+    ResponseDto<TaskResponse.DetailTaskResponse> create(UserPrincipal userPrincipal, TaskRequest.@Valid TaskCreateRequest req);
+
+    ResponseDto<TaskResponse.DetailTaskResponse> update(Long taskId, TaskRequest.@Valid TaskUpdateRequest req);
+
+    ResponseDto<Void> delete(UserPrincipal userPrincipal, Long taskId);
 }

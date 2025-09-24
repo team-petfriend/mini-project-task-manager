@@ -22,16 +22,41 @@ import java.util.List;
 public class TasksController {
     private final TaskService taskService;
 
-
+    // 생성
     @PostMapping
     public ResponseEntity<ResponseDto<TaskResponse.DetailTaskResponse>> create(
-            @PathVariable Long projectId,
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @Valid @RequestBody TaskRequest.TaskCreateRequest req
     ) {
-        ResponseDto<TaskResponse.DetailTaskResponse> response = taskService.create(projectId, userPrincipal, req);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        ResponseDto<TaskResponse.DetailTaskResponse> response = taskService.create(userPrincipal, req);
+        return ResponseEntity.ok().body(response);
     }
+
+
+    // 수정
+    @PutMapping(ApiMappingPattern.Tasks.ID_ONLY)
+    public ResponseEntity<ResponseDto<TaskResponse.DetailTaskResponse>> update(
+            @PathVariable Long taskId,
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @Valid @RequestBody TaskRequest.TaskUpdateRequest req
+    ) {
+        ResponseDto<TaskResponse.DetailTaskResponse> response = taskService.update(taskId, req);
+        return ResponseEntity.ok().body(response);
+    }
+
+
+    // 삭제
+    @DeleteMapping(ApiMappingPattern.Tasks.ID_ONLY)
+    public ResponseEntity<ResponseDto<Void>> delete(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable Long taskId
+    ) {
+        ResponseDto<Void> response =  taskService.delete(userPrincipal, taskId);
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    // ======================= CRUD ==================================
 
     @GetMapping
     public ResponseEntity<ResponseDto<List<TaskResponse.TaskListResponse>>> getAll(
@@ -40,6 +65,7 @@ public class TasksController {
         ResponseDto<List<TaskResponse.TaskListResponse>> response = taskService.getAll(projectId);
         return ResponseEntity.ok(response);
     }
+
 
     // 정렬 및 필터링 추가 예정
     @GetMapping(ApiMappingPattern.Tasks.ID_ONLY)
@@ -52,15 +78,6 @@ public class TasksController {
     }
 
 
-    @PutMapping(ApiMappingPattern.Tasks.ID_ONLY)
-    public ResponseEntity<ResponseDto<TaskResponse.DetailTaskResponse>> update(
-            @PathVariable Long projectId,
-            @PathVariable Long taskId,
-            @Valid @RequestBody TaskRequest.TaskUpdateRequest req
-    ) {
-        ResponseDto<TaskResponse.DetailTaskResponse> response = taskService.update(projectId, taskId, req);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
 
     @PostMapping(ApiMappingPattern.Tasks.ID_ONLY)
     public ResponseEntity<ResponseDto<TaskResponse.DetailTaskResponse>> statusUpdate(
@@ -80,15 +97,4 @@ public class TasksController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
 
     }
-
-
-    @DeleteMapping(ApiMappingPattern.Tasks.PRIORITY)
-    public ResponseEntity<ResponseDto<Void>> delete(
-            @PathVariable Long projectId,
-            @PathVariable Long taskId
-    ) {
-        taskService.delete(projectId, taskId);
-        return ResponseEntity.status(HttpStatus.OK).body(null);
-    }
-
 }

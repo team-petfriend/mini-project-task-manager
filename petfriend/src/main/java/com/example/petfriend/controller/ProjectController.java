@@ -22,6 +22,7 @@ public class ProjectController {
     private final ProjectService projectService;
 
     // 프로젝트 생성
+    //http://localhost:8080/api/v1/project
     @PostMapping
     public ResponseEntity<ResponseDto<ProjectResponse.DetailResponse>> create(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -33,6 +34,7 @@ public class ProjectController {
 
     // 프로젝트 전체조회
     @GetMapping
+    //http://localhost:8080/api/v1/project
     public ResponseEntity<ResponseDto<List<ProjectResponse.DetailResponse>>> searchAll() {
         ResponseDto<List<ProjectResponse.DetailResponse>> response = projectService.getAllProject();
         return ResponseEntity.ok(response);
@@ -40,7 +42,9 @@ public class ProjectController {
 
     // 프로젝트 검색
     // 정렬은 나중 추가
+
     @GetMapping(ApiMappingPattern.Project.SEARCH)
+    //http://localhost:8080/api/v1/project/search?projectName=1
     public ResponseEntity<ResponseDto<List<ProjectResponse.DetailResponse>>> search(
             @RequestParam("projectName") @NotBlank(message = "검색 키워드는 비워질 수 없습니다.") String projectName
     ) {
@@ -51,6 +55,7 @@ public class ProjectController {
 
     //프로젝트 이름 수정
     @PutMapping(ApiMappingPattern.Project.ONLY_ID)
+    //http://localhost:8080/api/v1/project/:projectId
     public ResponseEntity<ResponseDto<ProjectResponse.DetailResponse>> update(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable Long projectId,

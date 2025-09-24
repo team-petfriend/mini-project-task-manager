@@ -18,13 +18,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/projects")
+@RequestMapping("/api/v1/project")
 @RequiredArgsConstructor
 public class TasksController {
     private final TaskService taskService;
 
     // 생성
     @PostMapping("/{projectId}/tasks")
+    //http://localhost:8080/api/v1/projects/:projectId/tasks
     public ResponseEntity<ResponseDto<TaskResponse.DetailTaskResponse>> create(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable("projectId") @Positive(message = "projectId는 1 이상의 정수여야 합니다.") Long projectId,

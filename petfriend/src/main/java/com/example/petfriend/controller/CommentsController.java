@@ -25,6 +25,7 @@ public class CommentsController {
     private final CommentService commentService;
 
     @PostMapping
+    // http://localhost:8080/api/v1/tasks/:taskId/comments
     public ResponseEntity<ResponseDto<CommentResponseDto>> createComment(
             @PathVariable("taskId") @Positive(message = "taskId는 1이상의 정수여야 합니다.") Long taskId,
             @AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -35,6 +36,7 @@ public class CommentsController {
     }
 
     @PutMapping(ApiMappingPattern.Comments.ID_ONLY)
+    // http://localhost:8080/api/v1/tasks/:taskId/comments/{commentId}
     public ResponseEntity<ResponseDto<CommentResponseDto>> updateComment(
             @PathVariable("taskId") @Positive(message = "taskId는 1이상의 정수여야 합니다.") Long taskId,
             @PathVariable("commentId") @Positive(message = "commentId는 1이상의 정수여야 합니다.") Long commentId,
@@ -45,6 +47,7 @@ public class CommentsController {
     }
 
     @DeleteMapping(ApiMappingPattern.Comments.ID_ONLY)
+    // http://localhost:8080/api/v1/tasks/:taskId/comments/{commentId}
     public ResponseEntity<ResponseDto<CommentResponseDto>> deleteComment(
             @PathVariable("taskId") @Positive(message = "taskId는 1이상의 정수여야 합니다.") Long taskId,
             @PathVariable("commentId") @Positive(message = "commentId는 1이상의 정수여야 합니다.") Long commentId
@@ -55,6 +58,7 @@ public class CommentsController {
 
     // 최신댓글 순 정렬 (true = 최신순, false = 오래된 댓글 순)
     @GetMapping(ApiMappingPattern.Comments.SORT)
+    // http://localhost:8080/api/v1/tasks/:taskId/comments/sort
     public ResponseEntity<ResponseDto<List<CommentResponseDto>>> getComments(
             @PathVariable("taskId") @Positive Long taskId,
             @RequestParam(required = false) Long commenterId,

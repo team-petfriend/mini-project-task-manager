@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping
     public ResponseEntity<ResponseDto<UserProfileResponse.MyPageResponse>> getMyInfo(
             @AuthenticationPrincipal UserPrincipal principal
@@ -27,7 +26,6 @@ public class UserController {
         return ResponseEntity.ok().body(response);
     }
 
-    @PreAuthorize("isAuthenticated()")
     @PutMapping
     public ResponseEntity<ResponseDto<UserProfileResponse.MyPageResponse>> updateMyInfo(
             @AuthenticationPrincipal UserPrincipal principal,

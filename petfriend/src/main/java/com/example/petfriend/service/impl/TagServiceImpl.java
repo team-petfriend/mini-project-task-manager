@@ -25,7 +25,7 @@ public class TagServiceImpl implements TagService {
 
     /** 생성 권한 : ADMIN, MANAGER */
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','USER')")
     @Transactional
     public ResponseDto<TagResponse.DetailTag> createTag(UserPrincipal userPrincipal, TagRequest.@Valid createTag req) {
         Project project = projectRepository.findById(req.projectId())

@@ -14,7 +14,7 @@ public class PrincipalUtils {
             throw new AccessDeniedException("인증이 필요합니다.");
         }
 
-        if (principal.isAccountNonExpired()|| !principal.isEnabled() || !principal.isCredentialsNonExpired()) {
+        if (!principal.isAccountNonExpired()|| !principal.isEnabled() || !principal.isCredentialsNonExpired()) {
             throw new AccessDeniedException("비활성화 된 계정입니다. 다시 확인해주세요.");
         }
     }

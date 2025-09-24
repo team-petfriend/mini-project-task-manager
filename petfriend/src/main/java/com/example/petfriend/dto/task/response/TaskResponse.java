@@ -25,16 +25,23 @@ public class TaskResponse {
                     task.getUpdatedAt()
             );
         }
+
+        public DetailTaskResponse summarize(int maxLen) {
+            String summarized = description == null ? null :
+                    (description.length() <= maxLen ? description : description.substring(0, maxLen) + "....");
+            return new DetailTaskResponse(title, summarized, taskStatus, taskPriority, created_at, updated_at);
+        }
     }
+
     public record TaskListResponse(
             Long id,
             String title
     ) {
-         public static TaskListResponse from(Task task) {
-             return new TaskListResponse(
-                        task.getId(),
-                        task.getTitle()
-             );
-         }
+        public static TaskListResponse from(Task task) {
+            return new TaskListResponse(
+                    task.getId(),
+                    task.getTitle()
+            );
+        }
     }
 }

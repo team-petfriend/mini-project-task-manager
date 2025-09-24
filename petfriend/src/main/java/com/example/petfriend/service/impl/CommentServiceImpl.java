@@ -95,6 +95,7 @@ public class CommentServiceImpl implements CommentService {
 
         List<CommentResponseDto> rep = comments.stream()
                 .map(CommentResponseDto::from)
+                .map(dto -> dto.summarized(8))
                 .toList();
 
         return ResponseDto.setSuccess("SUCCESS", rep);

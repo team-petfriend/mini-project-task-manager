@@ -6,8 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record NotificationCreateRequestDto(
-        @NotNull(message = "userId는 필수 값입니다.")
-        Long userId,
 
         @NotNull(message = "알림 타입은 필수 값입니다.")
         Type type,

@@ -50,7 +50,6 @@ public class ProjectServiceImpl implements ProjectService {
         return ResponseDto.setSuccess("프로젝트 전체 목록을 가져왔습니다.", response);
     }
 
-//----------------------------------------위까지 검증 완------------------------------------------------------//
 
     @Override
     public ResponseDto<List<ProjectResponse.DetailResponse>> search(String projectName) {

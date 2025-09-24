@@ -55,7 +55,7 @@ public class Notifications {
         this.isRead = true;
     }
 
-    @Builder
+
     public void setRead(boolean isRead) {
         this.isRead = isRead;
     }

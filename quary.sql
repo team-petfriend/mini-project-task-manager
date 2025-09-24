@@ -2,16 +2,29 @@ CREATE DATABASE IF NOT EXISTS `mini_project_task_manager`;
 DROP DATABASE `mini_project_task_manager`;
 USE `mini_project_task_manager`;
 
-DROP TABLE IF EXISTS `task_tag`;
-DROP TABLE IF EXISTS `tags`;
+DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `roles`;
+DROP TABLE IF EXISTS `user_roles`;
 DROP TABLE IF EXISTS `projects`;
+DROP TABLE IF EXISTS `tags`;
 DROP TABLE IF EXISTS `tasks`;
 DROP TABLE IF EXISTS `task_assignees`;
-DROP TABLE IF EXISTS `user_roles`;
-DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `task_history`;
+DROP TABLE IF EXISTS `task_tag`;
+DROP TABLE IF EXISTS `notifications`;
 
+SELECT * FROM `users`;
+SELECT * FROM `roles`;
+SELECT * FROM `user_roles`;
+SELECT * FROM `projects`;
+SELECT * FROM `tags`;
+SELECT * FROM `tasks`;
+SELECT * FROM `task_assignees`;
+SELECT * FROM `task_history`;
+SELECT * FROM `task_tag`;
+SELECT * FROM `comments`;
+SELECT * FROM `notifications`;
 
-SELECT * FROM users;
 -- 사용자 테이블
 CREATE TABLE IF NOT EXISTS `users` (
     id 					BIGINT NOT NULL AUTO_INCREMENT  PRIMARY KEY,
@@ -30,8 +43,11 @@ CREATE TABLE IF NOT EXISTS `users` (
    DEFAULT CHARSET=UTF8MB4 
    COLLATE = UTF8MB4_UNICODE_CI 
    COMMENT='사용자';
+   
+SELECT * FROM `users`;
 
-# 0910 (G_Role)
+
+
 -- 권한 코드 테이블
 CREATE TABLE IF NOT EXISTS `roles` (
 	role_name VARCHAR(30) PRIMARY KEY
@@ -40,9 +56,11 @@ CREATE TABLE IF NOT EXISTS `roles` (
   COLLATE = utf8mb4_unicode_ci
   COMMENT = '권한 코드(USER, MANAGER, OWNER 등)';
   
+SELECT * FROM `roles`;
+  
+
 
 -- 사용자 권한 테이블
-# DROP TABLE IF EXISTS `user_roles`; (기존의 user_roles 제거)
 CREATE TABLE IF NOT EXISTS `user_roles` (
 	user_id 	BIGINT NOT NULL,
     role_name 	VARCHAR(30) NOT NULL,
@@ -54,27 +72,8 @@ CREATE TABLE IF NOT EXISTS `user_roles` (
   COLLATE = utf8mb4_unicode_ci
   COMMENT = '사용자 권한 매핑';
 
-INSERT INTO roles (role_name) VALUES
-	('USER'),
-    ('MANAGER'),
-    ('ADMIN')
-    # 이미 값이 있는 경우(DUPLICATE, 중복)
-    # , 에러 대신 그대로 유지할 것을 설정 
-    ON DUPLICATE KEY UPDATE role_name = VALUES(role_name);
-    
-    select * from roles;
-    
-    select * from user_roles;
-    
-    drop table roles;
-	drop table user_roles;
+SELECT * FROM `user_roles`;
 
-INSERT INTO user_roles (user_id, role_name) VALUES
-	(1, 'USER'),
-    (1, 'MANAGER'),
-    (1, 'ADMIN')
-    ON DUPLICATE KEY UPDATE role_name = VALUES(role_name);
-    
 
 
 -- 프로젝트 테이블
@@ -93,6 +92,10 @@ CREATE TABLE IF NOT EXISTS `projects`(
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci
   COMMENT = '프로젝트';
+  
+SELECT * FROM `projects`;
+
+
 
 -- 태그 테이블
 CREATE TABLE IF NOT EXISTS `tags` (
@@ -105,10 +108,13 @@ CREATE TABLE IF NOT EXISTS `tags` (
 ) ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci
-  COMMENT = '태그';  
+  COMMENT = '태그';
+  
+SELECT * FROM `tags`;
+
+
 
 -- 할 일 테이블
---  `task_assignees`  수정필요 
 CREATE TABLE IF NOT EXISTS `tasks` (
 	id           		BIGINT PRIMARY KEY AUTO_INCREMENT,
 	project_id   		BIGINT NOT NULL,
@@ -127,7 +133,10 @@ CREATE TABLE IF NOT EXISTS `tasks` (
 )ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci
-  COMMENT = '할일';	
+  COMMENT = '할일';
+  
+SELECT * FROM `tasks`;
+
 
 
 -- 담당자
@@ -141,6 +150,10 @@ CREATE TABLE IF NOT EXISTS `task_assignees` (
 DEFAULT CHARSET = utf8mb4
 COLLATE = utf8mb4_unicode_ci
 COMMENT = '담당자';
+
+SELECT * FROM `task_assignees`;
+
+
 
 -- task history
 CREATE TABLE IF NOT EXISTS `task_history`(
@@ -158,7 +171,10 @@ CREATE TABLE IF NOT EXISTS `task_history`(
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci
   COMMENT = 'Task History(logs)';
-DROP TABLE task_history;
+
+SELECT * FROM `task_history`;
+
+
 
 -- 할일 태그
 CREATE TABLE IF NOT EXISTS `task_tag` (
@@ -170,17 +186,12 @@ CREATE TABLE IF NOT EXISTS `task_tag` (
 	CONSTRAINT fk_task_tag_tag  FOREIGN KEY (tag_id)  REFERENCES tags(id)  ON DELETE CASCADE,
     constraint uk_task_tag_task unique (task_id),
     constraint uk_task_tag_tag unique (tag_id)
-	/*
-    task_id  		BIGINT NOT NULL,
-	tag_id   		BIGINT NOT NULL,
-	PRIMARY KEY (task_id, tag_id),
-	CONSTRAINT fk_task_tag_task FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
-	CONSTRAINT fk_task_tag_tag  FOREIGN KEY (tag_id)  REFERENCES tags(id)  ON DELETE CASCADE
-    */
 )ENGINE=InnoDB
  DEFAULT CHARSET = utf8mb4
  COLLATE = utf8mb4_unicode_ci
  COMMENT = '할일 태그';
+ 
+SELECT * FROM `task_tag`;
 
 
 
@@ -202,7 +213,10 @@ CREATE TABLE IF NOT EXISTS `comments` (
   COLLATE = utf8mb4_unicode_ci
   COMMENT = '댓글';
   
-drop table `notifications`;
+SELECT * FROM `comments`;
+
+
+
 -- 옵션: 단순 알림 테이블(읽음 여부) 
 CREATE TABLE IF NOT EXISTS `notifications` (
 	id            BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -222,17 +236,24 @@ CREATE TABLE IF NOT EXISTS `notifications` (
  COLLATE = utf8mb4_unicode_ci
  COMMENT = '알림';
  
- select * from `notifications`;
-   select * from `comments`;
-SELECT * FROM `task_tag`;
+SELECT * FROM `notifications`;
+
+
+
+
+SELECT * FROM `users`;
+SELECT * FROM `roles`;
+SELECT * FROM `user_roles`;
+SELECT * FROM `projects`;
 SELECT * FROM `tags`;
 SELECT * FROM `tasks`;
-SELECT * FROM `projects`;
-SELECT * FROM `user_roles`;
-SELECT * FROM `users`;
+SELECT * FROM `task_assignees`;
+SELECT * FROM `task_history`;
+SELECT * FROM `task_tag`;
+SELECT * FROM `comments`;
+SELECT * FROM `notifications`;
 
 
-\\
 
 # task_history 트리거
 -- 초안
@@ -284,28 +305,39 @@ BEGIN
 	END IF;
 END //
 DELIMITER ;
- 
- 
+
+SHOW TABLES;
+SHOW CREATE TABLE comments;
+
+ # ==========================================================Sample===========================================================================
+INSERT INTO `users` (login_id, password, email, nickname, gender) VALUES
+    ('user123', 'user123123', 'user123@example.com', 'user123', NULL),
+	('manager123', 'manager123123', 'manager123@example.com', 'manager123', NULL),
+	('admin123', 'admin123123', 'admin123@example.com', 'admin123', NULL),
+    ('user456', 'user456456', 'user456@example.com', 'user456', 'MALE'),
+	('manager456', 'manager456456', 'manager456@example.com', 'manager456', 'FEMALE'),
+	('admin456', 'admin456456', 'admin456@example.com', 'admin456', 'MALE');
 
  
- 
- SHOW TABLES;
- SHOW CREATE TABLE comments;
- 
- 
- 
- 
- 
- 
+INSERT INTO roles (role_name) VALUES
+	('USER'),
+    ('MANAGER'),
+    ('ADMIN')
+    # 이미 값이 있는 경우(DUPLICATE, 중복)
+    # , 에러 대신 그대로 유지할 것을 설정 
+	ON DUPLICATE KEY UPDATE role_name = VALUES(role_name);
  
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+INSERT INTO user_roles (user_id, role_name) VALUES
+	(1, 'USER'),
+    (2, 'MANAGER'),
+    (3, 'ADMIN'),
+    (4, 'USER'),
+    (5, 'MANAGER'),
+    (6, 'ADMIN')
+	ON DUPLICATE KEY UPDATE role_name = VALUES(role_name);
+    
+INSERT INTO `projects` (owner_id, name) VALUES
+	(3, 'TEST123'),
+    (6, 'TEST456')
+

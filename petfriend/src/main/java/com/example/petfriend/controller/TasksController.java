@@ -8,6 +8,7 @@ import com.example.petfriend.dto.task.response.TaskResponse;
 import com.example.petfriend.security.UserPrincipal;
 import com.example.petfriend.service.TaskService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,18 +18,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(ApiMappingPattern.Tasks.ROOT)
+@RequestMapping("/api/v1/projects")
 @RequiredArgsConstructor
 public class TasksController {
     private final TaskService taskService;
 
     // 생성
-    @PostMapping
+    @PostMapping("/{projectId}/tasks")
     public ResponseEntity<ResponseDto<TaskResponse.DetailTaskResponse>> create(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable("projectId") @Positive(message = "projectId는 1 이상의 정수여야 합니다.") Long projectId,
             @Valid @RequestBody TaskRequest.TaskCreateRequest req
     ) {
-        ResponseDto<TaskResponse.DetailTaskResponse> response = taskService.create(userPrincipal, req);
+        ResponseDto<TaskResponse.DetailTaskResponse> response = taskService.create(projectId, userPrincipal, req);
         return ResponseEntity.ok().body(response);
     }
 

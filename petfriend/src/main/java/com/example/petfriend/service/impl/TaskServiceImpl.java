@@ -39,10 +39,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @PreAuthorize("isAuthenticated()")
     @Transactional
-    public ResponseDto<TaskResponse.DetailTaskResponse> create(UserPrincipal userPrincipal, TaskRequest.@Valid TaskCreateRequest req) {
+    public ResponseDto<TaskResponse.DetailTaskResponse> create(Long projectId, UserPrincipal userPrincipal, TaskRequest.@Valid TaskCreateRequest req) {
 
-        Project project = projectRepository.findById(req.projectId())
+        Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new IllegalStateException("해당 id가 존재하지않습니다."));
+
 
         Task task = Task.builder()
                 .project(project)

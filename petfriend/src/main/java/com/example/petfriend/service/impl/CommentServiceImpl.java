@@ -85,7 +85,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    @PreAuthorize("isAuthenticated()")
     public ResponseDto<List<CommentResponseDto>> getComments(Long taskId, Long commenterId, boolean latestFirst) {
         Sort sort = latestFirst
                 ? Sort.by(Sort.Direction.DESC, "createdAt")

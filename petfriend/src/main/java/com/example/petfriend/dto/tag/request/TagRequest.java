@@ -16,7 +16,7 @@ public class TagRequest {
             @Size(max = 100, message = "색깔 내용은 최대 100자까지 입니다.")
             String color,
 
-            @NotNull(message = "프로젝트의 ID값은 필수 입니다.")
+            @NotNull(message = "프로젝트 ID값은 필수 입니다.")
             Long projectId
     ) {}
 

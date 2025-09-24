@@ -27,6 +27,10 @@ public class UserPrincipal implements UserDetails {
     @JsonIgnore
     private final String password;
     private final Collection<? extends GrantedAuthority> authorities;
+    private final boolean accountNonExpired;
+    private final boolean accountNonLocked;
+    private final boolean credentialsNonExpired;
+    private final boolean enabled;
 
 
     /** 추후 사용자 제약 조건기능 추가 */
@@ -38,12 +42,20 @@ public class UserPrincipal implements UserDetails {
             Long id,
             String username,
             String password,
-            Collection<? extends GrantedAuthority> authorities
+            Collection<? extends GrantedAuthority> authorities,
+            boolean accountNonExpired,
+            boolean accountNonLocked,
+            boolean credentialsNonExpired,
+            boolean enabled
     ){
         this.id = id;
         this.username = username;
         this.password = password;
         this.authorities = authorities;
+        this.accountNonExpired = accountNonExpired;
+        this.accountNonLocked = accountNonLocked;
+        this.credentialsNonExpired = credentialsNonExpired;
+        this.enabled = enabled;
     };
 
     // 메서드
@@ -53,6 +65,9 @@ public class UserPrincipal implements UserDetails {
     @Override public String getPassword() { return password;}
     /** ★ 계정의 고유한 값을 리턴 (PK값)★ */
     @Override public String getUsername() {return username;}
-
+    @Override public boolean isAccountNonExpired() { return accountNonExpired; }
+    @Override public boolean isAccountNonLocked() { return accountNonLocked; }
+    @Override public boolean isCredentialsNonExpired() { return credentialsNonExpired; }
+    @Override public boolean isEnabled() { return enabled; }
 
 }

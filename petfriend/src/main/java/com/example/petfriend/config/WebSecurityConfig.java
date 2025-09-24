@@ -159,6 +159,10 @@ public class WebSecurityConfig {
                     .requestMatchers(HttpMethod.GET, "/api/v1/project/**").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.PUT, "/api/v1/project/**").hasRole("ADMIN")
 
+                    .requestMatchers(HttpMethod.POST, "/api/v1/tags/**").hasAnyRole("ADMIN", "MANAGER","USER")
+                    .requestMatchers(HttpMethod.DELETE, "/api/v1/tags/**").authenticated()
+                    .requestMatchers(HttpMethod.PUT, "/api/v1/tags/**").authenticated()
+
                     .anyRequest().authenticated();
         });
 

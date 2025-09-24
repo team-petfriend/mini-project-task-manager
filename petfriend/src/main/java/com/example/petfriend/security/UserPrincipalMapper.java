@@ -35,6 +35,10 @@ public class UserPrincipalMapper {
                 .username(user.getLoginId())
                 .password(user.getPassword())
                 .authorities(authorities)
+                .accountNonExpired(true)
+                .accountNonLocked(true)
+                .credentialsNonExpired(true)
+                .enabled(true)
                 .build();
     }
 }

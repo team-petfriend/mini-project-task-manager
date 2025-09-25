@@ -20,19 +20,6 @@ public class TagController {
 
     private final TagService tagService;
 
-    /**
-     * 태그 생성
-     */
-    
-    @PostMapping
-    public ResponseEntity<ResponseDto<TagResponse.DetailTag>> createTag(
-            @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @Valid @RequestBody TagRequest.createTag req
-    ) {
-        ResponseDto<TagResponse.DetailTag> response = tagService.createTag(userPrincipal, req);
-        return ResponseEntity.ok().body(response);
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<ResponseDto<TagResponse.DetailTag>> updateTag(
             @AuthenticationPrincipal UserPrincipal userPrincipal,

@@ -1,18 +1,14 @@
 package com.example.petfriend.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "task_tag",
-        uniqueConstraints ={
-                @UniqueConstraint(name = "uk_task_tag_task", columnNames = "task_id"),
-                @UniqueConstraint(name = "uk_task_tag_tag", columnNames = "tag_id")
-        }
-
-)
+@Table(name = "task_tag")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TaskTag {
@@ -21,9 +17,16 @@ public class TaskTag {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "task_id", nullable = false, foreignKey =  @ForeignKey(name = "fk_task_tag_task"))
-    private Task TaskTagTask;
+    private Task task;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "tag_id", nullable = false, foreignKey =  @ForeignKey(name = "fk_task_tag_tag"))
-    private Tag TaskTagtag;
+    private Tag tag;
+
+
+    @Builder
+    public TaskTag(@NotNull Task task, Tag tag) {
+        this.task = task;
+        this.tag = tag;
+    }
 }

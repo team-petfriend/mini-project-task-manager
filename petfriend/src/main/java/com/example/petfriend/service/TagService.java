@@ -7,7 +7,7 @@ import com.example.petfriend.security.UserPrincipal;
 import jakarta.validation.Valid;
 
 public interface TagService {
-    ResponseDto<TagResponse.DetailTag> createTag(UserPrincipal userPrincipal, TagRequest.@Valid createTag req);
+    ResponseDto<TagResponse.DetailTag> createTag(UserPrincipal userPrincipal, Long projectId, TagRequest.@Valid createTag req);
 
     ResponseDto<Void> delete(UserPrincipal userPrincipal, Long id);
 

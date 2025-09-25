@@ -48,6 +48,7 @@ SELECT * FROM `users`;
 
 
 
+
 -- 권한 코드 테이블
 CREATE TABLE IF NOT EXISTS `roles` (
 	role_name VARCHAR(30) PRIMARY KEY
@@ -101,9 +102,9 @@ SELECT * FROM `projects`;
 CREATE TABLE IF NOT EXISTS `tags` (
 	id          	BIGINT PRIMARY KEY AUTO_INCREMENT,
     project_id		BIGINT NOT NULL,
-	name        	VARCHAR(50) NOT NULL,
+	name        	VARCHAR(50) DEFAULT NULL,
 	color        	VARCHAR(20) NOT NULL,
-    CONSTRAINT `uk_tags_name` UNIQUE (name),
+   CONSTRAINT chk_tags_name CHECK (name IN ('BACKEND','FRONTEND','DEVOPS', 'DB')),
     CONSTRAINT fk_tag_project FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE
 ) ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4
@@ -183,9 +184,7 @@ CREATE TABLE IF NOT EXISTS `task_tag` (
 	tag_id   		BIGINT NOT NULL,
 	PRIMARY KEY (id),
 	CONSTRAINT fk_task_tag_task FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
-	CONSTRAINT fk_task_tag_tag  FOREIGN KEY (tag_id)  REFERENCES tags(id)  ON DELETE CASCADE,
-    constraint uk_task_tag_task unique (task_id),
-    constraint uk_task_tag_tag unique (tag_id)
+	CONSTRAINT fk_task_tag_tag  FOREIGN KEY (tag_id)  REFERENCES tags(id)  ON DELETE CASCADE
 )ENGINE=InnoDB
  DEFAULT CHARSET = utf8mb4
  COLLATE = utf8mb4_unicode_ci

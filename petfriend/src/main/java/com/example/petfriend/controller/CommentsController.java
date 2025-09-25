@@ -58,7 +58,7 @@ public class CommentsController {
 
     // 최신댓글 순 정렬 (true = 최신순, false = 오래된 댓글 순)
     @GetMapping(ApiMappingPattern.Comments.SORT)
-    // http://localhost:8080/api/v1/tasks/:taskId/comments/sort
+    // http://localhost:8080/api/v1/tasks/:taskId/comments/sort?latestFirst=true
     public ResponseEntity<ResponseDto<List<CommentResponseDto>>> getComments(
             @PathVariable("taskId") @Positive Long taskId,
             @RequestParam(required = false) Long commenterId,

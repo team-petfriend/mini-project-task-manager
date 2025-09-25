@@ -24,25 +24,7 @@ public class NotificationServiceImpl implements NotificationService {
     private final NotificationRepository notificationRepository;
     private final UserRepository userRepository;
 
-    @Override
-    @Transactional(readOnly = true)
-    @PreAuthorize("isAuthenticated()")
-    public ResponseDto<List<NotificationResponseDto>> getNotifications(UserPrincipal userPrincipal, Boolean isRead) {
-        List<Notifications> notifications;
-
-        if (isRead != null) {
-            notifications = notificationRepository.findByUserIdAndIsRead(userPrincipal.getId(), isRead);
-        } else {
-            notifications = notificationRepository.findByUserId(userPrincipal.getId());
-        }
-
-        List<NotificationResponseDto> rep = notifications.stream()
-                .map(NotificationResponseDto::from)
-                .toList();
-
-        return ResponseDto.setSuccess("SUCCESS", rep);
-    }
-
+    // 알림 생성('MANAGER','ADMIN')
     @Override
     @Transactional
     @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
@@ -63,6 +45,25 @@ public class NotificationServiceImpl implements NotificationService {
         Notifications saved = notificationRepository.save(notifications);
 
         return ResponseDto.setSuccess("SUCCESS", NotificationResponseDto.from(saved));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    @PreAuthorize("isAuthenticated()")
+    public ResponseDto<List<NotificationResponseDto>> getNotifications(UserPrincipal userPrincipal, Boolean isRead) {
+        List<Notifications> notifications;
+
+        if (isRead != null) {
+            notifications = notificationRepository.findByUserIdAndIsRead(userPrincipal.getId(), isRead);
+        } else {
+            notifications = notificationRepository.findByUserId(userPrincipal.getId());
+        }
+
+        List<NotificationResponseDto> rep = notifications.stream()
+                .map(NotificationResponseDto::from)
+                .toList();
+
+        return ResponseDto.setSuccess("SUCCESS", rep);
     }
 
     /** 본인 소유의 알림만 읽음 처리 가능 */

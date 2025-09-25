@@ -27,9 +27,9 @@ public class TagServiceImpl implements TagService {
     @Override
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER','USER')")
     @Transactional
-    public ResponseDto<TagResponse.DetailTag> createTag(UserPrincipal userPrincipal, TagRequest.@Valid createTag req) {
-        Project project = projectRepository.findById(req.projectId())
-                .orElseThrow(() -> new RuntimeException("프로젝트에 해당하는 ID가 존재하지 않습니다. id = " + req.projectId()));
+    public ResponseDto<TagResponse.DetailTag> createTag(UserPrincipal userPrincipal, Long projectId, TagRequest.@Valid createTag req) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new RuntimeException("프로젝트에 해당하는 ID가 존재하지 않습니다. id = " + projectId));
 
         Tag tag = Tag.builder()
                 .name(req.name())

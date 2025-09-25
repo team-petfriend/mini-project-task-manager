@@ -10,8 +10,7 @@ public class TaskRequest {
     public record TaskCreateRequest(
             @NotNull(message = "title은 필수 값 입니다.")
             String title,
-            String description,
-            Long projectId
+            String description
     ) {
     }
 

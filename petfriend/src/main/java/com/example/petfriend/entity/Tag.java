@@ -1,5 +1,6 @@
 package com.example.petfriend.entity;
 
+import com.example.petfriend.common.enums.TagType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -22,9 +23,9 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(name = "name", nullable = false, length = 50)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "name", nullable = true, length = 50)
+    private TagType name;
 
     @Column(name = "color", nullable = false, length = 20)
     private String color;
@@ -37,18 +38,18 @@ public class Tag {
 
 
     @Builder
-    public Tag(String name, String color, Project project) {
+    public Tag(TagType name, String color, Project project) {
         this.name = name;
         this.color = color;
         this.project = project;
     }
 
-    public void addTags(String name, String color) {
+    public void addTags(TagType name, String color) {
         this.name = name;
         this.color = color;
     }
 
-    public void updateTags(String name, String color) {
+    public void updateTags(TagType name, String color) {
         this.name = name;
         this.color = color;
     }

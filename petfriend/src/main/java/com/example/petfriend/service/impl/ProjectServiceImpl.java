@@ -3,12 +3,16 @@ package com.example.petfriend.service.impl;
 import com.example.petfriend.dto.ResponseDto;
 import com.example.petfriend.dto.project.request.ProjectRequest;
 import com.example.petfriend.dto.project.response.ProjectResponse;
+import com.example.petfriend.dto.task.response.TaskResponse;
 import com.example.petfriend.entity.Project;
+import com.example.petfriend.entity.Task;
 import com.example.petfriend.entity.User;
 import com.example.petfriend.repository.ProjectRepository;
+import com.example.petfriend.repository.TaskRepository;
 import com.example.petfriend.repository.UserRepository;
 import com.example.petfriend.security.UserPrincipal;
 import com.example.petfriend.service.ProjectService;
+import com.example.petfriend.service.TaskService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -20,6 +24,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +32,7 @@ import java.util.Objects;
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
+    private final TaskRepository taskRepository;
 
     @Override
     @Transactional
@@ -74,6 +80,20 @@ public class ProjectServiceImpl implements ProjectService {
         return ResponseDto.setSuccess("성공적으로 수정되었습니다.", data);
     }
 
+    @Override
+    @PreAuthorize("isAuthenticated()")
+    public ResponseDto<List<TaskResponse.DetailTaskResponse>> getProjectByIdTasks(Long projectId) {
+
+        if (projectId == null) throw new IllegalArgumentException("해당 ID가 존재하지않습니다.");
+
+        List<Task> tasks = taskRepository.findAllByProjectId(projectId);
+
+        List<TaskResponse.DetailTaskResponse> data = tasks.stream()
+                .map(TaskResponse.DetailTaskResponse::from)
+                .toList();
+
+        return ResponseDto.setSuccess("SUCCESS", data);
+    }
 
     private void validateName(String name) {
         if (!StringUtils.hasText(name)) {

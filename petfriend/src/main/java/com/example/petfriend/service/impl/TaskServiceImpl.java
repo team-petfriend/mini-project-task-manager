@@ -55,10 +55,10 @@ public class TaskServiceImpl implements TaskService {
                 .build();
 
         Task saved = taskRepository.save(task);
+        TaskResponse.DetailTaskResponse data = TaskResponse.DetailTaskResponse.from(saved);
 
         taskHistory(saved, user, Field.STATUS, null, saved.getTaskStatus().name());
-        
-        TaskResponse.DetailTaskResponse data = TaskResponse.DetailTaskResponse.from(saved);
+        taskHistory(saved, user, Field.PRIORITY, null, saved.getTaskPriority().name());
 
         return ResponseDto.setSuccess("SUCCESS", data);
     }
@@ -98,12 +98,17 @@ public class TaskServiceImpl implements TaskService {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new IllegalStateException("해당 ID가 존재하지않습니다."));
 
+        User user = userRepository.findById(userPrincipal.getId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 id의 사용자가 존재하지 않습니다."));
+
         if (task.getTaskStatus().equals(taskStatus)) {
             throw new IllegalArgumentException("이미 동일한 상태입니다. : " + taskStatus);
         }
 
         task.changeTaskStatus(taskStatus);
         TaskResponse.ChangedTaskStatusResponse data = TaskResponse.ChangedTaskStatusResponse.from(task);
+
+        taskHistory(task, user, Field.STATUS, task.getTaskStatus().name(), data.taskStatus().name());
 
         return ResponseDto.setSuccess("SUCCESS", data);
     }
@@ -113,7 +118,8 @@ public class TaskServiceImpl implements TaskService {
     public ResponseDto<TaskResponse.ChangedTaskPriorityResponse> priorityUpdate(UserPrincipal userPrincipal, TaskPriority taskPriority, Long taskId) {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new IllegalStateException("해당 ID가 존재하지않습니다."));
-
+        User user = userRepository.findById(userPrincipal.getId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 id의 사용자가 존재하지 않습니다."));
 
         if (task.getTaskPriority().equals(taskPriority)) {
             throw new IllegalArgumentException("이미 동일한 순위입니다. : " + taskPriority);
@@ -121,6 +127,8 @@ public class TaskServiceImpl implements TaskService {
 
         task.changeTaskPriority(taskPriority);
         TaskResponse.ChangedTaskPriorityResponse data = TaskResponse.ChangedTaskPriorityResponse.from(task);
+
+        taskHistory(task, user, Field.PRIORITY,  task.getTaskPriority().name(), data.taskPriority().name());
 
         return ResponseDto.setSuccess("SUCCESS", data);
     }

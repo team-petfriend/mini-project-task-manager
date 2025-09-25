@@ -43,6 +43,6 @@ public class ApiMappingPattern {
 
         public static final String ROOT = BASE + "/notifications";
         public static final String ID_ONLY = "/{notificationId}";
-        public static final String BY_ID = ROOT + ID_ONLY + "/read";
+        public static final String BY_READ = ID_ONLY + "/read";
     }
 }

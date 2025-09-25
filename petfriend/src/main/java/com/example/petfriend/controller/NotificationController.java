@@ -25,20 +25,9 @@ public class NotificationController {
 
     private final NotificationService notificationService;
 
-    /** 특정 유저의 알림 조회 */
-    @GetMapping
-    public ResponseEntity<ResponseDto<List<NotificationResponseDto>>> getNotifications(
-            @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @RequestParam(required = false) Boolean isRead
-    ) {
-        ResponseDto<List<NotificationResponseDto>> response =
-                notificationService.getNotifications(userPrincipal, isRead);
-
-        return ResponseEntity.ok().body(response);
-    }
-
     /** 알림 생성 */
     @PostMapping
+    // http://localhost:8080/api/v1/notifications
     public ResponseEntity<ResponseDto<NotificationResponseDto>> createNotification(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @Valid @RequestBody NotificationCreateRequestDto dto
@@ -49,8 +38,22 @@ public class NotificationController {
         return ResponseEntity.ok().body(response);
     }
 
+    /** 특정 유저의 알림 조회 */
+    @GetMapping
+    // http://localhost:8080/api/v1/notifications
+    public ResponseEntity<ResponseDto<List<NotificationResponseDto>>> getNotifications(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @RequestParam(required = false) Boolean isRead
+    ) {
+        ResponseDto<List<NotificationResponseDto>> response =
+                notificationService.getNotifications(userPrincipal, isRead);
+
+        return ResponseEntity.ok().body(response);
+    }
+
     /** 알림 읽음 처리 */
-    @PatchMapping(ApiMappingPattern.Notifications.BY_ID)
+    @PatchMapping(ApiMappingPattern.Notifications.BY_READ)
+    // http://localhost:8080/api/v1/notifications/:notificationId/read
     public ResponseEntity<ResponseDto<NotificationResponseDto>> markAsRead(
             @PathVariable("notificationId") @Positive(message = "알림 id는 1 이상의 정수여야 합니다.") Long notificationId,
             @Valid @RequestBody NotificationReadUpdateRequestDto dto

@@ -171,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `task_history`(
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci
   COMMENT = 'Task History(logs)';
-
+drop table task_history;
 SELECT * FROM `task_history`;
 
 
@@ -255,56 +255,6 @@ SELECT * FROM `notifications`;
 
 
 
-# task_history 트리거
--- 초안
-
--- 최초 상태 지정 로그
-DELIMITER //
-CREATE TRIGGER trg_after_task_staus_create
-AFTER INSERT ON tasks
-FOR EACH ROW
-BEGIN
-	INSERT INTO task_history(task_id, actor_id, field, new_value)
-	VALUES (NEW.id, NEW.id, NEW.field, CONCAT('상태가 지정되었습니다. 현 상태 :', NEW.task_status));
-END //
-DELIMITER ;
-
--- 상태 변경 로그 트리거
-DELIMITER //
-CREATE TRIGGER trg_after_task_status_update
-AFTER UPDATE ON tasks
-FOR EACH ROW
-BEGIN
-	IF NEW.field <> OLD.field THEN
-		INSERT INTO task_history(task_id, actor_id, field, old_value, new_value)
-        VALUES(NEW.id, NEW.id, NEW.field, OLD.task_status, CONCAT('Task의 상태가', OLD.task_status,'->',NEW.task_status, '로 변경되었습니다.'));
-	END IF;
-END //
-DELIMITER ;
-
--- 중요도 최초 지정 로그
-DELIMITER //
-CREATE TRIGGER trg_after_task_priority_create
-AFTER INSERT ON tasks
-FOR EACH ROW
-BEGIN
-	INSERT INTO task_history(task_id, actor_id ,field, new_value)
-    VALUES (NEW.id, NEW.id, NEW.field, CONCAT(NEW.id ,'의 중요도가 지정되었습니다. ->', NEW.priority));
-END //
-DELIMITER ;
-
--- 중요도 변경 로그 트리거
-DELIMITER //
-CREATE TRIGGER trg_after_task_priority_update
-AFTER UPDATE ON tasks
-FOR EACH ROW
-BEGIN
-	IF NEW.field <> OLD.field THEN
-		INSERT INTO task_history(task_id, actor_id, field, old_value, new_value)
-        VALUES(NEW.id, NEW.id, NEW.field, OLD.priority, CONCAT('Task의 상태가', OLD.priority,'->',NEW.priority, '로 변경되었습니다.'));
-	END IF;
-END //
-DELIMITER ;
 
 SHOW TABLES;
 SHOW CREATE TABLE comments;

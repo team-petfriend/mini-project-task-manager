@@ -56,6 +56,9 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserRole> userRoles = new HashSet<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<TaskHistory> taskHistories = new HashSet<>();
+
     @Builder
     private User(String loginId, String password, String email, String nickname, Gender gender) {
         this.loginId = loginId;

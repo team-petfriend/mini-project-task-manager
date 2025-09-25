@@ -1,5 +1,6 @@
 package com.example.petfriend.service.impl;
 
+import com.example.petfriend.common.enums.Field;
 import com.example.petfriend.common.enums.TaskPriority;
 import com.example.petfriend.common.enums.TaskStatus;
 import com.example.petfriend.dto.ResponseDto;
@@ -7,13 +8,17 @@ import com.example.petfriend.dto.task.request.TaskRequest;
 import com.example.petfriend.dto.task.response.TaskResponse;
 import com.example.petfriend.entity.Project;
 import com.example.petfriend.entity.Task;
+import com.example.petfriend.entity.TaskHistory;
+import com.example.petfriend.entity.User;
 import com.example.petfriend.repository.ProjectRepository;
+import com.example.petfriend.repository.TaskHistoryRepository;
 import com.example.petfriend.repository.TaskRepository;
 import com.example.petfriend.repository.UserRepository;
 import com.example.petfriend.security.UserPrincipal;
 import com.example.petfriend.security.util.AuthorizationChecker;
 import com.example.petfriend.service.TaskService;;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,7 +31,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final ProjectRepository projectRepository;
-
+    private final TaskHistoryRepository taskHistoryRepository;
+    private final UserRepository userRepository;
 // ==================== CRUD ========================================
 
     @Override
@@ -37,6 +43,8 @@ public class TaskServiceImpl implements TaskService {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new IllegalStateException("해당 id가 존재하지않습니다."));
 
+        User user = userRepository.findById(userPrincipal.getId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 id의 사용자가 존재하지 않습니다."));
 
         Task task = Task.builder()
                 .project(project)
@@ -48,6 +56,8 @@ public class TaskServiceImpl implements TaskService {
 
         Task saved = taskRepository.save(task);
 
+        taskHistory(saved, user, Field.STATUS, null, saved.getTaskStatus().name());
+        
         TaskResponse.DetailTaskResponse data = TaskResponse.DetailTaskResponse.from(saved);
 
         return ResponseDto.setSuccess("SUCCESS", data);
@@ -115,7 +125,16 @@ public class TaskServiceImpl implements TaskService {
         return ResponseDto.setSuccess("SUCCESS", data);
     }
 
-
+    private void taskHistory(Task task, User user, Field field, String old_value, String new_value) {
+        TaskHistory taskHistory = TaskHistory.builder()
+                .task(task)
+                .user(user)
+                .field(field)
+                .old_value(old_value)
+                .new_value(new_value)
+                .build();
+        taskHistoryRepository.save(taskHistory);
+    }
 
 
 }

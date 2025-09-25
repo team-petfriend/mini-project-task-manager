@@ -2,46 +2,80 @@ package com.example.petfriend.dto.task.response;
 
 import com.example.petfriend.common.enums.TaskPriority;
 import com.example.petfriend.common.enums.TaskStatus;
+import com.example.petfriend.entity.Tag;
 import com.example.petfriend.entity.Task;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 public class TaskResponse {
     public record DetailTaskResponse(
+            Long id,
             String title,
             String description,
             TaskStatus taskStatus,
             TaskPriority taskPriority,
             LocalDateTime created_at,
-            LocalDateTime updated_at
+            LocalDateTime updated_at,
+            LocalDate dueDate
     ) {
         public static DetailTaskResponse from(Task task) {
             return new DetailTaskResponse(
+                    task.getId(),
                     task.getTitle(),
                     task.getDescription(),
                     task.getTaskStatus(),
                     task.getTaskPriority(),
                     task.getCreatedAt(),
-                    task.getUpdatedAt()
+                    task.getUpdatedAt(),
+                    task.getDueDate()
             );
         }
 
-        public DetailTaskResponse summarize(int maxLen) {
-            String summarized = description == null ? null :
-                    (description.length() <= maxLen ? description : description.substring(0, maxLen) + "....");
-            return new DetailTaskResponse(title, summarized, taskStatus, taskPriority, created_at, updated_at);
-        }
     }
 
-    public record TaskListResponse(
-            Long id,
-            String title
+    public record UpdateTaskResponse(
+            String title,
+            String description,
+            TaskStatus taskStatus,
+            TaskPriority taskPriority,
+            LocalDateTime updated_at,
+            LocalDate dueDate
     ) {
-        public static TaskListResponse from(Task task) {
-            return new TaskListResponse(
-                    task.getId(),
-                    task.getTitle()
+        public static UpdateTaskResponse from(Task task) {
+            return new UpdateTaskResponse(
+                    task.getTitle(),
+                    task.getDescription(),
+                    task.getTaskStatus(),
+                    task.getTaskPriority(),
+                    task.getUpdatedAt(),
+                    task.getDueDate()
             );
         }
     }
+
+    public record ChangedTaskStatusResponse(
+            TaskStatus taskStatus,
+            LocalDate dueDate
+    ){
+        public static ChangedTaskStatusResponse from(Task task) {
+            return new ChangedTaskStatusResponse(
+                    task.getTaskStatus(),
+                    task.getDueDate()
+            );
+        }
+    }
+
+    public record ChangedTaskPriorityResponse(
+            TaskPriority taskPriority
+    ){
+        public static ChangedTaskPriorityResponse from(Task task) {
+            return new ChangedTaskPriorityResponse(
+                    task.getTaskPriority()
+            );
+        }
+    }
+
 }

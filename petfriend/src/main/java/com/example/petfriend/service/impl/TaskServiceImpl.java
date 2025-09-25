@@ -14,25 +14,18 @@ import com.example.petfriend.security.UserPrincipal;
 import com.example.petfriend.security.util.AuthorizationChecker;
 import com.example.petfriend.service.TaskService;;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class TaskServiceImpl implements TaskService {
-    private final EntityManager em;
     private final TaskRepository taskRepository;
     private final ProjectRepository projectRepository;
-    private final UserRepository userRepository;
-    private final AuthorizationChecker authorizationChecker;
 
 // ==================== CRUD ========================================
 
@@ -61,36 +54,68 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public ResponseDto<TaskResponse.DetailTaskResponse> update(Long taskId, TaskRequest.@Valid TaskUpdateRequest req) {
-        return null;
+    @Transactional
+    public ResponseDto<TaskResponse.UpdateTaskResponse> update(UserPrincipal userPrincipal, Long taskId, TaskRequest.@Valid TaskUpdateRequest req) {
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new IllegalStateException("해당 ID가 존재하지않습니다."));
+
+        task.update(
+                req.title(),
+                req.description()
+        );
+
+        taskRepository.flush();
+
+        TaskResponse.UpdateTaskResponse data = TaskResponse.UpdateTaskResponse.from(task);
+
+        return ResponseDto.setSuccess("SUCCESS", data);
     }
 
     @Override
+    @Transactional
     public ResponseDto<Void> delete(UserPrincipal userPrincipal, Long taskId) {
-        return null;
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new IllegalStateException("해당 ID가 존재하지않습니다."));
+        taskRepository.delete(task);
+        return ResponseDto.setSuccess("SUCCESS", null);
     }
 
-// ==================== CRUD ========================================
-
-    @Override
-    public ResponseDto<List<TaskResponse.TaskListResponse>> getAll(Long projectId) {
-        return null;
-    }
+// ==================== 상태 변경 Patch ========================================
 
     @Override
-    public ResponseDto<TaskResponse.DetailTaskResponse> getById(Long projectId, Long taskId) {
-        return null;
+    @Transactional
+    public ResponseDto<TaskResponse.ChangedTaskStatusResponse> statusUpdate(UserPrincipal userPrincipal, TaskStatus taskStatus, Long taskId) {
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new IllegalStateException("해당 ID가 존재하지않습니다."));
+
+        if (task.getTaskStatus().equals(taskStatus)) {
+            throw new IllegalArgumentException("이미 동일한 상태입니다. : " + taskStatus);
+        }
+
+        task.changeTaskStatus(taskStatus);
+        TaskResponse.ChangedTaskStatusResponse data = TaskResponse.ChangedTaskStatusResponse.from(task);
+
+        return ResponseDto.setSuccess("SUCCESS", data);
     }
 
     @Override
-    public ResponseDto<TaskResponse.DetailTaskResponse> statusUpdate(UserPrincipal userPrincipal, Long taskId) {
-        return null;
+    @Transactional
+    public ResponseDto<TaskResponse.ChangedTaskPriorityResponse> priorityUpdate(UserPrincipal userPrincipal, TaskPriority taskPriority, Long taskId) {
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new IllegalStateException("해당 ID가 존재하지않습니다."));
+
+
+        if (task.getTaskPriority().equals(taskPriority)) {
+            throw new IllegalArgumentException("이미 동일한 순위입니다. : " + taskPriority);
+        }
+
+        task.changeTaskPriority(taskPriority);
+        TaskResponse.ChangedTaskPriorityResponse data = TaskResponse.ChangedTaskPriorityResponse.from(task);
+
+        return ResponseDto.setSuccess("SUCCESS", data);
     }
 
-    @Override
-    public ResponseDto<TaskResponse.DetailTaskResponse> priorityUpdate(UserPrincipal userPrincipal, Long taskId) {
-        return null;
-    }
+
 
 
 }

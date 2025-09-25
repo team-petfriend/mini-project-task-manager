@@ -18,11 +18,7 @@ public class TaskRequest {
     public record TaskUpdateRequest(
             @NotBlank(message = "title은 필수 값 입니다.")
             String title,
-            String description,
-            @NotNull(message = "taskStatus은 필수 값 입니다")
-            TaskStatus taskStatus,
-            @NotNull(message = "taskPriority은 필수 값 입니다.")
-            TaskPriority taskPriority
+            String description
     ) {
     }
 }

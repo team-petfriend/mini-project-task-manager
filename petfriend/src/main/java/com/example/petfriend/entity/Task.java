@@ -90,11 +90,16 @@ public class Task extends BaseTimeEntity {
         this.description = description;
     }
 
-    public void setTaskStatus(TaskStatus taskStatus) {
+    public void changeTaskStatus(TaskStatus taskStatus) {
         this.taskStatus = taskStatus;
+        if (taskStatus == TaskStatus.DONE) {
+            this.dueDate = LocalDate.now();
+        }
     }
 
-    public void setTaskPriority(TaskPriority taskPriority) {
+    public void changeTaskPriority(TaskPriority taskPriority) {
         this.taskPriority = taskPriority;
     }
+
+
 }

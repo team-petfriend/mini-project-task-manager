@@ -2,13 +2,11 @@ package com.example.petfriend.dto.task.response;
 
 import com.example.petfriend.common.enums.TaskPriority;
 import com.example.petfriend.common.enums.TaskStatus;
-import com.example.petfriend.entity.Tag;
 import com.example.petfriend.entity.Task;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
+
 
 public class TaskResponse {
     public record DetailTaskResponse(

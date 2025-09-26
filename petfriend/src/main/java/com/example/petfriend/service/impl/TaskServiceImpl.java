@@ -68,16 +68,21 @@ public class TaskServiceImpl implements TaskService {
     public ResponseDto<TaskResponse.UpdateTaskResponse> update(UserPrincipal userPrincipal, Long taskId, TaskRequest.@Valid TaskUpdateRequest req) {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new IllegalStateException("해당 ID가 존재하지않습니다."));
-
+        User user = userRepository.findById(userPrincipal.getId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 id의 사용자가 존재하지 않습니다."));
+        String old_Title = task.getTitle();
         task.update(
                 req.title(),
                 req.description()
         );
 
+        if(req.title() != null &&!old_Title.equals(req.title())){
+            taskHistory(task, user, Field.TITLE, old_Title, req.title());
+        }
+
         taskRepository.flush();
 
         TaskResponse.UpdateTaskResponse data = TaskResponse.UpdateTaskResponse.from(task);
-
         return ResponseDto.setSuccess("SUCCESS", data);
     }
 
@@ -105,10 +110,11 @@ public class TaskServiceImpl implements TaskService {
             throw new IllegalArgumentException("이미 동일한 상태입니다. : " + taskStatus);
         }
 
+        String old_Status = task.getTaskStatus().name();
         task.changeTaskStatus(taskStatus);
         TaskResponse.ChangedTaskStatusResponse data = TaskResponse.ChangedTaskStatusResponse.from(task);
 
-        taskHistory(task, user, Field.STATUS, task.getTaskStatus().name(), data.taskStatus().name());
+        taskHistory(task, user, Field.STATUS, old_Status, task.getTaskStatus().name());
 
         return ResponseDto.setSuccess("SUCCESS", data);
     }
@@ -125,10 +131,12 @@ public class TaskServiceImpl implements TaskService {
             throw new IllegalArgumentException("이미 동일한 순위입니다. : " + taskPriority);
         }
 
+        String old_Priority = task.getTaskPriority().name();
+
         task.changeTaskPriority(taskPriority);
         TaskResponse.ChangedTaskPriorityResponse data = TaskResponse.ChangedTaskPriorityResponse.from(task);
 
-        taskHistory(task, user, Field.PRIORITY,  task.getTaskPriority().name(), data.taskPriority().name());
+        taskHistory(task, user, Field.PRIORITY, old_Priority, task.getTaskPriority().name());
 
         return ResponseDto.setSuccess("SUCCESS", data);
     }

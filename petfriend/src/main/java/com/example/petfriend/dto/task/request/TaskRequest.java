@@ -1,7 +1,6 @@
 package com.example.petfriend.dto.task.request;
 
-import com.example.petfriend.common.enums.TaskPriority;
-import com.example.petfriend.common.enums.TaskStatus;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 

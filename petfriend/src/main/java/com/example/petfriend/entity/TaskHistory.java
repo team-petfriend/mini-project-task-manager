@@ -1,6 +1,7 @@
 package com.example.petfriend.entity;
 
 import com.example.petfriend.common.enums.Field;
+import com.example.petfriend.dto.task.response.TaskResponse;
 import com.example.petfriend.entity.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -46,7 +47,7 @@ public class TaskHistory extends BaseTimeEntity {
 
 
     @Builder
-    public TaskHistory(Task task, User user, String old_value, String new_value, Field field){
+    public TaskHistory(Task task, User user,Field field, String old_value, String new_value){
         this.task = task;
         this.user= user;
         this.field = field;

@@ -1,19 +1,14 @@
 package com.example.petfriend.entity;
 
-import com.example.petfriend.common.enums.TagType;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Entity
 @Table(name = "tags",
         uniqueConstraints = {
-            @UniqueConstraint(name = "uk_tags_name", columnNames = "name" )
+            @UniqueConstraint(name = "uk_tags_name", columnNames = {"name", "project_id"} )
         }
       )
 @Getter
@@ -23,9 +18,8 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "name", nullable = true, length = 50)
-    private TagType name;
+    private String name;
 
     @Column(name = "color", nullable = false, length = 20)
     private String color;
@@ -38,18 +32,18 @@ public class Tag {
 
 
     @Builder
-    public Tag(TagType name, String color, Project project) {
+    public Tag(String name, String color, Project project) {
         this.name = name;
         this.color = color;
         this.project = project;
     }
 
-    public void addTags(TagType name, String color) {
+    public void addTags(String name, String color) {
         this.name = name;
         this.color = color;
     }
 
-    public void updateTags(TagType name, String color) {
+    public void updateTags(String name, String color) {
         this.name = name;
         this.color = color;
     }

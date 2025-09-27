@@ -25,6 +25,13 @@ SELECT * FROM `task_tag`;
 SELECT * FROM `comments`;
 SELECT * FROM `notifications`;
 
+
+SELECT tg.name, tg.color, ta.title, ta.description, ta.task_status, ta.priority, ta.due_date, tg.created_at, ta.updated_at
+FROM task_tag tt
+JOIN tags tg ON tt.tag_id = tg.id
+JOIN tasks ta ON tt.task_id = ta.id
+WHERE tg.project_id = 1;
+
 -- 사용자 테이블
 CREATE TABLE IF NOT EXISTS `users` (
     id 					BIGINT NOT NULL AUTO_INCREMENT  PRIMARY KEY,
@@ -102,10 +109,10 @@ SELECT * FROM `projects`;
 CREATE TABLE IF NOT EXISTS `tags` (
 	id          	BIGINT PRIMARY KEY AUTO_INCREMENT,
     project_id		BIGINT NOT NULL,
-	name        	VARCHAR(50) DEFAULT NULL,
+	name        	VARCHAR(50) NOT NULL,
 	color        	VARCHAR(20) NOT NULL,
-   CONSTRAINT chk_tags_name CHECK (name IN ('BACKEND','FRONTEND','DEVOPS', 'DB')),
-    CONSTRAINT fk_tag_project FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE
+    CONSTRAINT fk_tag_project FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
+	 CONSTRAINT uk_tags_name UNIQUE (name, project_id)
 ) ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci
@@ -252,6 +259,12 @@ SELECT * FROM `task_tag`;
 SELECT * FROM `comments`;
 SELECT * FROM `notifications`;
 
+SELECT * FROM `tasks` where project_id = 1;
+SELECT * FROM `tags` where project_id = 2;
+
+SELECT * FROM `task_tag`;
+
+
 
 
 
@@ -289,4 +302,5 @@ INSERT INTO user_roles (user_id, role_name) VALUES
 INSERT INTO `projects` (owner_id, name) VALUES
 	(3, 'TEST123'),
     (6, 'TEST456')
+    
 

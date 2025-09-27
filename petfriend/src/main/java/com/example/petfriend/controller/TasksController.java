@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/projects")
+@RequestMapping("/api/v1/project")
 @RequiredArgsConstructor
 public class TasksController {
     private final TaskService taskService;
@@ -31,7 +31,7 @@ public class TasksController {
     // ======================= CRUD ==================================
     
     // 생성
-    @PostMapping("/{projectId}/tasks")
+    @PostMapping("/{projectId}/task")
     //http://localhost:8080/api/v1/projects/:projectId/tasks
     public ResponseEntity<ResponseDto<TaskResponse.DetailTaskResponse>> create(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -44,7 +44,7 @@ public class TasksController {
 
 
     // 수정
-    @PutMapping("/tasks/{taskId}")
+    @PutMapping("/task/{taskId}")
     public ResponseEntity<ResponseDto<TaskResponse.UpdateTaskResponse>> update(
             @PathVariable Long taskId,
             @AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -56,7 +56,7 @@ public class TasksController {
 
 
     // 삭제
-    @DeleteMapping(ApiMappingPattern.Tasks.ID_ONLY)
+    @DeleteMapping("/task/{taskId}")
     public ResponseEntity<ResponseDto<Void>> delete(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable Long taskId
@@ -70,7 +70,7 @@ public class TasksController {
     // ======================= 상태, 담당자 변경 ==================================
     
     
-    @PatchMapping("/tasks/{taskId}/status-update")
+    @PatchMapping("/task/{taskId}/status-update")
     public ResponseEntity<ResponseDto<TaskResponse.ChangedTaskStatusResponse>> statusUpdate(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestParam TaskStatus taskStatus,
@@ -80,7 +80,7 @@ public class TasksController {
         return ResponseEntity.ok().body(response);
     }
 
-    @PatchMapping("/tasks/{taskId}/priority-update")
+    @PatchMapping("/task/{taskId}/priority-update")
     public ResponseEntity<ResponseDto<TaskResponse.ChangedTaskPriorityResponse>> priorityUpdate(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestParam TaskPriority taskPriority,
@@ -91,7 +91,7 @@ public class TasksController {
 
     }
 
-    @GetMapping("{projectId}")
+    @GetMapping("/{projectId}")
     public ResponseEntity<ResponseDto<List<TaskResponse.DetailTaskResponse>>> getTasks(
             @PathVariable Long projectId
     ) {

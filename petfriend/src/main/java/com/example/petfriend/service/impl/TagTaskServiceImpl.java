@@ -26,17 +26,20 @@ public class TagTaskServiceImpl implements TagTaskService {
     @Transactional
     public ResponseDto<TagTaskResponse.DetailTag> create(Long tagId, Long taskId) {
 
+        boolean exists = tagTaskRepository.existsByTaskIdAndTagId(tagId, taskId);
+        if (exists) {
+            throw new IllegalArgumentException("이미 연결된 태그입니다.");
+        }
+
         Tag tag = tagRepository.findById(tagId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 태그의 ID가 존재하지 않습니다."));
 
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 task의 ID가 존재하지않습니다."));
 
-        if (tag.getName() == tag.getName()){
-
-        };
-
-
+        if (!tag.getProject().getId().equals(task.getProject().getId())) {
+            throw new IllegalArgumentException("같은 project안에 존재하는 tag와 task만 연결이 가능합니다.");
+        }
 
         TaskTag taskTag = TaskTag.builder()
                 .tag(tag)

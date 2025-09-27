@@ -75,12 +75,17 @@ public class GlobalExceptionHandler { // 공통응답 생성
         return fail(ErrorCode.AUTH_INVALID, null, null);
     }
     // == 403 : FORBIDDEN ERROR - 접근 거부==
-    @ExceptionHandler({AccessDeniedException.class, AuthorizationDeniedException.class})
+    @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ResponseDto<Object>> handleAccessDenied(AccessDeniedException e){
         log.warn("AUTH_FORBIDDEN: {}", e.getMessage());
         return fail(ErrorCode.AUTH_FORBIDDEN, null, null);
     }
 
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<ResponseDto<Object>> handleAccessDenied(AuthorizationDeniedException e){
+        log.warn("AUTH_FORBIDDEN: {}", e.getMessage());
+        return fail(ErrorCode.AUTH_FORBIDDEN, null, null);
+    }
 
     // == 404 : NOT_FOUND - 엔티티 조회 실패(프로젝트가 존재하지 않음) ==
     // 조건문 추가해서 아래 Exception들 추가해야함

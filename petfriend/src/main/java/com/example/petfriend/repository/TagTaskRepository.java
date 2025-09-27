@@ -4,4 +4,5 @@ import com.example.petfriend.entity.TaskTag;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TagTaskRepository extends JpaRepository<TaskTag, Long> {
+    boolean existsByTaskIdAndTagId(Long tagId, Long taskId);
 }

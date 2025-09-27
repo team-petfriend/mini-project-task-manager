@@ -80,4 +80,13 @@ public class ProjectController {
         ResponseDto<TagResponse.DetailTag> response = tagService.createTag(userPrincipal, projectId,  req);
         return ResponseEntity.ok().body(response);
     }
+
+
+    @GetMapping("/{projectId}/tag")
+    public ResponseEntity<ResponseDto<List<TagResponse.DetailTag>>> getByIdTag (
+            @PathVariable("projectId") Long projectId
+    ){
+        ResponseDto<List<TagResponse.DetailTag>> response = tagService.getByIdTag(projectId);
+        return ResponseEntity.ok().body(response);
+    }
 }

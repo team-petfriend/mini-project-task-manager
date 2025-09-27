@@ -16,7 +16,7 @@ public class TagTaskController {
 
     private final TagTaskService tagTaskService;
 
-    @PostMapping("{tagId}/{taskId}")
+    @PostMapping("/tag/{tagId}/task/{taskId}")
     public ResponseEntity<ResponseDto<TagTaskResponse.DetailTag>> createTagTask(
             @PathVariable Long tagId,
             @PathVariable Long taskId

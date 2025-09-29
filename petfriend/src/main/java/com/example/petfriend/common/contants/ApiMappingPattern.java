@@ -28,6 +28,7 @@ public class ApiMappingPattern {
         public static final String ROOT = BASE + "/project";
         public static final String SEARCH = "/search";
         public static final String ONLY_ID ="/{projectId}";
+        public static final String TAG = ONLY_ID + "/tag";
     }
 
     public static final class Comments {

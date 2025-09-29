@@ -1,5 +1,6 @@
 package com.example.petfriend.dto.tagTask.response;
 
+import com.example.petfriend.dto.tag.response.TagResponse;
 import com.example.petfriend.dto.task.response.TaskResponse;
 import com.example.petfriend.entity.TaskTag;
 
@@ -27,5 +28,32 @@ public class TagTaskResponse {
                     taskList
             );
         }
+    }
+
+
+    public record TagToTaskProject(
+            Long projectId,
+            List<TagResponse.DetailTag> tags,
+            List<TaskResponse.DetailTaskResponse> tasks
+    ) {
+
+        public static TagTaskResponse.TagToTaskProject from(List<TaskTag> taskTag) {
+            List<TagResponse.DetailTag> tagList = taskTag.stream()
+                    .map(tt -> TagResponse.DetailTag.from(tt.getTag()))
+                    .distinct()
+                    .toList();
+
+            List<TaskResponse.DetailTaskResponse> taskList = taskTag.stream()
+                    .map(tt -> TaskResponse.DetailTaskResponse.from(tt.getTask()))
+                    .distinct()
+                    .toList();
+
+            return new TagToTaskProject(
+                    taskTag.get(0).getTag().getProject().getId(),
+                    tagList,
+                    taskList
+            );
+        }
+
     }
 }

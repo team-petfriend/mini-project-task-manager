@@ -6,9 +6,11 @@ import com.example.petfriend.dto.project.request.ProjectRequest;
 import com.example.petfriend.dto.project.response.ProjectResponse;
 import com.example.petfriend.dto.tag.request.TagRequest;
 import com.example.petfriend.dto.tag.response.TagResponse;
+import com.example.petfriend.dto.tagTask.response.TagTaskResponse;
 import com.example.petfriend.security.UserPrincipal;
 import com.example.petfriend.service.ProjectService;
 import com.example.petfriend.service.TagService;
+import com.example.petfriend.service.TagTaskService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ import java.util.List;
 public class ProjectController {
     private final ProjectService projectService;
     private final TagService tagService;
+    private final TagTaskService tagTaskService;
 
     // 프로젝트 생성
     //http://localhost:8080/api/v1/project
@@ -67,26 +70,5 @@ public class ProjectController {
     ) {
         ResponseDto<ProjectResponse.DetailResponse> response = projectService.update(userPrincipal, projectId, req);
         return ResponseEntity.ok(response);
-    }
-  
-
-    // 프로젝트 안 태그 생성
-    @PostMapping("{projectId}")
-    public ResponseEntity<ResponseDto<TagResponse.DetailTag>> createTag(
-            @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @PathVariable("projectId") Long projectId,
-            @Valid @RequestBody TagRequest.createTag req
-    ) {
-        ResponseDto<TagResponse.DetailTag> response = tagService.createTag(userPrincipal, projectId,  req);
-        return ResponseEntity.ok().body(response);
-    }
-
-
-    @GetMapping("/{projectId}/tag")
-    public ResponseEntity<ResponseDto<List<TagResponse.DetailTag>>> getByIdTag (
-            @PathVariable("projectId") Long projectId
-    ){
-        ResponseDto<List<TagResponse.DetailTag>> response = tagService.getByIdTag(projectId);
-        return ResponseEntity.ok().body(response);
     }
 }

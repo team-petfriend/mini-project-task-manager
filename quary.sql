@@ -25,12 +25,21 @@ SELECT * FROM `task_tag`;
 SELECT * FROM `comments`;
 SELECT * FROM `notifications`;
 
-
-SELECT tg.name, tg.color, ta.title, ta.description, ta.task_status, ta.priority, ta.due_date, tg.created_at, ta.updated_at
+SELECT 
+    tg.project_id,  -- tg.project.id
+    tg.name,
+    tg.color,
+    ta.title,
+    ta.description,
+    ta.task_status,
+    ta.due_date,
+    ta.created_at,
+    ta.updated_at
 FROM task_tag tt
-JOIN tags tg ON tt.tag_id = tg.id
-JOIN tasks ta ON tt.task_id = ta.id
-WHERE tg.project_id = 1;
+INNER JOIN tags tg ON tt.tag_id = tg.id
+INNER JOIN tasks ta ON tt.task_id = ta.id
+WHERE tg.project_id = 3;  
+
 
 -- 사용자 테이블
 CREATE TABLE IF NOT EXISTS `users` (
@@ -181,6 +190,7 @@ CREATE TABLE IF NOT EXISTS `task_history`(
   COMMENT = 'Task History(logs)';
 drop table task_history;
 SELECT * FROM `task_history`;
+
 
 
 

@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/project")
+@RequestMapping("/api/v1/task")
 @RequiredArgsConstructor
 public class TasksController {
     private final TaskService taskService;
@@ -31,8 +31,7 @@ public class TasksController {
     // ======================= CRUD ==================================
     
     // 생성
-    @PostMapping("/{projectId}/task")
-    //http://localhost:8080/api/v1/projects/:projectId/tasks
+    @PostMapping("/{projectId}/create-task")
     public ResponseEntity<ResponseDto<TaskResponse.DetailTaskResponse>> create(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable("projectId") @Positive(message = "projectId는 1 이상의 정수여야 합니다.") Long projectId,
@@ -42,9 +41,8 @@ public class TasksController {
         return ResponseEntity.ok().body(response);
     }
 
-
     // 수정
-    @PutMapping("/task/{taskId}")
+    @PutMapping("/{taskId}/update-task")
     public ResponseEntity<ResponseDto<TaskResponse.UpdateTaskResponse>> update(
             @PathVariable Long taskId,
             @AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -54,9 +52,8 @@ public class TasksController {
         return ResponseEntity.ok().body(response);
     }
 
-
     // 삭제
-    @DeleteMapping("/task/{taskId}")
+    @DeleteMapping("/{taskId}/delete-task")
     public ResponseEntity<ResponseDto<Void>> delete(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable Long taskId
@@ -66,11 +63,8 @@ public class TasksController {
         return ResponseEntity.ok().body(response);
     }
 
-
-    // ======================= 상태, 담당자 변경 ==================================
     
-    
-    @PatchMapping("/task/{taskId}/status-update")
+    @PatchMapping("/{taskId}/status-update")
     public ResponseEntity<ResponseDto<TaskResponse.ChangedTaskStatusResponse>> statusUpdate(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestParam TaskStatus taskStatus,
@@ -80,7 +74,7 @@ public class TasksController {
         return ResponseEntity.ok().body(response);
     }
 
-    @PatchMapping("/task/{taskId}/priority-update")
+    @PatchMapping("/{taskId}/priority-update")
     public ResponseEntity<ResponseDto<TaskResponse.ChangedTaskPriorityResponse>> priorityUpdate(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestParam TaskPriority taskPriority,
@@ -91,7 +85,7 @@ public class TasksController {
 
     }
 
-    @GetMapping("/{projectId}")
+    @GetMapping("/{projectId}/getTasks")
     public ResponseEntity<ResponseDto<List<TaskResponse.DetailTaskResponse>>> getTasks(
             @PathVariable Long projectId
     ) {

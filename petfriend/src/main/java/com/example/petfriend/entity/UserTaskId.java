@@ -12,6 +12,7 @@ import java.io.Serializable;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserTaskId implements Serializable {
+
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
@@ -22,9 +23,4 @@ public class UserTaskId implements Serializable {
         this.userId = userId;
         this.taskId = taskId;
     }
-
-
-
-
-
 }

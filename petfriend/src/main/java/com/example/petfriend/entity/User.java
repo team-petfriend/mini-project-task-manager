@@ -73,7 +73,6 @@ public class User extends BaseTimeEntity {
         this.gender = gender;
     }
 
-
     public void grantRole(Role role) {
         boolean exists = userRoles.stream().anyMatch(ur -> ur.getRole().equals(role));
 

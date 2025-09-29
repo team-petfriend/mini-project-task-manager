@@ -12,12 +12,8 @@ import java.util.List;
 
 public interface ProjectService {
     ResponseDto<ProjectResponse.DetailResponse> create(UserPrincipal userPrincipal, ProjectRequest.@Valid Create req);
-
     ResponseDto<List<ProjectResponse.DetailResponse>> getAllProject();
-
     ResponseDto<List<ProjectResponse.DetailResponse>> search(@NotBlank(message = "검색 키워드는 비워질 수 없습니다.") String projectName);
-
     ResponseDto<ProjectResponse.DetailResponse> update(UserPrincipal userPrincipal, Long projectId, ProjectRequest.@Valid Update req);
-
     ResponseDto<List<TaskResponse.DetailTaskResponse>> getProjectByIdTasks(Long projectId);
 }

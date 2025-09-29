@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TaskHistory extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,8 +44,6 @@ public class TaskHistory extends BaseTimeEntity {
     @Size(max = 255)
     @Column(name = "new_value", length = 255)
     private String new_value;
-
-
 
     @Builder
     public TaskHistory(Task task, User user,Field field, String old_value, String new_value){

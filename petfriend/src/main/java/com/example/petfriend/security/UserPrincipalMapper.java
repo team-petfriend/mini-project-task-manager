@@ -29,7 +29,6 @@ public class UserPrincipalMapper {
                         })
                         .toList();
 
-        /** 새로운 생성자(builder)를 만들어준다. */
         return UserPrincipal.builder()
                 .id(user.getId())
                 .username(user.getLoginId())

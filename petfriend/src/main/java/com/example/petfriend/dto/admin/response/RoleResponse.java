@@ -7,7 +7,6 @@ import java.util.Set;
 
 public final class RoleResponse {
 
-
     public record AddRoleResponse(
             Long userId,
             String loginId,

@@ -19,11 +19,9 @@ public class UserRoleId implements Serializable {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-
     @Enumerated(EnumType.STRING)
     @Column(name = "role_name", length = 30, nullable = false)
     private RoleType roleName;
-
 
     public UserRoleId(Long userId, RoleType roleName) {
         this.userId = userId;

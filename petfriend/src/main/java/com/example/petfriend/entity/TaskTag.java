@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TaskTag {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -22,7 +23,6 @@ public class TaskTag {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "tag_id", nullable = false, foreignKey =  @ForeignKey(name = "fk_task_tag_tag"))
     private Tag tag;
-
 
     @Builder
     public TaskTag(@NotNull Task task, Tag tag) {

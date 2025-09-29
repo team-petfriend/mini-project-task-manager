@@ -13,9 +13,6 @@ import java.io.Serializable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TaskAssigneesId implements Serializable {
 
-    /** TaskAssigneesId를 만드는 이유
-     *  Id의 값을 명시하지 않았기 때문에 TaskAssigneesId라는 클래스를 이용해서 Id의 값을 생성해준다.
-     * */
     @Column(name = "task_id")
     private Long taskId;
 

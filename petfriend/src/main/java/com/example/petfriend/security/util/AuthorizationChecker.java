@@ -13,7 +13,6 @@ public class AuthorizationChecker {
     private final CommentRepository commentRepository;
     private final NotificationRepository notificationRepository;
 
-    /** Comment 작성자 본인인지 확인 */
     public boolean isCommentAuthor(Long commentId, Authentication authentication) {
         if (commentId == null || authentication == null) return false;
 
@@ -24,7 +23,6 @@ public class AuthorizationChecker {
                 .orElse(false);
     }
 
-    /** 알림 소유자 확인 */
     public boolean isNotificationOwner(Long notificationId, Authentication authentication) {
         if (notificationId == null || authentication == null) return false;
 
@@ -35,7 +33,6 @@ public class AuthorizationChecker {
                 .orElse(false);
     }
 
-    // == 프로젝트의 Principal 구조에 맞게 사용자 ID 추출 == //
     private Long extractUserId (Authentication authentication) {
         if (authentication == null) return null;
         Object principal = authentication.getPrincipal();

@@ -20,6 +20,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Project extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,6 +45,7 @@ public class Project extends BaseTimeEntity {
         this.name = name;
         this.user = user;
     }
+
     public static Project create(String name, User user){
         return new Project(name, user);
     }

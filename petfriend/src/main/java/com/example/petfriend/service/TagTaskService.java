@@ -7,6 +7,5 @@ import java.util.List;
 
 public interface TagTaskService {
     ResponseDto<TagTaskResponse.DetailTag> create(Long tagId, Long taskId);
-
     ResponseDto<List<TagTaskResponse.TagToTaskProject>> getByIdProjectTagTask(Long projectId);
 }

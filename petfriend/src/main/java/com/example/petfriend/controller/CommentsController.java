@@ -35,6 +35,19 @@ public class CommentsController {
         return ResponseEntity.ok().body(response);
     }
 
+    // 최신댓글 순 정렬 (true = 최신순, false = 오래된 댓글 순)
+    @GetMapping(ApiMappingPattern.Comments.SORT)
+    // http://localhost:8080/api/v1/tasks/:taskId/comments/sort?latestFirst=true
+    public ResponseEntity<ResponseDto<List<CommentResponseDto>>> getComments(
+            @PathVariable("taskId") @Positive Long taskId,
+            @RequestParam(required = false) Long commenterId,
+            @RequestParam(defaultValue = "true") boolean latestFirst
+    ) {
+        ResponseDto<List<CommentResponseDto>> response
+                = commentService.getComments(taskId, commenterId, latestFirst);
+        return ResponseEntity.ok().body(response);
+    }
+
     @PutMapping(ApiMappingPattern.Comments.ID_ONLY)
     // http://localhost:8080/api/v1/tasks/:taskId/comments/{commentId}
     public ResponseEntity<ResponseDto<CommentResponseDto>> updateComment(
@@ -53,19 +66,6 @@ public class CommentsController {
             @PathVariable("commentId") @Positive(message = "commentId는 1이상의 정수여야 합니다.") Long commentId
     ) {
         ResponseDto<CommentResponseDto> response = commentService.deleteComment(taskId, commentId);
-        return ResponseEntity.ok().body(response);
-    }
-
-    // 최신댓글 순 정렬 (true = 최신순, false = 오래된 댓글 순)
-    @GetMapping(ApiMappingPattern.Comments.SORT)
-    // http://localhost:8080/api/v1/tasks/:taskId/comments/sort?latestFirst=true
-    public ResponseEntity<ResponseDto<List<CommentResponseDto>>> getComments(
-            @PathVariable("taskId") @Positive Long taskId,
-            @RequestParam(required = false) Long commenterId,
-            @RequestParam(defaultValue = "true") boolean latestFirst
-    ) {
-        ResponseDto<List<CommentResponseDto>> response
-                = commentService.getComments(taskId, commenterId, latestFirst);
         return ResponseEntity.ok().body(response);
     }
 }

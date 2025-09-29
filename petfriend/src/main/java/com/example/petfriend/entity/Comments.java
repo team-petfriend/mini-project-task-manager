@@ -33,7 +33,6 @@ public class Comments extends BaseTimeEntity {
             , foreignKey = @ForeignKey(name = "fk_comments_user"))
     private User commenter;
 
-    @Builder
     private Comments(String content, User commenter) {
         this.content = content;
         this.commenter = commenter;

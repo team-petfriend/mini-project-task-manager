@@ -70,6 +70,7 @@ public class TagServiceImpl implements TagService {
     /** 수정 권한 : ADMIN, MANAGER, 태그를 생성한 사용자*/
     @Override
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @Transactional
     public ResponseDto<TagResponse.DetailTag> updateTag(UserPrincipal userPrincipal, TagRequest.@Valid updateTag req, Long tagId) {
 
         if (tagId == null) throw new IllegalArgumentException("값을 입력해주세요");

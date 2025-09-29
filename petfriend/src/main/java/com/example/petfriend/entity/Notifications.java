@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 @Builder
 @EntityListeners(AuditingEntityListener.class)
 public class Notifications {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

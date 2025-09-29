@@ -31,13 +31,10 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    // @Bean 메서드로 BCryptPasswordEncoder 객체를 리턴하면
-    //      , 스프링 컨테이너에 등록될 때 PasswordEncoder 타입으로 인식 (주입 시 해당 타입으로 정의 권장)
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
     private final RoleRepository roleRepository;
 
-    /** 회원가입 */
     @Override
     @Transactional
     public void signUp(SignUpRequest req) {

@@ -1,10 +1,8 @@
 package com.example.petfriend.controller;
 
-import com.example.petfriend.common.contants.ApiMappingPattern;
 import com.example.petfriend.dto.ResponseDto;
 import com.example.petfriend.dto.admin.request.RoleRequest;
 import com.example.petfriend.dto.admin.response.RoleResponse;
-import com.example.petfriend.entity.User;
 import com.example.petfriend.security.UserPrincipal;
 import com.example.petfriend.service.AdminService;
 import jakarta.validation.Valid;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
     private final AdminService adminService;
-
 
     @PostMapping("/roles/add")
     public ResponseEntity<ResponseDto<RoleResponse.AddRoleResponse>> addRole(

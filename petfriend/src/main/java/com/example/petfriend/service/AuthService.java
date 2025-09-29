@@ -8,6 +8,5 @@ import jakarta.validation.Valid;
 
 public interface AuthService {
     void signUp(@Valid SignUpRequest req);
-
     ResponseDto<SignInResponse> signIn(@Valid SignInRequest req);
 }

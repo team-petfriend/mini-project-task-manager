@@ -11,16 +11,10 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
-    /** UserRepository 사용자 정보가 담겨있기 때문에 가져온다 */
     private final UserRepository userRepository;
 
-    /** UserPrincipalMapper => Dto를 변환하기 위해 사용한다. */
     private final UserPrincipalMapper principalMapper;
 
-
-    /** loadUserByUsername
-     * => DaoAuthenticationProvider가 username을 찾을 때 호출된다.
-     * */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         String loginId = (username == null) ? "" : username.trim();

@@ -99,7 +99,6 @@ public class TagTaskServiceImpl implements TagTaskService {
                 })
                 .toList();
 
-
         return ResponseDto.setSuccess("SUCCESS", detailTags);
     }
 }

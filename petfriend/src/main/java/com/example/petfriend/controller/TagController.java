@@ -23,6 +23,16 @@ public class TagController {
 
     private final TagService tagService;
 
+    @PostMapping("/{projectId}/tags")
+    public ResponseEntity<ResponseDto<TagResponse.DetailTag>> createTag(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable("projectId") Long projectId,
+            @Valid @RequestBody TagRequest.createTag req
+    ) {
+        ResponseDto<TagResponse.DetailTag> response = tagService.createTag(userPrincipal, projectId,  req);
+        return ResponseEntity.ok().body(response);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<ResponseDto<TagResponse.DetailTag>> updateTag(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -43,19 +53,6 @@ public class TagController {
         return ResponseEntity.ok().body(response);
     }
 
-    // 프로젝트 안 태그 생성
-    @PostMapping("/{projectId}/tags")
-    public ResponseEntity<ResponseDto<TagResponse.DetailTag>> createTag(
-            @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @PathVariable("projectId") Long projectId,
-            @Valid @RequestBody TagRequest.createTag req
-    ) {
-        ResponseDto<TagResponse.DetailTag> response = tagService.createTag(userPrincipal, projectId,  req);
-        return ResponseEntity.ok().body(response);
-    }
-
-
-    // 프로젝트 안 태그 목록 보기
     @GetMapping("/{projectId}/tags")
     public ResponseEntity<ResponseDto<List<TagResponse.DetailTag>>> getByIdTag (
             @PathVariable("projectId") Long projectId

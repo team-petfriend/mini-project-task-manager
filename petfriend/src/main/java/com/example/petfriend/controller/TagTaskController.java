@@ -1,11 +1,8 @@
 package com.example.petfriend.controller;
 
-import com.example.petfriend.common.contants.ApiMappingPattern;
 import com.example.petfriend.dto.ResponseDto;
 import com.example.petfriend.dto.tagTask.response.TagTaskResponse;
-import com.example.petfriend.service.TagService;
 import com.example.petfriend.service.TagTaskService;
-import com.example.petfriend.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

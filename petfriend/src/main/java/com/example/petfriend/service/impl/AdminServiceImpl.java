@@ -26,7 +26,6 @@ public class AdminServiceImpl implements AdminService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
-    /** 권한추가 */
     @Override
     @Transactional
     public ResponseDto<RoleResponse.AddRoleResponse> addRole(UserPrincipal userPrincipal, RoleRequest.@Valid AddRoleRequest req) {

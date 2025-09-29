@@ -1,10 +1,7 @@
 package com.example.petfriend.controller;
-
-import com.example.petfriend.common.contants.ApiMappingPattern;
 import com.example.petfriend.common.enums.TaskPriority;
 import com.example.petfriend.common.enums.TaskStatus;
 import com.example.petfriend.dto.ResponseDto;
-import com.example.petfriend.dto.project.response.ProjectResponse;
 import com.example.petfriend.dto.task.request.TaskRequest;
 import com.example.petfriend.dto.task.response.TaskResponse;
 import com.example.petfriend.security.UserPrincipal;
@@ -13,7 +10,6 @@ import com.example.petfriend.service.TaskService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -27,10 +23,6 @@ public class TasksController {
     private final TaskService taskService;
     private final ProjectService projectService;
 
-
-    // ======================= CRUD ==================================
-    
-    // 생성
     @PostMapping("/{projectId}/create-task")
     public ResponseEntity<ResponseDto<TaskResponse.DetailTaskResponse>> create(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -41,7 +33,6 @@ public class TasksController {
         return ResponseEntity.ok().body(response);
     }
 
-    // 수정
     @PutMapping("/{taskId}/update-task")
     public ResponseEntity<ResponseDto<TaskResponse.UpdateTaskResponse>> update(
             @PathVariable Long taskId,
@@ -52,7 +43,6 @@ public class TasksController {
         return ResponseEntity.ok().body(response);
     }
 
-    // 삭제
     @DeleteMapping("/{taskId}/delete-task")
     public ResponseEntity<ResponseDto<Void>> delete(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -63,7 +53,6 @@ public class TasksController {
         return ResponseEntity.ok().body(response);
     }
 
-    
     @PatchMapping("/{taskId}/status-update")
     public ResponseEntity<ResponseDto<TaskResponse.ChangedTaskStatusResponse>> statusUpdate(
             @AuthenticationPrincipal UserPrincipal userPrincipal,

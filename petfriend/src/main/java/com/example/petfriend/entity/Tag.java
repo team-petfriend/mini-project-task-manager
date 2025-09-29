@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class Tag {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,7 +30,6 @@ public class Tag {
     foreignKey = @ForeignKey(name = "fk_tag_project")
     )
     private Project project;
-
 
     @Builder
     public Tag(String name, String color, Project project) {

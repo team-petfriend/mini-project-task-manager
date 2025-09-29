@@ -7,7 +7,6 @@ import com.example.petfriend.entity.TaskTag;
 import java.util.List;
 
 public class TagTaskResponse {
-
     public record DetailTag(
             Long projectId,
             String name,
@@ -29,7 +28,6 @@ public class TagTaskResponse {
             );
         }
     }
-
 
     public record TagToTaskProject(
             Long projectId,

@@ -5,10 +5,9 @@ import org.springframework.security.access.AccessDeniedException;
 
 
 public class PrincipalUtils {
-    /** 생성자 막기위해서 사용 */
+
     private PrincipalUtils() {}
 
-    /** UserPrincipal */
     public static void requiredActive(UserPrincipal principal) throws AccessDeniedException {
         if (principal == null) {
             throw new AccessDeniedException("인증이 필요합니다.");

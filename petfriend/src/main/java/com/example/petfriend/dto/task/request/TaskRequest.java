@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class TaskRequest {
-
     public record TaskCreateRequest(
             @NotNull(message = "title은 필수 값 입니다.")
             String title,

@@ -38,7 +38,7 @@ public class TagTaskServiceImpl implements TagTaskService {
     @Transactional
     public ResponseDto<TagTaskResponse.DetailTag> create(Long tagId, Long taskId) {
 
-        boolean exists = tagTaskRepository.existsByTaskIdAndTagId(tagId, taskId);
+        boolean exists = tagTaskRepository.existsByTaskIdAndTagId(taskId, tagId);
         if (exists) {
             throw new IllegalArgumentException("이미 연결된 태그입니다.");
         }

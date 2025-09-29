@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "tags",
         uniqueConstraints = {
@@ -30,6 +33,10 @@ public class Tag {
     foreignKey = @ForeignKey(name = "fk_tag_project")
     )
     private Project project;
+
+    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<TaskTag> taskTags = new HashSet<>();
+
 
     @Builder
     public Tag(String name, String color, Project project) {

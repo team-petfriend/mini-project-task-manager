@@ -29,22 +29,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- 2025-09-05 김승민
- JwtAuthenticationFilter 구현
-*/
-
 @Component
 @RequiredArgsConstructor
-/* == JwtAuthenticationFilter ==
-   JWT 인증 필터 : 요청(request)에서 JWT 토큰을 추출해오는 기능
-   Spring Security가 OncePerRequestFilter를 상속받아 매 요청마다 실행
-*/
+
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private static final String AUTH_HEADER = "Authorization";
     private static final String BEARER_PREFIX = JwtProvider.BEARER_PREFIX;
-
     private final JwtProvider jwtProvider;
     private final UserRepository userRepository;
     private final UserPrincipalMapper principalMapper;

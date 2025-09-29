@@ -57,6 +57,8 @@ public class Task extends BaseTimeEntity {
     @Column(name = "due_date")
     private LocalDate dueDate;
 
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<TaskTag> taskTags = new HashSet<>();
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comments> comments = new HashSet<>();

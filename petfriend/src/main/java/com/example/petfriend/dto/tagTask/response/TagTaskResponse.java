@@ -2,6 +2,7 @@ package com.example.petfriend.dto.tagTask.response;
 
 import com.example.petfriend.dto.tag.response.TagResponse;
 import com.example.petfriend.dto.task.response.TaskResponse;
+import com.example.petfriend.entity.Tag;
 import com.example.petfriend.entity.TaskTag;
 
 import java.util.List;
@@ -18,6 +19,10 @@ public class TagTaskResponse {
 
             List<TaskResponse.DetailTaskResponse> taskList = List.of(
                     TaskResponse.DetailTaskResponse.from(taskTag.getTask())
+            );
+
+            List<String> tagNames = List.of(
+                    taskTag.getTag().getName()
             );
 
             return new TagTaskResponse.DetailTag(

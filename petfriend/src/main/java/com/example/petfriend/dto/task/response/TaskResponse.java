@@ -6,6 +6,8 @@ import com.example.petfriend.entity.Task;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class TaskResponse {
@@ -17,9 +19,14 @@ public class TaskResponse {
             TaskPriority taskPriority,
             LocalDateTime created_at,
             LocalDateTime updated_at,
-            LocalDate dueDate
+            LocalDate dueDate,
+            List<String> tagNames
     ) {
         public static DetailTaskResponse from(Task task) {
+            List<String> taskNames = task.getTaskTags().stream()
+                    .map(tt -> tt.getTag().getName())
+                    .toList();
+
             return new DetailTaskResponse(
                     task.getId(),
                     task.getTitle(),
@@ -28,7 +35,8 @@ public class TaskResponse {
                     task.getTaskPriority(),
                     task.getCreatedAt(),
                     task.getUpdatedAt(),
-                    task.getDueDate()
+                    task.getDueDate(),
+                    taskNames
             );
         }
 

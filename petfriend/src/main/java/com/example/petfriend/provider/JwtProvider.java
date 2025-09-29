@@ -14,15 +14,11 @@ import java.util.*;
 
 @Component
 public class JwtProvider {
-
     public static final String BEARER_PREFIX = "Bearer ";
-
     public static final String CLAIM_ROLES = "roles";
-
     private final SecretKey key;
     private final long jwtExpirationMs;
     private final int clockSkewSeconds;
-    
     private final JwtParser parser;
 
     public JwtProvider(

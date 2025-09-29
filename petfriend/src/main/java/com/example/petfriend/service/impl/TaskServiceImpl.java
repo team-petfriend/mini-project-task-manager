@@ -106,6 +106,10 @@ public class TaskServiceImpl implements TaskService {
         User user = userRepository.findById(userPrincipal.getId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 id의 사용자가 존재하지 않습니다."));
 
+        if (task.getTaskStatus() == TaskStatus.DONE) {
+            throw new IllegalArgumentException("완료된 Task는 더이상 수정할 수 없습니다.");
+        }
+
         if (task.getTaskStatus().equals(taskStatus)) {
             throw new IllegalArgumentException("이미 동일한 상태입니다. : " + taskStatus);
         }

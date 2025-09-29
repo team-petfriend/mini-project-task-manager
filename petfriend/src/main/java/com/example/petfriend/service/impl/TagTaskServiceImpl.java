@@ -15,6 +15,7 @@ import com.example.petfriend.repository.TaskRepository;
 import com.example.petfriend.service.TagTaskService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +34,7 @@ public class TagTaskServiceImpl implements TagTaskService {
     private final ProjectRepository projectRepository;
 
     @Override
+    @PreAuthorize("isAuthenticated()")
     @Transactional
     public ResponseDto<TagTaskResponse.DetailTag> create(Long tagId, Long taskId) {
 
@@ -63,6 +65,7 @@ public class TagTaskServiceImpl implements TagTaskService {
     }
 
     @Override
+    @PreAuthorize("isAuthenticated()")
     public ResponseDto<List<TagTaskResponse.TagToTaskProject>> getByIdProjectTagTask(Long projectId) {
         List<TagTaskResponse.DetailTag> data = null;
 

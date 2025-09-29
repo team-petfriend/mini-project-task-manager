@@ -64,6 +64,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @PreAuthorize("isAuthenticated()")
     @Transactional
     public ResponseDto<TaskResponse.UpdateTaskResponse> update(UserPrincipal userPrincipal, Long taskId, TaskRequest.@Valid TaskUpdateRequest req) {
         Task task = taskRepository.findById(taskId)
@@ -87,6 +88,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @PreAuthorize("isAuthenticated()")
     @Transactional
     public ResponseDto<Void> delete(UserPrincipal userPrincipal, Long taskId) {
         Task task = taskRepository.findById(taskId)
@@ -98,6 +100,7 @@ public class TaskServiceImpl implements TaskService {
 // ==================== 상태 변경 Patch ========================================
 
     @Override
+    @PreAuthorize("isAuthenticated()")
     @Transactional
     public ResponseDto<TaskResponse.ChangedTaskStatusResponse> statusUpdate(UserPrincipal userPrincipal, TaskStatus taskStatus, Long taskId) {
         Task task = taskRepository.findById(taskId)
@@ -124,6 +127,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @PreAuthorize("isAuthenticated()")
     @Transactional
     public ResponseDto<TaskResponse.ChangedTaskPriorityResponse> priorityUpdate(UserPrincipal userPrincipal, TaskPriority taskPriority, Long taskId) {
         Task task = taskRepository.findById(taskId)

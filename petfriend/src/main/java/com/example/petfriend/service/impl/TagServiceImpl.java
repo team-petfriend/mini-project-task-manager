@@ -94,6 +94,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    @PreAuthorize("isAuthenticated()")
     public ResponseDto<List<TagResponse.DetailTag>> getByIdTag(Long projectId) {
         if (projectId == null) throw new IllegalArgumentException("해당 값을 입력해주세요");
 

@@ -38,15 +38,23 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public void signUp(SignUpRequest req) {
+
         if (userRepository.existsByLoginId(req.loginId())) {
             throw new IllegalArgumentException("이미 사용 중인 로그인 아이디입니다.");
         }
+
         if (userRepository.existsByEmail(req.email())) {
             throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
         }
+
         if (userRepository.existsByNickname(req.nickname())) {
             throw new IllegalArgumentException("이미 사용 중인 닉네임입니다.");
         }
+
+        if (!req.loginId().equals(req.passwordCheck())) {
+            throw new IllegalArgumentException("비밀번호와 일치하지 않습니다. 다시 확인해주세요.");
+        }
+
         String encoded = passwordEncoder.encode(req.password());
 
         User user = User.builder()
@@ -57,6 +65,7 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
         Role defaultRole = roleRepository.getReferenceById(RoleType.USER);
+
         user.grantRole(defaultRole);
 
         userRepository.save(user);
@@ -64,14 +73,19 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public ResponseDto<SignInResponse> signIn(SignInRequest req) {
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(req.loginId(), req.password())
         );
+
         Set<String> roles = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toSet());
+
         String accessToken = jwtProvider.generateJwtToken(req.loginId(), roles);
+
         Claims claims = jwtProvider.getClaims(accessToken);
+
         long expiresAt = claims.getExpiration().getTime();
 
         SignInResponse response = new SignInResponse(
@@ -81,6 +95,7 @@ public class AuthServiceImpl implements AuthService {
           req.loginId(),
           roles
         );
+
         return ResponseDto.setSuccess("로그인 성공", response);
     }
 }

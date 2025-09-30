@@ -25,6 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CommentServiceImpl implements CommentService {
+
     private final CommentRepository commentRepository;
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
@@ -41,6 +42,7 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new EntityNotFoundException("해당 Task의 사용자를 찾을 수 없습니다."));
 
         Comments comments = Comments.create(dto.content(), commenter);
+
         task.addComment(comments);
         Comments saved = commentRepository.save(comments);
 

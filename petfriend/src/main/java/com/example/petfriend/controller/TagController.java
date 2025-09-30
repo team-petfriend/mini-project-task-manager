@@ -1,11 +1,9 @@
 package com.example.petfriend.controller;
 
-import com.example.petfriend.common.contants.ApiMappingPattern;
+
 import com.example.petfriend.dto.ResponseDto;
 import com.example.petfriend.dto.tag.request.TagRequest;
 import com.example.petfriend.dto.tag.response.TagResponse;
-import com.example.petfriend.entity.User;
-import com.example.petfriend.repository.TagRepository;
 import com.example.petfriend.security.UserPrincipal;
 import com.example.petfriend.service.TagService;
 import jakarta.validation.Valid;

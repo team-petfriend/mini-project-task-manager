@@ -1,7 +1,6 @@
 package com.example.petfriend.entity;
 
 import com.example.petfriend.common.enums.Field;
-import com.example.petfriend.dto.task.response.TaskResponse;
 import com.example.petfriend.entity.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

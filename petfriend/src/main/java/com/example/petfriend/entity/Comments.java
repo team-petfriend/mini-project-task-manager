@@ -3,7 +3,6 @@ package com.example.petfriend.entity;
 import com.example.petfriend.entity.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,6 +31,7 @@ public class Comments extends BaseTimeEntity {
     @JoinColumn(name = "commenter", nullable = false
             , foreignKey = @ForeignKey(name = "fk_comments_user"))
     private User commenter;
+
 
     private Comments(String content, User commenter) {
         this.content = content;

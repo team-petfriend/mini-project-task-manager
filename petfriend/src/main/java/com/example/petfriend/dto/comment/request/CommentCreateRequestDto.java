@@ -1,6 +1,5 @@
 package com.example.petfriend.dto.comment.request;
 
-import com.example.petfriend.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

@@ -1,5 +1,7 @@
 package com.example.petfriend.service.impl;
 
+import com.example.petfriend.common.enums.ErrorCode;
+import com.example.petfriend.common.errors.BusinessException;
 import com.example.petfriend.dto.ResponseDto;
 import com.example.petfriend.dto.project.request.ProjectRequest;
 import com.example.petfriend.dto.project.response.ProjectResponse;
@@ -63,6 +65,8 @@ public class ProjectServiceImpl implements ProjectService {
     public ResponseDto<List<ProjectResponse.DetailResponse>> search(String projectName) {
         List<Project> projects = projectRepository.findByNameContainingIgnoreCase(projectName);
 
+        if(projectName == null)throw new BusinessException(ErrorCode.PROJECT_NOT_FOUND, "PROJECT_NAME_REQUIRED");
+
         List<ProjectResponse.DetailResponse> result = projects.stream()
                 .map(ProjectResponse.DetailResponse::from)
                 .toList();
@@ -75,7 +79,8 @@ public class ProjectServiceImpl implements ProjectService {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseDto<ProjectResponse.DetailResponse> update(UserPrincipal userPrincipal, Long projectId, ProjectRequest.@Valid Update req) {
         validateName(req.name());
-        if(projectId == null) throw new IllegalArgumentException("PROJECT_ID_REQUIRED");
+
+        if(projectId == null) throw new BusinessException(ErrorCode.PROJECT_NOT_FOUND,"PROJECT_ID_REQUIRED");
 
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(()-> new IllegalArgumentException("PROJECT_NOT_FOUND"));
@@ -91,7 +96,7 @@ public class ProjectServiceImpl implements ProjectService {
     @PreAuthorize("isAuthenticated()")
     public ResponseDto<List<TaskResponse.DetailTaskResponse>> getProjectByIdTasks(Long projectId) {
 
-        if (projectId == null) throw new IllegalArgumentException("해당 ID가 존재하지않습니다.");
+        if (projectId == null) throw new BusinessException(ErrorCode.PROJECT_NOT_FOUND , "해당 ID가 존재하지않습니다.");
 
         List<Task> tasks = taskRepository.findAllByProjectId(projectId);
 

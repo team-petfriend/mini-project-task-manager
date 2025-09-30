@@ -9,6 +9,8 @@ public enum ErrorCode {
     AUTH_INVALID(HttpStatus.UNAUTHORIZED,"UNAUTHORIZED","인증이 필요합니다. 로그인 후 다시 시도해 주십시오"),
     AUTH_FORBIDDEN(HttpStatus.FORBIDDEN, "FORBIDDEN","접근 권한이 없습니다."),
 
+    ENTITY_NOT_FOUND(HttpStatus.NOT_FOUND, "ENTITY_NOT_FOUND", "엔티티를를 찾을 수 없습니다."),
+
     PROJECT_NOT_FOUND(HttpStatus.NOT_FOUND, "PROJECT_NOT_FOUND", "프로젝트를 찾을 수 없습니다."),
     TASK_NOT_FOUND(HttpStatus.NOT_FOUND, "TASK_NOT_FOUND", "TASK를 찾을 수 없습니다."),
     TAG_NOT_FOUND(HttpStatus.NOT_FOUND, "TAG_NOT_FOUND", "Tag를 찾을 수 없습니다."),

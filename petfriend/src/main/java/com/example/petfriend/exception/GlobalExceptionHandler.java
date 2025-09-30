@@ -1,6 +1,7 @@
 package com.example.petfriend.exception;
 
 import com.example.petfriend.common.enums.ErrorCode;
+import com.example.petfriend.common.errors.BusinessException;
 import com.example.petfriend.common.errors.ErrorResponse;
 import com.example.petfriend.common.errors.FieldErrorItem;
 import com.example.petfriend.dto.ResponseDto;
@@ -9,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -81,43 +81,31 @@ public class GlobalExceptionHandler { // 공통응답 생성
         return fail(ErrorCode.AUTH_FORBIDDEN, null, null);
     }
 
-    @ExceptionHandler(AuthorizationDeniedException.class)
-    public ResponseEntity<ResponseDto<Object>> handleAccessDenied(AuthorizationDeniedException e){
-        log.warn("AUTH_FORBIDDEN: {}", e.getMessage());
-        return fail(ErrorCode.AUTH_FORBIDDEN, null, null);
-    }
-
-    // == 404 : NOT_FOUND - 엔티티 조회 실패(프로젝트가 존재하지 않음) ==
+    // == 404 : NOT_FOUND - 엔티티 조회 실패
     // 조건문 추가해서 아래 Exception들 추가해야함
     @ExceptionHandler(EntityNotFoundException.class)
-        public ResponseEntity<ResponseDto<Object>> ProjectNotFound(EntityNotFoundException e){
-
-        log.warn("PROJECT_NOT_FOUND: {}", e.getMessage());
-        return fail(ErrorCode.PROJECT_NOT_FOUND, null, null);
+        public ResponseEntity<ResponseDto<Object>> EntityNotFound(EntityNotFoundException e){
+        log.warn("ENTITY_NOT_FOUND: {}", e.getMessage());
+        return fail(ErrorCode.ENTITY_NOT_FOUND, null, null);
     }
 
-
-   /*j
-   // == 404 : NOT_FOUND - 엔티티 조회 실패(Task가 존재하지 않음) ==
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ResponseDto<Object>> TaskNotFound(EntityNotFoundException e){
-        log.warn("TASK_NOT_FOUND: {}", e.getMessage());
-        return fail(ErrorCode.TASK_NOT_FOUND, null, null);
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ResponseDto<Object>> handleBusiness(BusinessException e){
+        ErrorCode code = e.getErrorCode();
+        String reason = (e.getReason() != null && !e.getReason().isBlank()) ? e.getReason() : null;
+        log.warn("Business error[{}] : {}", code.name(), e.getMessage());
+        return fail(code, reason, null);
     }
 
-    // == 404 : NOT_FOUND - 엔티티 조회 실패(Tag가 존재하지 않음) ==
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ResponseDto<Object>> TagNotFound(EntityNotFoundException e){
-        log.warn("TAG_NOT_FOUND: {}", e.getMessage());
-        return fail(ErrorCode.TAG_NOT_FOUND, null, null);
-    }
-    // == 404 : NOT_FOUND - 엔티티 조회 실패(Comment가 존재하지 않음) ==
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ResponseDto<Object>> CommentNotFound(EntityNotFoundException e){
-        log.warn("COMMENT_NOT_FOUND: {}", e.getMessage());
-        return fail(ErrorCode.COMMENT_NOT_FOUND, null, null);
-    }
-    */
+/*
+     == serviceImpl 에서 사용
+    if (projectId == null) {
+       잘못된 요청 → 400
+       throw new BusinessException(BAD_REQUEST, "PROJECT_ID_REQUIRED");
+  }
+ */
+
+
     // == 409 : CONFLICT - 무결성 위반 (중복/제약조건) ==
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ResponseDto<Object>> handleConflict(DataIntegrityViolationException e){

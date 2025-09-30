@@ -51,7 +51,7 @@ public class AuthServiceImpl implements AuthService {
             throw new IllegalArgumentException("이미 사용 중인 닉네임입니다.");
         }
 
-        if (!req.loginId().equals(req.passwordCheck())) {
+        if (!req.password().equals(req.passwordCheck())) {
             throw new IllegalArgumentException("비밀번호와 일치하지 않습니다. 다시 확인해주세요.");
         }
 

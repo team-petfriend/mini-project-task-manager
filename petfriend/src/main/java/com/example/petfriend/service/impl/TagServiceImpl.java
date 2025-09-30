@@ -9,7 +9,6 @@ import com.example.petfriend.repository.ProjectRepository;
 import com.example.petfriend.repository.TagRepository;
 import com.example.petfriend.security.UserPrincipal;
 import com.example.petfriend.service.TagService;
-import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;

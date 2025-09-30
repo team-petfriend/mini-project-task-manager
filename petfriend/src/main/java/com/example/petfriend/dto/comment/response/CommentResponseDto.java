@@ -30,6 +30,7 @@ public record CommentResponseDto(
     public CommentResponseDto summarized(int maxLen){
         String summarized = content == null ? null :
                 (content.length() <= maxLen ? content : content.substring(0, maxLen) + "...");
+
         return new CommentResponseDto(id, taskId, summarized, commenter, createdAt, updatedAt);
     }
 }

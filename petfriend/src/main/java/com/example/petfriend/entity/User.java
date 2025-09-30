@@ -4,7 +4,6 @@ import com.example.petfriend.common.enums.Gender;
 import com.example.petfriend.common.enums.RoleType;
 import com.example.petfriend.entity.base.BaseTimeEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

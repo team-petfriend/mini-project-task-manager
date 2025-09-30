@@ -4,7 +4,6 @@ import com.example.petfriend.dto.ResponseDto;
 import com.example.petfriend.dto.tag.response.TagResponse;
 import com.example.petfriend.dto.tagTask.response.TagTaskResponse;
 import com.example.petfriend.dto.task.response.TaskResponse;
-import com.example.petfriend.entity.Project;
 import com.example.petfriend.entity.Tag;
 import com.example.petfriend.entity.Task;
 import com.example.petfriend.entity.TaskTag;
@@ -13,13 +12,12 @@ import com.example.petfriend.repository.TagRepository;
 import com.example.petfriend.repository.TagTaskRepository;
 import com.example.petfriend.repository.TaskRepository;
 import com.example.petfriend.service.TagTaskService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,10 +26,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class TagTaskServiceImpl implements TagTaskService {
+
     private final TagTaskRepository tagTaskRepository;
     private final TagRepository tagRepository;
     private final TaskRepository taskRepository;
-    private final ProjectRepository projectRepository;
 
     @Override
     @PreAuthorize("isAuthenticated()")

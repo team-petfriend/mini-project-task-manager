@@ -2,7 +2,7 @@ package com.example.petfriend.dto.tagTask.response;
 
 import com.example.petfriend.dto.tag.response.TagResponse;
 import com.example.petfriend.dto.task.response.TaskResponse;
-import com.example.petfriend.entity.Tag;
+
 import com.example.petfriend.entity.TaskTag;
 
 import java.util.List;

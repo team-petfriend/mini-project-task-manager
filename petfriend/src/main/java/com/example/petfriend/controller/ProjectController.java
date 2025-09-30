@@ -6,8 +6,6 @@ import com.example.petfriend.dto.project.request.ProjectRequest;
 import com.example.petfriend.dto.project.response.ProjectResponse;
 import com.example.petfriend.security.UserPrincipal;
 import com.example.petfriend.service.ProjectService;
-import com.example.petfriend.service.TagService;
-import com.example.petfriend.service.TagTaskService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +20,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProjectController {
     private final ProjectService projectService;
-    private final TagService tagService;
-    private final TagTaskService tagTaskService;
 
     // 프로젝트 생성
     //http://localhost:8080/api/v1/project

@@ -15,10 +15,7 @@ import com.example.petfriend.repository.TaskHistoryRepository;
 import com.example.petfriend.repository.TaskRepository;
 import com.example.petfriend.repository.UserRepository;
 import com.example.petfriend.security.UserPrincipal;
-import com.example.petfriend.security.util.AuthorizationChecker;
-import com.example.petfriend.service.TaskService;;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityNotFoundException;
+import com.example.petfriend.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class TaskServiceImpl implements TaskService {
+
     private final TaskRepository taskRepository;
     private final ProjectRepository projectRepository;
     private final TaskHistoryRepository taskHistoryRepository;
@@ -67,11 +65,15 @@ public class TaskServiceImpl implements TaskService {
     @PreAuthorize("isAuthenticated()")
     @Transactional
     public ResponseDto<TaskResponse.UpdateTaskResponse> update(UserPrincipal userPrincipal, Long taskId, TaskRequest.@Valid TaskUpdateRequest req) {
+
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new IllegalStateException("해당 ID가 존재하지않습니다."));
+
         User user = userRepository.findById(userPrincipal.getId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 id의 사용자가 존재하지 않습니다."));
+
         String old_Title = task.getTitle();
+
         task.update(
                 req.title(),
                 req.description()
@@ -91,8 +93,10 @@ public class TaskServiceImpl implements TaskService {
     @PreAuthorize("isAuthenticated()")
     @Transactional
     public ResponseDto<Void> delete(UserPrincipal userPrincipal, Long taskId) {
+
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new IllegalStateException("해당 ID가 존재하지않습니다."));
+
         taskRepository.delete(task);
         return ResponseDto.setSuccess("SUCCESS", null);
     }
@@ -103,6 +107,7 @@ public class TaskServiceImpl implements TaskService {
     @PreAuthorize("isAuthenticated()")
     @Transactional
     public ResponseDto<TaskResponse.ChangedTaskStatusResponse> statusUpdate(UserPrincipal userPrincipal, TaskStatus taskStatus, Long taskId) {
+
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new IllegalStateException("해당 ID가 존재하지않습니다."));
 
@@ -118,6 +123,7 @@ public class TaskServiceImpl implements TaskService {
         }
 
         String old_Status = task.getTaskStatus().name();
+
         task.changeTaskStatus(taskStatus);
         TaskResponse.ChangedTaskStatusResponse data = TaskResponse.ChangedTaskStatusResponse.from(task);
 
@@ -130,8 +136,10 @@ public class TaskServiceImpl implements TaskService {
     @PreAuthorize("isAuthenticated()")
     @Transactional
     public ResponseDto<TaskResponse.ChangedTaskPriorityResponse> priorityUpdate(UserPrincipal userPrincipal, TaskPriority taskPriority, Long taskId) {
+
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new IllegalStateException("해당 ID가 존재하지않습니다."));
+
         User user = userRepository.findById(userPrincipal.getId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 id의 사용자가 존재하지 않습니다."));
 
@@ -159,7 +167,5 @@ public class TaskServiceImpl implements TaskService {
                 .build();
         taskHistoryRepository.save(taskHistory);
     }
-
-
 }
 

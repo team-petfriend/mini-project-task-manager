@@ -6,11 +6,9 @@ import com.example.petfriend.dto.auth.request.SignInRequest;
 import com.example.petfriend.dto.auth.request.SignUpRequest;
 import com.example.petfriend.dto.auth.response.SignInResponse;
 import com.example.petfriend.service.AuthService;
-import com.example.petfriend.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

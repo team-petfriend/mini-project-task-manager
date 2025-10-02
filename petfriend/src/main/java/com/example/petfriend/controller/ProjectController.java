@@ -51,7 +51,7 @@ public class ProjectController {
         ResponseDto<List<ProjectResponse.DetailResponse>> response = projectService.search(projectName);
         return ResponseEntity.ok(response);
     }
-
+    
 
     //프로젝트 이름 수정
     @PutMapping(ApiMappingPattern.Project.ONLY_ID)

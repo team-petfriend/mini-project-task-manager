@@ -1,0 +1,83 @@
+:root {
+  --nav--width: 92px;
+
+  /* Colores */
+  --first-color: #0c5df4;
+  --bg-color: #12192c;
+  --sub-color: #b6cefc;
+  --white-color: #fff;
+
+  /* Fuente y tipografia */
+  --body-font: "Poppins", sans-serif;
+  --normal-font-size: 1rem;
+  --small-font-size: 0.875rem;
+
+  /* z index */
+  --z-fixed: 100;
+}
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+.l-navbar {
+  background-color: var(--bg-color);
+  top: 0;
+  left: 0;
+  width: 100%;
+  color: white;
+  padding: 1.5rem 1.5rem 2rem;
+}
+.nav {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+.nav__link {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  align-items: center;
+  column-gap: 0.75rem;
+  padding: 0.75rem;
+  color: var(--white-color);
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  transition: 0.3s;
+  cursor: pointer;
+}
+.nav__link:hover {
+  background-color: var(--first-color);
+}
+.nav_name {
+  font-size: var(--small-font-size);
+}
+.active {
+  background-color: var(--first-color);
+}
+.collapse {
+  grid-template-columns: 20px max-content 1fr;
+}
+.collapse__link {
+  justify-self: flex-end;
+  transition: 0.5;
+}
+.collapse__sublink {
+  color: var(--sub-color);
+  font-size: var(--small-font-size);
+}
+.collapse__sublink:hover {
+  color: var(--white-color);
+}
+.collapse__menu {
+  display: none;
+  padding: 0.75rem 2.25rem;
+}
+.showCollapse {
+  display: block;
+}
+.rotate {
+  transform: rotate(180deg);
+  transition: 0.5s;
+}

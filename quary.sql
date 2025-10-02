@@ -275,6 +275,14 @@ SELECT * FROM `tags` where project_id = 2;
 SELECT * FROM `task_tag`;
 
 
+CREATE OR REPLACE VIEW `front_view` AS
+SELECT distinct(task_id), actor_id, field, old_value, new_value, created_at, updated_at 
+from `task_history`
+order by updated_at desc;
+
+select * from`front_view`;
+
+
 
 
 

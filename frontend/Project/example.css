@@ -1,0 +1,119 @@
+:root {
+  /* == 배경색 지정(Background) == */
+  --bg: #0f172a;
+  --bg-muted: #111827;
+  --card: #111827;
+
+  /* == 글자색 지정(Text) == */
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+
+  /* == 주요 & 강조 색상 지정(Primary & Accent Colors) == */
+  --primary: #4f46e5;
+  --primary-contrast: #ffffff;
+  --accent: #22c55e;
+
+  /* == 상태 색상 == */
+  --danger: #dc2626;
+
+  /* 테두리 & 그림자 색상 (Borders & Shadows) */
+  --outline: #374151;
+  --shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+
+  /* 레이아웃 (Layouts) */
+  --radius: 16px;
+  --container: 1120px;
+}
+
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #f5f5f5;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  padding: 10px 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+.user-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.profile-info {
+  margin-left: 10px;
+  flex-grow: 1;
+}
+
+.tag {
+  max-width: var(--container);
+  padding: 0 20px;
+  margin: 0 auto;
+}
+
+h1 {
+  padding: 20px;
+  border-bottom: 1px solid #ccc;
+  background-color: #fff;
+}
+
+.btn-project {
+  float: right;
+  margin: -60px 20px 10px 0;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+  color: black;
+  border: none;
+  cursor: pointer;
+}
+
+.project-list {
+  max-width: var(--container);
+  padding: 0 20px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.project-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  margin-bottom: 10px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.project-info {
+  display: flex;
+  align-items: center;
+}
+
+.projectside-name {
+  font-weight: bold;
+  margin-right: 10px;
+  text-decoration: none;
+  color: #0366d6;
+}
+
+.project-actions button {
+  margin-left: 10px;
+  padding: 5px 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+
+.project-actions .del {
+  color: red;
+  border-color: red;
+}

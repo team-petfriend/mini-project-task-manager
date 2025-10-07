@@ -20,7 +20,20 @@
   <main>
     <div class="tag">
       <h1>Project1</h1>
-      <button onclick="sideBar.open()" class="btn-task" id="create Task" aria-label=" Task 생성 버튼">Task 생성</button>
+      <button onclick="sideBar.open()" class="btn-task" id="create Task" aria-label="Task 생성 버튼">Task 생성</button>
+
+      <div id="task-list" class="task-list">
+        <div class="task-item">
+          <div class="task-content">
+            <h3><a href="../task/task1.html">Task 1</a></h3>
+            <p>Task 내용</p>
+          </div>
+          <div class="task-actions">
+            <button class="del">del</button>
+          </div>
+        </div>
+      </div>
+
       <div class="inner_body">
         <aside class="side_bar js-side_bar">
           <ul>
@@ -28,8 +41,8 @@
               <label for="email">Title</label>
               <input type="email" id="email" name="email" placeholder="Required Title" required />
   
-              <label for="message">Discription</label>
-              <textarea name="message" id="message" rows="4" placeholder="Required Discription."></textarea>
+              <label for="message">Description</label>
+              <textarea name="message" id="message" rows="4" placeholder="Required Description."></textarea>
   
               <button type="submit" class="btn primary">완료</button>
             </form>
@@ -40,3 +53,4 @@
     </div>
   </main>
 </body>
+</html>

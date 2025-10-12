@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=4, initial-scale=1.0">
   <title>프로젝트</title>
-  <link rel="stylesheet" href="./example.css">
+  <link rel="stylesheet" href="../example.css">
+  <link rel="stylesheet" href="./css/createProjecct.css">
 </head>
 <body>
   <header class="profile-header">
@@ -17,12 +18,12 @@
   <main>
     <div class="tag">
       <h1>Project</h1>
-      <button class="btn-project" id="create projects" aria-label="프로젝트 생성 버튼"><a href="./projects/create_project.html">Project 생성</a></button>
+      <button class="btn-project" id="create projects" aria-label="프로젝트 생성 버튼">Project 생성</button>
     
     <ul class="project-list">
       <li class="project-item">
         <div class="project-info">
-          <a href="./projects/project1.html" class="projectside-name">project name 1</a>
+          <a href="./project1.html" class="projectside-name">project name 1</a>
         </div>
         <div class="project-actions">
           <button class="del">del</button>
@@ -45,6 +46,23 @@
         </div>
       </li>
     </ul>
+
+    <div class="inner_body">
+        <aside class="side_bar js-side_bar">
+          <ul>
+            <form id="contact-form" class="form">
+              <label for="ProjectName">ProjectName</label>
+              <input type="ProjectName" id="ProjectName" name="ProjectName" placeholder="ProjectName" required />
+  
+              <label for="message">Description</label>
+              <textarea name="message" id="message" rows="4" placeholder="Required Description."></textarea>
+  
+              <button type="submit" class="btn primary">완료</button>
+            </form>
+          </ul>
+          <button onclick="sideBar.close()">close</button>
+        </aside>
+      </div>
   </main>
 </body>
 </html>

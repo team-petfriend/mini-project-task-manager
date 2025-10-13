@@ -1,371 +1,127 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>웹앱 기본 레이아웃 구성</title>
-  <style>
-:root {
-  /* == 배경색 지정(Background) == */
-  --bg: #0f172a;
-  --bg-muted: #111827;
-  --card: #111827;
-  
-  /* == 글자색 지정(Text) == */
-  --text: #e5e7eb;
-  --muted: #9ca3af;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>웹앱 기본 레이아웃 구성</title>
+    <link rel="stylesheet" href="./css/sidebar.css" />
+    <link rel="stylesheet" href="./css/minitask.css" />
+  </head>
+  <body>
+    <div class="app">
+      <!-- 상단 헤더 -->
+      <header class="header">
+        <ul>
+          <li class="header-left">
+            <p>project</p>
+            <p>/</p>
+            <p>projects</p>
+            <p>/</p>
+            <p>task</p>
+          </li>
+          <li class="header-right">
+            <img src="./img/user.png" alt="" />
+          </li>
+        </ul>
+      </header>
 
-  /* == 주요 & 강조 색상 지정(Primary & Accent Colors) == */
-  --primary: #4f46e5;
-  --primary-contrast: #ffffff;
-  --accent: #22c55e;
-
-  /* == 상태 색상 (Status Colors) == */
-  --danger: #dc2626;
-
-  /* 테두리 & 그림자 색상 (Borders & Shadows) */
-  --outline: #374151;
-  --shadow: 0 10px 25px rgba(0,0,0,0.3);
-
-  /* 레이아웃 (Layouts) */
-  --radius: 16px;
-  --container: 1120px;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html, body { height: 100%; }
-
-body {
-  margin: 0;
-  color: var(--text);
-  background:var(--bg)
-}
-
-
-    /* 기본 리셋 */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; }
-body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
-
-/* 앱 전체 - 세로로 헤더/본문/푸터 */
-.app{
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  width: 100%; 
-}
-
-/* 헤더 (상단 바) */
-.header{
-  flex: 0 0 56px;                      /* 고정 높이 */
-  display: flex; 
-  align-items: center;
-  padding: 0 16px;
-  border-bottom: 2px solid rgba(0,0,0,0.1);        /* 내부 구분선 */
-}
-
-/* 본문: 좌측 사이드바 | 우측 메인 (가로 배치) */
-.body{
-  flex: 1 1 auto;
-  display: flex;                       /* 가로 */
-  min-height: 0;                       /* 내부 스크롤 계산 정확히 */
-}
-
-/* 메인 (우) : 탭/요청/응답을 위→아래로 */
-.main{
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;                        /* 내용 넘침 방지 */
-  border-left: 0;                       /* 외형 유지용 (선은 tabs/request에서 처리) */
-}
-
-/* 탭 바 (우측 상단) */
-.tabs{
-  flex: 0 0 40px;
-  display: flex; align-items: center;
-  padding: 0 8px;
-  border-bottom: 2px solid rgba(0,0,0,0.1);
-}
-
-/* 요청/응답 영역을 세로로 분할 */
-.request-panel{
-  flex: 0 0 45%;                       /* 위쪽 비율(조정 가능) */
-  padding: 16px;
-  overflow: auto;
-}
-
-.response-panel{
-  flex: 1 1 auto;                      /* 나머지 */
-  padding: 16px;
-  overflow: auto;
-}
-
-/* 탭 */
-.tabs {
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.tabs ul {
-  list-style: none;
-  min-width: 600; 
-  max-width: 100%; 
-}
-
-.search-box {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.search-box input {
-  width: 1820px;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
-}
-
-.search-box input:focus {
-  outline: none;
-  border-color: #4f46e5; /* 포커스 시 보라색 테두리 */
-  box-shadow: 0 0 4px rgba(79, 70, 229, 0.3);
-}
-
-.search-box button {
-  padding: 8px 12px;
-  background-color: #4f46e5;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  flex: 0 0 auto; 
-  min-width: 80px;
-  max-width: 200px; 
-}
-
-.search-box button:hover {
-  background-color: #4338ca;
-}
-
-/* 보드  */
-.board {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.column {
-  flex: 1;
-  background-color: #f7f7f7;
-  border-radius: 10px;
-  padding: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  background: linear-gradient(135deg, rgba(79,70,229,0.25), rgba(24,197,94,0.25));
-  max-width: 800px;
-  min-width: 80px;
-}
-
-.column a {
-  font-weight: 600;
-  color: white;
-  text-decoration: none;
-}
-
-.column a:hover {
-  color: #2592f7;
-  text-decoration: underline;
-}
-
-.column-title {
-  display: flex;
-  text-align: center;
-  margin-bottom: 10px;
-  justify-content: space-between;
-}
-
-.column-title .count {
-  width: 24px;     
-  height: 24px;   
-  border: 1px solid rgba(79,70,229,0.25), rgba(24,197,94,0.25);
-  border-radius: 6px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 14px;
-  background: linear-gradient(135deg, rgba(79,70,229,0.25), rgba(24,197,94,0.25));
-}
-
-.task-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.task {
-  background: linear-gradient(135deg, rgba(79,70,229,0.25), rgba(24,197,94,0.25));
-  padding: 8px 12px;
-  border-radius: 6px;
-  margin-bottom: 8px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
-
-
-.task-inner {
-  display: flex;
-  margin-bottom: 10px;
-}
-
-.task-inner span {
-  font-size: 13px;
-  margin-left: 5px;
-  font-weight: bold;
-}
-
-.header {
-  width: 100%;
-}
-
-.header ul {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  background-color: #111827;
-}
-
-.header li {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.header-left img {
-  padding: 3px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 5px;
-  margin-right: 15px;
-  background: linear-gradient(135deg, rgba(79,70,229,0.25), rgba(24,197,94,0.25));
-}
-
-.header-left img:hover {
-  background-color: #e5e7eb;
-}
-
-.header-right img {
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 5px;
-  margin-right: 15px;
-  border-radius: 50%;
-}
-
-</style>
-</head>
-<body>
-  <div class="app">
-    <!-- 상단 헤더 -->
-    <header class="header">
-    <ul>
-      <li class="header-left">
-        <img src="./img/ham.png" alt="">
-        <p>project</p>
-        <p>/</p>
-        <p>projects</p>
-        <p>/</p>
-        <p>task</p>
-      </li>
-      <li class="header-right">
-        <img src="./img/user.png" alt="">
-      </li>
-    </ul>
-  </header>
-
-    <!-- 본문: 좌측 사이드바 + 우측 메인 -->
-    <div class="body">
-      <main class="main">
-        <div class="tabs">
-          <ul>
-            <li>
-              <div class="search-box">
-                <input type="text" placeholder="검색어를 입력하세요" />
-                <button>검색</button>
+      <!-- 본문: 좌측 사이드바 + 우측 메인 -->
+      <div class="body">
+        <aside class="sidebar">
+          <nav class="nav">
+            <div class="nav-brand">
+              <ion-icon
+                name="menu-outline"
+                class="nav__toggle"
+                id="nav-toggle"
+              ></ion-icon>
+            </div>
+            <div class="nav-list">
+              <a href="#" class="nav_link">
+                <ion-icon name="home-outline" class="nav__icon"></ion-icon>
+                <span class="nav-name">Menu1</span>
+              </a>
+              <div href="#" class="nav_link collapse">
+                <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
+                <span class="nav-name">Projects</span>
               </div>
-            </li>
-          </ul>
-        </div>
-
-        <section class="request-panel">
-          <ul class="board">
-            <li class="column">
-              <div class="column-title">
-                <img src="./img/todoCheck.png" alt="">
-                <h3>ToDo</h3>
-                <p class="count">1</p>
+              <div href="#" class="nav_link collapse">
+                <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
+                <span class="nav-name">Task</span>
               </div>
-              <ul class="task-list">
-              <li class="task">
-                <div class="task-inner">
-                  <img src="./img/todo.png" alt="">                
-                  <span>petFriend#1</span>
+            </div>
+          </nav>
+        </aside>
+
+        <main class="main">
+          <div class="tabs">
+            <ul>
+              <li>
+                <div class="search-box">
+                  <input type="text" placeholder="검색어를 입력하세요" />
+                  <button>검색</button>
                 </div>
-                <a href="">프론트엔드 구현 완료</a>
               </li>
-              </ul>
-            </li>
+            </ul>
+          </div>
 
-            <li class="column">
-              <div class="column-title">
-                <img src="./img/inprogresscheck.png" alt="">
-                <h3>InProgress</h3>
-                <p class="count">1</p>
-              </div>
-              <ul class="task-list">
-              <li class="task">
-                <div class="task-inner">
-                  <img src="./img/inprogress.png" alt="">                
-                  <span>petFriend#1</span>
+          <section class="request-panel">
+            <ul class="board">
+              <li class="column">
+                <div class="column-title">
+                  <img src="./img/todoCheck.png" alt="" />
+                  <h3>ToDo</h3>
+                  <p class="count">1</p>
                 </div>
-                <a href="">프론트엔드 구현 완료</a>
+                <ul class="task-list">
+                  <li class="task">
+                    <div class="task-inner">
+                      <img src="./img/todo.png" alt="" />
+                      <span>petFriend#1</span>
+                    </div>
+                    <a href="">프론트엔드 구현 완료</a>
+                  </li>
+                </ul>
               </li>
-              </ul>
-            </li>
 
-            <li class="column">
-              <div class="column-title">
-                <img src="./img/donecheck.png" alt="">
-                <h3>Done</h3>
-                <p class="count">1</p>
-              </div>
-              <ul class="task-list">
-              <li class="task">
-                <div class="task-inner">
-                  <img src="./img/done.png" alt="">                
-                  <span>petFriend#1</span>
+              <li class="column">
+                <div class="column-title">
+                  <img src="./img/inprogresscheck.png" alt="" />
+                  <h3>InProgress</h3>
+                  <p class="count">1</p>
                 </div>
-                <a href="">프론트엔드 구현 완료</a>
+                <ul class="task-list">
+                  <li class="task">
+                    <div class="task-inner">
+                      <img src="./img/inprogress.png" alt="" />
+                      <span>petFriend#1</span>
+                    </div>
+                    <a href="">프론트엔드 구현 완료</a>
+                  </li>
+                </ul>
               </li>
-              </ul>
-            </li>
-          </ul>
-        </section>
-      </main>
+
+              <li class="column">
+                <div class="column-title">
+                  <img src="./img/donecheck.png" alt="" />
+                  <h3>Done</h3>
+                  <p class="count">1</p>
+                </div>
+                <ul class="task-list">
+                  <li class="task">
+                    <div class="task-inner">
+                      <img src="./img/done.png" alt="" />
+                      <span>petFriend#1</span>
+                    </div>
+                    <a href="">프론트엔드 구현 완료</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+        </main>
+      </div>
     </div>
-  </div>
-</body>
+    <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
+  </body>
 </html>

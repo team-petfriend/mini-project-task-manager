@@ -20,42 +20,52 @@
 ::after {
   box-sizing: border-box;
 }
-.l-navbar {
-  background-color: var(--bg-color);
-  top: 0;
-  left: 0;
-  width: 100%;
-  color: white;
-  padding: 1.5rem 1.5rem 2rem;
+.sidebar {
+  flex: 0 0 260px; /* 고정 폭 (사진 느낌) */
+  padding: 16px;
+  overflow: auto;
+  background-color: #12192c;
 }
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
 .nav {
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
 }
-.nav__link {
+
+.nav_link {
   display: grid;
   grid-template-columns: max-content max-content;
   align-items: center;
   column-gap: 0.75rem;
   padding: 0.75rem;
-  color: var(--white-color);
+  color: white;
   border-radius: 0.5rem;
   margin-bottom: 1rem;
   transition: 0.3s;
   cursor: pointer;
 }
-.nav__link:hover {
-  background-color: var(--first-color);
+.nav_link:hover {
+  background-color: #0c5df4;
 }
-.nav_name {
-  font-size: var(--small-font-size);
+.nav_link:focus {
+  background-color: #0c5df4;
 }
-.active {
-  background-color: var(--first-color);
+.nav-name {
+  font-size: 0.875rem;
 }
+
+/* collapse */
 .collapse {
   grid-template-columns: 20px max-content 1fr;
 }
@@ -63,21 +73,40 @@
   justify-self: flex-end;
   transition: 0.5;
 }
-.collapse__sublink {
-  color: var(--sub-color);
-  font-size: var(--small-font-size);
-}
-.collapse__sublink:hover {
-  color: var(--white-color);
-}
-.collapse__menu {
+.collapse-menu {
   display: none;
   padding: 0.75rem 2.25rem;
 }
-.showCollapse {
-  display: block;
+
+.collapse-sublink {
+  color: #b6cefc;
+  font-size: 0.875rem;
 }
+.collapse-sublink:hover {
+  color: white;
+}
+.collapse-sublink:focus {
+  color: white;
+}
+/* Rotate icon */
 .rotate {
   transform: rotate(180deg);
   transition: 0.5s;
+}
+/* Show collapse */
+.showCollapse {
+  display: block;
+}
+.nav-brand {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  color: white;
+}
+.nav__toggle {
+  font-size: 1.25rem;
+  padding: 0.75rem;
+  cursor: pointer;
 }

@@ -1,0 +1,50 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: lightblue;
+}
+
+.card {
+  width: 450px;
+  height: 600px;
+  background-color: white;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.card-inner {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-inner ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  list-style: none;
+}
+
+.card-inner input {
+  width: 90%;
+}
+.card-inner ul li {
+  margin-bottom: 10px;
+}
+
+.submitbtn {
+  display: flex;
+  width: 90%;
+  justify-content: center;
+  align-items: center;
+}
+.submitbtn button {
+  width: 50px;
+  height: auto;
+  border: 0;
+}

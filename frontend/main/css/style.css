@@ -36,7 +36,17 @@ body {
   color: var(--text);
   background:var(--bg)
 }
-
+.app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.body {
+  flex: 1 1 auto;
+  display: flex; /* 가로 */
+  min-height: 0; /* 내부 스크롤 계산 정확히 */
+}
 a {
   color: inherit;
   text-decoration: none;

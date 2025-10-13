@@ -276,8 +276,9 @@ SELECT * FROM `task_tag`;
 
 
 CREATE OR REPLACE VIEW `front_view` AS
-SELECT distinct(task_id), actor_id, field, old_value, new_value, created_at, updated_at 
+SELECT distinct task_id, actor_id, field, old_value, new_value, created_at, updated_at 
 from `task_history`
+group by task_id
 order by updated_at desc;
 
 select * from`front_view`;

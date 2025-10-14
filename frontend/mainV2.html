@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mini_task_project_main-page</title>
+    <link rel="stylesheet" href="./assets/css/styleV2.css" />
+    <link rel="stylesheet" href="./assets/css/sidebar.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="site-header">
+        <div class="container header-inner">
+          <div class="left-header"></div>
+          <h1 class="logo">Pet<span>Friend</span></h1>
+        </div>
+      </header>
+      
+      <!-- 사이드 바 -->
+      <div class="body">
+        <aside class="sidebar">
+          <nav class="nav">
+            <div class="nav-brand">
+              <ion-icon
+                name="menu-outline"
+                class="nav__toggle"
+                id="nav-toggle"
+              ></ion-icon>
+            </div>
+            <div class="nav-list">
+              <a href="#" class="nav_link">
+                <ion-icon name="home-outline" class="nav__icon"></ion-icon>
+                <span class="nav-name">Menu1</span>
+              </a>
+              <div href="#" class="nav_link collapse">
+                <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
+                <span class="nav-name">Projects</span>
+              </div>
+              <div href="#" class="nav_link collapse">
+                <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
+                <span class="nav-name">Task</span>
+              </div>
+            </div>
+          </nav>
+        </aside>
+
+        <!-- 메인 -->
+        <main>
+          <section class="img-page">
+            <div class="container">
+              <img src="./assets/img/프로젝트.jpg" alt="" />
+            </div>
+          </section>
+
+          <section class="hero">
+            <div class="container hero-inner">
+              <div class="hero-left">
+                <h2>프로젝트 관리를 시작해보세요.</h2>
+                <p>
+                  프로젝트 관리 기능을 통해 팀과 개인의 목표를 체계적으로 관리할
+                  수 있습니다. 각 프로젝트는 목표와 일정에 따라 구분되며,
+                  프로젝트 내에서 할 일(To-Do)을 생성하고 담당자, 마감일, 상태
+                  등을 설정할 수 있습니다. 이를 통해 작업 진행 상황을 쉽게
+                  확인하고, 효율적으로 업무를 분배하며 체계적으로 관리를 시작해
+                  보세요.
+                </p>
+                <div class="hero-ctas">
+                  <a href="#create-project" class="btn primary"
+                    >프로젝트 생성</a
+                  >
+                  <a href="#project-list" class="btn outline">상세보기</a>
+                </div>
+              </div>
+              <div class="hero-right">
+                <div class="mock-data" aria-hidden="true"></div>
+              </div>
+            </div>
+          </section>
+
+          <section id="merit" class="section muted">
+            <div class="container">
+              <h3 class="section-title">프로그램 장점</h3>
+              <ul class="merit-list">
+                <li>
+                  <span>통합 관리 :</span>
+                  <code>업무</code>
+                  <code>문서</code>
+                  <code>메모 </code>
+                  등을 하나의 공간에서 관리가 가능합니다.
+                </li>
+                <li>
+                  <span>협업 강화 :</span>
+                  <code>댓글</code>
+                  <code>멘션 기능</code>
+                  <code>팀원 간 작업 현황</code>
+                  <code>진행 상황</code>
+                  투명하게 공유가 가능합니다.
+                </li>
+                <li>
+                  <span>할 일 관리 최적화 :</span>
+                  <code>To-Do 리스트</code>
+                  <code>담당자 지정</code>
+                  <code>진행 상태</code>
+                  시각적으로 확인 가능합니다.
+                </li>
+              </ul>
+            </div>
+          </section>
+          <section id="task-list" class="section">
+            <div class="container">
+              <h3>마지막으로 작업한 할 일 목록</h3>
+              <div class="task-grid">
+                <article class="task">
+                  <h4>프로젝트 제목</h4>
+                  <p>task 제목</p>
+                  <p>
+                    asfpkolsafmasfkms adglk;madlkm;gadkmg dglk;mdsglk;adlgkm;
+                    ;kdagdkmal;gkml;da
+                  </p>
+                  <p>작업상태 : <code>task_status</code></p>
+                  <p>우선순위 : <code>MEDIUM</code></p>
+                  <ul class="card-list">
+                    <li style="background-color: tomato">BACKEND</li>
+                    <li style="background-color: #9cbef4">FRONTEND</li>
+                    <li style="background-color: #9ce7b7">DB</li>
+                  </ul>
+                  <button class="task-btn">상세보기</button>
+                </article>
+
+                <article class="task">
+                  <h4>프로젝트 제목</h4>
+                  <p>task 제목</p>
+                  <p>
+                    asfpkolsafmasfkms adglk;madlkm;gadkmg dglk;mdsglk;adlgkm;
+                    ;kdagdkmal;gkml;da
+                  </p>
+                  <p>작업상태 : <code>task_status</code></p>
+                  <p>우선순위 : <code>MEDIUM</code></p>
+                  <ul class="card-list">
+                    <li style="background-color: tomato">BACKEND</li>
+                    <li style="background-color: #9cbef4">FRONTEND</li>
+                    <li style="background-color: #9ce7b7">DB</li>
+                  </ul>
+                  <button class="task-btn">상세보기</button>
+                </article>
+
+                <article class="task">
+                  <h4>프로젝트 제목</h4>
+                  <p>task 제목</p>
+                  <p>
+                    asfpkolsafmasfkms adglk;madlkm;gadkmg dglk;mdsglk;adlgkm;
+                    ;kdagdkmal;gkml;da
+                  </p>
+                  <p>작업상태 : <code>task_status</code></p>
+                  <p>우선순위 : <code>MEDIUM</code></p>
+                  <ul class="card-list">
+                    <li style="background-color: tomato">BACKEND</li>
+                    <li style="background-color: #9cbef4">FRONTEND</li>
+                    <li style="background-color: #9ce7b7">DB</li>
+                  </ul>
+                  <button class="task-btn">상세보기</button>
+                </article>
+
+                <article class="task">
+                  <h4>프로젝트 제목</h4>
+                  <p>task 제목</p>
+                  <p>
+                    asfpkolsafmasfkms adglk;madlkm;gadkmg dglk;mdsglk;adlgkm;
+                    ;kdagdkmal;gkml;da
+                  </p>
+                  <p>작업상태 : <code>task_status</code></p>
+                  <p>우선순위 : <code>MEDIUM</code></p>
+                  <ul class="card-list">
+                    <li style="background-color: tomato">BACKEND</li>
+                    <li style="background-color: #9cbef4">FRONTEND</li>
+                    <li style="background-color: #9ce7b7">DB</li>
+                  </ul>
+                  <button class="task-btn">상세보기</button>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <section id="projects" class="section muted">
+            <div class="container">
+              <h3 class="section-title">최근 생성된 프로젝트</h3>
+              <div class="card-grid">
+                <article class="card">
+                  <h4>프로젝트 1</h4>
+                  <p>프로젝트 제목</p>
+                  <ul class="card-list">
+                    <li style="background-color: tomato">BACKEND</li>
+                    <li style="background-color: #9cbef4">FRONTEND</li>
+                    <li style="background-color: #9ce7b7">DB</li>
+                  </ul>
+                  <button class="btn small">상세보기</button>
+                </article>
+                <article class="card">
+                  <h4>프로젝트 1</h4>
+                  <p>프로젝트 제목</p>
+                  <ul class="card-list">
+                    <li style="background-color: tomato">BACKEND</li>
+                    <li style="background-color: #9cbef4">FRONTEND</li>
+                    <li style="background-color: #9ce7b7">DB</li>
+                  </ul>
+                  <button class="btn small">상세보기</button>
+                </article>
+                <article class="card">
+                  <h4>프로젝트 1</h4>
+                  <p>프로젝트 제목</p>
+                  <ul class="card-list">
+                    <li style="background-color: tomato">BACKEND</li>
+                    <li style="background-color: #9cbef4">FRONTEND</li>
+                    <li style="background-color: #9ce7b7">DB</li>
+                  </ul>
+                  <button class="btn small">상세보기</button>
+                </article>
+                <article class="card">
+                  <h4>프로젝트 1</h4>
+                  <p>프로젝트 제목</p>
+                  <ul class="card-list">
+                    <li style="background-color: tomato">BACKEND</li>
+                    <li style="background-color: #9cbef4">FRONTEND</li>
+                    <li style="background-color: #9ce7b7">DB</li>
+                  </ul>
+                  <button class="btn small">상세보기</button>
+                </article>
+                <article class="card">
+                  <h4>프로젝트 1</h4>
+                  <p>프로젝트 제목</p>
+                  <ul class="card-list">
+                    <li style="background-color: tomato">BACKEND</li>
+                    <li style="background-color: #9cbef4">FRONTEND</li>
+                    <li style="background-color: #9ce7b7">DB</li>
+                  </ul>
+                  <button class="btn small">상세보기</button>
+                </article>
+                <article class="card">
+                  <h4>프로젝트 1</h4>
+                  <p>프로젝트 제목</p>
+                  <ul class="card-list">
+                    <li style="background-color: tomato">BACKEND</li>
+                    <li style="background-color: #9cbef4">FRONTEND</li>
+                    <li style="background-color: #9ce7b7">DB</li>
+                  </ul>
+                  <button class="btn small">상세보기</button>
+                </article>
+                <article class="card">
+                  <h4>프로젝트 1</h4>
+                  <p>프로젝트 제목</p>
+                  <ul class="card-list">
+                    <li style="background-color: tomato">BACKEND</li>
+                    <li style="background-color: #9cbef4">FRONTEND</li>
+                    <li style="background-color: #9ce7b7">DB</li>
+                  </ul>
+                  <button class="btn small">상세보기</button>
+                </article>
+                <article class="card">
+                  <h4>프로젝트 1</h4>
+                  <p>프로젝트 제목</p>
+                  <ul class="card-list">
+                    <li style="background-color: tomato">BACKEND</li>
+                    <li style="background-color: #9cbef4">FRONTEND</li>
+                    <li style="background-color: #9ce7b7">DB</li>
+                  </ul>
+                  <button class="btn small">상세보기</button>
+                </article>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+      
+      <footer class="site-footer">
+        <div class="container footer-inner">
+          <p>&copy; <span>2025</span> PetFriend. All rights reserved.</p>
+          <div class="footer-links">
+            <a href="#">개인정보처리방침</a>
+            <a href="#">이용약관</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
+  </body>
+</html>

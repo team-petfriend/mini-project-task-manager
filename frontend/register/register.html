@@ -4,53 +4,52 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>웹앱 기본 레이아웃 구성</title>
-    <link rel="stylesheet" href="./css/register.css" />
+    <style>
+      body {
+        margin: 0;
+        background-color: #0f172a;
+      }
+
+      main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .register-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;   
+        height: 800px;
+        width: 600px;
+        background-color: red;
+      }
+
+      .inner-container {
+        width: 600px;
+        height: 700px;
+        background-color: aqua;
+      }
+
+    </style>
   </head>
   <body>
-    <div class="card">
-      <h2 style="text-align: center">회원가입</h2>
-
-      <div class="card-inner">
-        <ul>
-          <li>
-            <label for="id">id</label>
-            <input type="text" />
-            <br />
-          </li>
-          <li>
-            <label for="login-id">login-id</label>
-            <input type="text" />
-            <br />
-          </li>
-
-          <li>
-            <label for="password">password</label>
-            <input type="text" />
-            <br />
-          </li>
-
-          <li>
-            <label for="email">email</label>
-            <input type="text" />
-            <br />
-          </li>
-
-          <li>
-            <label for="nickname">nickname</label>
-            <input type="text" />
-            <br />
-          </li>
-
-          <li>
-            <label for="gender">gender</label>
-            <input type="text" />
-            <br />
-          </li>
-          <div class="submitbtn">
-            <button>확인</button>
-          </div>
-        </ul>
+    <main>
+      <div class="register-container">
+        <div class="inner-container">
+          <form action="">
+            <ul>
+            <li>
+              <label for="">아이디</label>
+              
+            </li>
+          </ul>
+          </form>
+        </div>
       </div>
-    </div>
+    </main>
   </body>
 </html>
+
+

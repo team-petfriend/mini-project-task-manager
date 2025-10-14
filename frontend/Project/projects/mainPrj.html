@@ -71,12 +71,15 @@ body {
 
 /* 사이드바 (좌) */
 .sidebar{
-  flex: 0 0 500px;                     /* 고정 폭 (사진 느낌) */
+  flex: 0 0 400px;                     /* 고정 폭 (사진 느낌) */
   padding: 16px;
   overflow: auto;
   background: linear-gradient(135deg, rgba(79,70,229,0.25), rgba(24,197,94,0.25));
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   border-radius: 10px;
+  max-width: 100%;
+  min-width: 30px;
+  margin-left: 5px;
 }
 
 .sidebar-list {
@@ -86,10 +89,26 @@ body {
   border-radius: 20px;
   align-items: center;
   justify-content: center;
+  
 }
 
-.sidebar-list p {
+.sidebar-list li {
+  align-items: center;
   text-align: center;
+}
+
+.sidebar-list button {
+  padding: 5px 30px;
+  background-color: rgba(255, 255, 255, 0.1); 
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.sidebar-list button:hover {
+  opacity: 0.6;
 }
 
 
@@ -109,27 +128,41 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 8px;
   background: linear-gradient(135deg, rgba(79,70,229,0.25), rgba(24,197,94,0.25));
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   border-radius: 15px;
   margin-left: 5px;
-  margin-top: 5px;
+  margin-top: 5px;  
+  padding: 20px;
+  margin-right: 7px;
+}
+
+.tabs ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
 .search-box {
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 8px;
-  
+  flex-wrap: wrap;
+  gap: 16px;
+  max-width: 100%;
+  min-width: 400px;
+  box-sizing: border-box;
 }
 
 .search-box input {
-  width: 1280px;
+  flex: 1 1 250px;
+  min-width: 180px;
   padding: 8px 12px;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 14px;
+  box-sizing: border-box;
 }
 
 .search-box input:focus {
@@ -139,14 +172,14 @@ body {
 }
 
 .search-box button {
+  flex: 0 0 auto;
   padding: 8px 12px;
   background-color: #4f46e5;
   color: white;
   border: none;
   border-radius: 8px;
   flex: 0 0 auto; 
-  min-width: 80px;
-  max-width: 200px; 
+
 }
 
 .search-box button:hover {
@@ -166,18 +199,19 @@ body {
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   border-radius: 15px;
   margin-left: 5px;
+  margin-right: 7px;
 }
 
 .response-panel {
   flex: 1 1 auto;
   padding: 16px;
-  overflow: hidden;        /* 스크롤 제거 */
-
+  overflow: hidden;       
   background: linear-gradient(135deg, rgba(79,70,229,0.25), rgba(24,197,94,0.25));
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   border-radius: 15px;
   margin-left: 5px;
   margin-top: 5px;
+  margin-right: 7px;
 }
 
 .img-wrapper {
@@ -212,12 +246,50 @@ body {
 
 .board {
   list-style: none;
-  background: linear-gradient(135deg, rgba(79,70,229,0.25), rgba(24,197,94,0.25));
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   border-radius: 15px;
+  height: 100%;
 }
 
+.first-column {
+  background-color: black;
+  padding: 10px;
+  background: #0f172a;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 20px 20px 0 0;
+  text-align: center;
+  font-weight: 600;
+}
 
+.column {
+  background-color: rgba(255, 255, 255, 0.1); 
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 10px 0;
+  color: #ffffff; 
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.small-btn {
+  border: none;
+  cursor: pointer;
+  background-color: #1abc9c; /* 청록 */
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  transform : 0.2s ease, box-shadow 0.2s ease;
+}
+
+.small-btn:hover {
+  background-color: #16a085;
+  transform: translateY(-3);
+}
 
 /* 하단 상태바 */
 .footer{
@@ -231,9 +303,10 @@ body {
 </head>
 <body>
   <div class="app">
-    <!-- 상단 헤더 -->
-    <header class="header">헤더</header>
-
+  <!-- 상단 헤더 -->
+  <header class="header">
+      헤더
+  </header>
     <!-- 본문: 좌측 사이드바 + 우측 메인 -->
     <div class="body">
       <aside class="sidebar">
@@ -241,13 +314,11 @@ body {
           <li>
             <img src="./img/info.png" alt="">
             <p>test1234</p>
+            <button>프로필보기</button>
           </li>
         </ul>
       </aside>
-
       <main class="main">
-        
-
       <section class="request-panel">
         <div class="img-wrapper">
           <img src="./img/li-zhang-13AE9Hva4Wo-unsplash.jpg" alt="">
@@ -260,26 +331,25 @@ body {
           </div>
         </div>
       </section>
-
         <div class="tabs">
           <ul>
-            <div class="search-box">
+            <li>
+                <div class="search-box">
                 <input type="text" placeholder="검색어를 입력하세요"/>
                 <button>새로운 프로젝트</button>
             </div>
+            </li>
           </ul>
         </div>
         <section class="response-panel">
           <div>
             <ul class="board">
-              <li class="first-column">
-                <span>생성된 프로젝트</span>
-              </li>
               <li class="column">
                 <img src="" alt="">
                 <span>PetFriendPrj</span>
-                <span>#4 updated 1 hour ago</span>
+                <button class="small-btn">상세보기</button>
               </li>
+              <!-- li가 들어갈 공간 -->
             </ul>
           </div>
         </section>

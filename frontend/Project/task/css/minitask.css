@@ -68,6 +68,7 @@ body {
   min-height: 0; /* 내부 스크롤 계산 정확히 */
 }
 
+
 /* 메인 (우) : 탭/요청/응답을 위→아래로 */
 .main {
   flex: 1 1 auto;
@@ -158,45 +159,6 @@ body {
   list-style: none;
   padding: 0;
   margin: 0;
-}
-.used-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 300px;
-  margin: 20px;
-  flex-direction: column;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  background: linear-gradient(
-    135deg,
-    rgba(79, 70, 229, 0.25),
-    rgba(24, 197, 94, 0.25)
-  );
-  border-radius: 10px;
-  text-align: center;
-}
-.last-use-project {
-  width: 100%;
-  height: 15%;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  background: linear-gradient(
-    135deg,
-    rgba(79, 70, 229, 0.25),
-    rgba(24, 197, 94, 0.25)
-  );
-  border-radius: 10px;
-  margin: 10px;
-  transition: all 0.3s ease-in-out;
-  overflow: hidden;
-}
-.last-use-project:hover {
-  transform: scale(1.05);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
-}
-
-.card-content {
-  padding: 20px;
-  text-align: center;
 }
 
 .column {

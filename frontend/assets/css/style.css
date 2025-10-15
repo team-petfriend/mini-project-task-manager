@@ -245,6 +245,7 @@ code {
   padding-left: 0;
 }
 
+
 .card-list li {
   margin-right: 5px;
   border: 1px solid rgba(255, 255, 255, 0.07);
@@ -253,6 +254,17 @@ code {
   border-radius: 5px;
 }
 
+.tag1 {
+  background-color: rgba(147, 197, 253, 0.3);
+}
+
+.tag2 {
+  background-color: rgba(134, 239, 172, 0.3);
+}
+
+.tag3 {
+  background-color: rgba(252, 165, 165, 0.3);
+}
 
 .task-grid {
   display: flex;

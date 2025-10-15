@@ -32,11 +32,13 @@
   --container: 1120px;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
 
 html, body { height: 100%; }
+
+
 
 body {
   margin: 0;
@@ -57,7 +59,42 @@ body {
   display: flex; 
   align-items: center;
   padding: 0 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-bottom: 2px solid rgba(0,0,0,0.1);        /* 내부 구분선 */
+  color: white;
+}
+
+.header {
+  width: 100%;
+}
+
+.header ul {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: #111827;
+}
+
+.header li {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.header-left img {
+  padding: 3px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 5px;
+  margin-right: 15px;
+  background: linear-gradient(135deg, rgba(79,70,229,0.25), rgba(24,197,94,0.25));
+}
+
+.header-left img:hover {
+  background-color: #e5e7eb;
 }
 
 /* 본문: 좌측 사이드바 | 우측 메인 (가로 배치) */
@@ -89,7 +126,11 @@ body {
   border-radius: 20px;
   align-items: center;
   justify-content: center;
-  
+}
+
+.sidebar-list button
+{
+  margin-top: 10px;
 }
 
 .sidebar-list li {
@@ -306,7 +347,19 @@ body {
   <div class="app">
   <!-- 상단 헤더 -->
   <header class="header">
-      헤더
+    <ul>
+      <li class="header-left">
+        <img src="./img/ham.png" alt="">
+        <p>project</p>
+        <p>/</p>
+        <p>projects</p>
+        <p>/</p>
+        <p>task</p>
+      </li>
+      <li class="header-right">
+        <img src="./img/user.png" alt="">
+      </li>
+    </ul>
   </header>
     <!-- 본문: 좌측 사이드바 + 우측 메인 -->
     <div class="body">

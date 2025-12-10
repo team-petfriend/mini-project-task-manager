@@ -40,9 +40,18 @@ public class ProjectController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping(ApiMappingPattern.Project.ONLY_ID)
+    public ResponseEntity<ResponseDto<ProjectResponse.DetailResponse>> getByIdProject(
+            @PathVariable Long projectId
+    ) {
+
+        ResponseDto<ProjectResponse.DetailResponse> response = projectService.getById(projectId);
+
+        return ResponseEntity.ok(response);
+    }
+
     // 프로젝트 검색
     // 정렬은 나중 추가
-
     @GetMapping(ApiMappingPattern.Project.SEARCH)
     //http://localhost:8080/api/v1/project/search?projectName=1
     public ResponseEntity<ResponseDto<List<ProjectResponse.DetailResponse>>> search(

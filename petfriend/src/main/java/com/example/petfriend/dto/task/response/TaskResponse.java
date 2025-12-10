@@ -2,7 +2,10 @@ package com.example.petfriend.dto.task.response;
 
 import com.example.petfriend.common.enums.TaskPriority;
 import com.example.petfriend.common.enums.TaskStatus;
+import com.example.petfriend.dto.tag.response.TagResponse;
+import com.example.petfriend.entity.Tag;
 import com.example.petfriend.entity.Task;
+import com.example.petfriend.entity.TaskTag;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,11 +23,11 @@ public class TaskResponse {
             LocalDateTime created_at,
             LocalDateTime updated_at,
             LocalDate dueDate,
-            List<String> tagNames
+            List<TagResponse.DetailTag> tagNames
     ) {
         public static DetailTaskResponse from(Task task) {
-            List<String> taskNames = task.getTaskTags().stream()
-                    .map(tt -> tt.getTag().getName())
+            List<TagResponse.DetailTag> tagNames = task.getTaskTags().stream()
+                    .map(tt -> TagResponse.DetailTag.from(tt.getTag()))
                     .toList();
 
             return new DetailTaskResponse(
@@ -36,7 +39,7 @@ public class TaskResponse {
                     task.getCreatedAt(),
                     task.getUpdatedAt(),
                     task.getDueDate(),
-                    taskNames
+                    tagNames
             );
         }
 

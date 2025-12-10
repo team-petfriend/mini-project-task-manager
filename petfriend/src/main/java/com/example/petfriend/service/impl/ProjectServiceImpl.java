@@ -98,11 +98,27 @@ public class ProjectServiceImpl implements ProjectService {
 
         if (projectId == null) throw new BusinessException(ErrorCode.PROJECT_NOT_FOUND , "해당 ID가 존재하지않습니다.");
 
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.PROJECT_NOT_FOUND));
+
         List<Task> tasks = taskRepository.findAllByProjectId(projectId);
 
         List<TaskResponse.DetailTaskResponse> data = tasks.stream()
                 .map(TaskResponse.DetailTaskResponse::from)
                 .toList();
+
+        return ResponseDto.setSuccess("SUCCESS", data);
+    }
+
+    @Override
+    public ResponseDto<ProjectResponse.DetailResponse> getById(Long projectId) {
+
+        if (projectId == null) throw new BusinessException(ErrorCode.PROJECT_NOT_FOUND , "해당 ID가 존재하지않습니다.");
+
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(()-> new IllegalArgumentException("PROJECT_NOT_FOUND"));
+
+        ProjectResponse.DetailResponse data = ProjectResponse.DetailResponse.from(project);
 
         return ResponseDto.setSuccess("SUCCESS", data);
     }

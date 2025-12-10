@@ -6,14 +6,8 @@ import com.example.petfriend.common.enums.TaskStatus;
 import com.example.petfriend.dto.ResponseDto;
 import com.example.petfriend.dto.task.request.TaskRequest;
 import com.example.petfriend.dto.task.response.TaskResponse;
-import com.example.petfriend.entity.Project;
-import com.example.petfriend.entity.Task;
-import com.example.petfriend.entity.TaskHistory;
-import com.example.petfriend.entity.User;
-import com.example.petfriend.repository.ProjectRepository;
-import com.example.petfriend.repository.TaskHistoryRepository;
-import com.example.petfriend.repository.TaskRepository;
-import com.example.petfriend.repository.UserRepository;
+import com.example.petfriend.entity.*;
+import com.example.petfriend.repository.*;
 import com.example.petfriend.security.UserPrincipal;
 import com.example.petfriend.service.TaskService;
 import jakarta.validation.Valid;
@@ -21,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +27,7 @@ public class TaskServiceImpl implements TaskService {
     private final ProjectRepository projectRepository;
     private final TaskHistoryRepository taskHistoryRepository;
     private final UserRepository userRepository;
+    private final TagRepository tagRepository;
 // ==================== CRUD ========================================
 
     @Override
@@ -52,7 +49,16 @@ public class TaskServiceImpl implements TaskService {
                 .priority(TaskPriority.MEDIUM)
                 .build();
 
+        List<Tag> tags = tagRepository.findAllById(req.tagIds())
+                .stream().filter(tag -> tag.getProject().getId().equals(projectId))
+                .toList();
+
+        tags.forEach(task::addTag);
+
         Task saved = taskRepository.save(task);
+
+        taskRepository.flush();
+
         TaskResponse.DetailTaskResponse data = TaskResponse.DetailTaskResponse.from(saved);
 
         taskHistory(saved, user, Field.STATUS, null, saved.getTaskStatus().name());

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>웹앱 기본 레이아웃 구성</title>
+    <style>
+      body {
+        margin: 0;
+        background-color: #0f172a;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .inner-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 1440px;
+        height: 700px;
+        border-radius: 16px;
+
+      background: rgba(255, 255, 255, 0.08);    
+      backdrop-filter: blur(10px);  
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4); 
+      color: #fff;
+      }
+
+      .inner-left,
+      .inner-right
+      {
+        flex: 1;
+      }
+
+      .inner-left {
+        height: 100%;
+      }
+
+      .inner-left img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+
+      .inner-right {
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        position: relative;
+        z-index: 10; 
+      }
+
+      .inner-right input {
+        width: 96%;
+        padding: 12px;
+        border-radius: 8px;
+        border: none;
+        outline: none;
+        background: rgba(255, 255, 255, 0.15);
+        color: #fff;
+      }
+
+      .inner-left img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        pointer-events: none; 
+      }
+
+      #signupBtn {
+        width: 100%;
+        padding: 12px 0;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+
+        background: rgba(99, 102, 241, 0.35); 
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+
+        box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+        transition: 0.25s ease;
+      }
+
+      #signupBtn:hover {
+        background: rgba(129, 134, 255, 0.55);
+      }
+
+      .register-box {
+        width: 100%;
+        text-align: center;
+        gap: 50px;
+      }
+
+      .register-box a {
+        font-size: 13px;
+        text-decoration: none;
+        color: #9ca3af;
+      }
+
+      .register-box span {
+        font-size: 14px;
+        color: #9ca3af;
+      }
+
+      .register-box a:hover {
+        color: #e5e7eb;
+      }
+
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="container">
+        <div class="inner-wrapper">
+          <div class="inner-left">
+            <img src="./img/login.png" alt="">
+          </div>
+          <div class="inner-right">
+            <div>
+                <label >아이디</label>
+                <input type="text" id="username">
+              </div>
+              <div>
+                <label>비밀번호</label>
+                <input type="password" id="password">
+              </div>
+              <div>
+                <button id="signupBtn">로그인</button>
+              </div>
+              <div class="register-box">
+                <a href="">아이디 찾기</a> <span>|</span>
+                <a href="./register.html">회원가입</a>
+              </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    
+    <script>
+
+    
+    </script>
+
+</body>
+
+</html>
+
+

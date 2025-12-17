@@ -81,7 +81,7 @@ public class NotificationServiceImpl implements NotificationService {
             notifications.setRead(false);
         }
 
-        Notifications saved = notificationRepository.save(notifications);
+            Notifications saved = notificationRepository.save(notifications);
 
         return ResponseDto.setSuccess("SUCCESS", NotificationResponseDto.from(saved));
     }

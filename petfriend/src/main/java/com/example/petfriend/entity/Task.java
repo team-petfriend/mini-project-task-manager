@@ -78,8 +78,6 @@ public class Task extends BaseTimeEntity {
         this.taskPriority = (priority != null) ? priority : TaskPriority.MEDIUM;
     }
 
-
-
     public void addComment(Comments comment) {
         comments.add(comment);
         comment.setTask(this);

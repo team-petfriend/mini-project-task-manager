@@ -6,28 +6,22 @@
   <title>웹앱 기본 레이아웃 구성</title>
   <style>
 :root {
-  /* == 배경색 지정(Background) == */
   --bg: #0f172a;
   --bg-muted: #111827;
   --card: #111827;
   
-  /* == 글자색 지정(Text) == */
   --text: #e5e7eb;
   --muted: #9ca3af;
 
-  /* == 주요 & 강조 색상 지정(Primary & Accent Colors) == */
   --primary: #4f46e5;
   --primary-contrast: #ffffff;
   --accent: #22c55e;
 
-  /* == 상태 색상 (Status Colors) == */
   --danger: #dc2626;
 
-  /* 테두리 & 그림자 색상 (Borders & Shadows) */
   --outline: #374151;
   --shadow: 0 10px 25px rgba(0,0,0,0.3);
 
-  /* 레이아웃 (Layouts) */
   --radius: 16px;
   --container: 1120px;
 }
@@ -44,12 +38,10 @@ body {
   background:var(--bg)
 }
 
-    /* 기본 리셋 */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; }
 body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
 
-/* 앱 전체 - 세로로 헤더/본문/푸터 */
 .app{
   height: 100vh;
   display: flex;
@@ -57,13 +49,12 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
   width: 100%; 
 }
 
-/* 헤더 (상단 바) */
 .header{
-  flex: 0 0 56px;                      /* 고정 높이 */
+  flex: 0 0 56px;                     
   display: flex; 
   align-items: center;
   padding: 0 16px;
-  border-bottom: 2px solid rgba(0,0,0,0.1);        /* 내부 구분선 */
+  border-bottom: 2px solid rgba(0,0,0,0.1);     
 }
 
 .header {
@@ -108,23 +99,21 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
   border-radius: 50%;
 }
 
-/* 본문: 좌측 사이드바 | 우측 메인 (가로 배치) */
 .body{
   flex: 1 1 auto;
-  display: flex;                       /* 가로 */
-  min-height: 0;                       /* 내부 스크롤 계산 정확히 */
+  display: flex;                       
+  min-height: 0;                       
 }
 
-/* 메인 (우) : 탭/요청/응답을 위→아래로 */
 .main{
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  min-width: 0;                        /* 내용 넘침 방지 */
-  border-left: 0;                       /* 외형 유지용 (선은 tabs/request에서 처리) */
+  min-width: 0;                       
+  border-left: 0;                       
 }
 
-/* 탭 바 (우측 상단) */
+
 .tabs{
   flex: 0 0 40px;
   display: flex; align-items: center;
@@ -132,71 +121,63 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
   border-bottom: 2px solid rgba(0,0,0,0.1);
 }
 
-/* 요청/응답 영역을 세로로 분할 */
 .request-panel{
-  flex: 0 0 45%;                       /* 위쪽 비율(조정 가능) */
+  flex: 0 0 45%;                       
   padding: 16px;
   overflow: auto;
 }
 
 .response-panel{
-  flex: 1 1 auto;                      /* 나머지 */
+  flex: 1 1 auto;                    
   padding: 16px;
   overflow: auto;
 }
 
-/* 탭 */
 .tabs {
-  padding: 10px;
-  display: flex;
-  justify-content: center;
+  padding: 20px;
   width: 100%;
-  flex-wrap: wrap;
-  gap: 10px;
 }
 
 .tabs ul {
   list-style: none;
-  min-width: 600; 
-  max-width: 100%; 
+  padding: 0;
+  margin: 0;
+
+  display: flex;             
+  width: 100%;
+}
+
+.tabs ul li {
+  width: 100%;                
+  display: flex;             
 }
 
 .search-box {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 8px;
+  width: 100%;     
 }
 
-.search-box input {
-  width: 1820px;
+.tag-list {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.tag-btn button {
   padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
-}
-
-.search-box input:focus {
-  outline: none;
-  border-color: #4f46e5; /* 포커스 시 보라색 테두리 */
-  box-shadow: 0 0 4px rgba(79, 70, 229, 0.3);
-}
-
-.search-box button {
-  padding: 8px 12px;
-  background-color: #4f46e5;
-  color: white;
+  background-color: var(--primary);
+  color: #e5e7eb;
   border: none;
-  border-radius: 8px;
-  flex: 0 0 auto; 
-  min-width: 80px;
-  max-width: 200px; 
+  border-radius: 6px;
+  cursor: pointer;
 }
 
-.search-box button:hover {
-  background-color: #4338ca;
+.tag-btn button:hover {
+  opacity: 0.9;
 }
 
-/* 보드  */
 .board {
   display: flex;
   justify-content: space-between;
@@ -261,7 +242,6 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-
 .task-inner {
   display: flex;
   margin-bottom: 10px;
@@ -273,8 +253,47 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
   font-weight: bold;
 }
 
+.create-panel {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: 90%;
+  max-width: 500px;
+  background: #1e293b;
+  border-radius: 16px;
+  padding: 20px;
+  color: white;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: bottom 0.3s ease;
+}
+
+.create-panel.active {
+  bottom: 20px;                     
+}
+
+.create-panel input {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+.create-panel button {
+  background: #4f46e5;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
 
 
+.panel-wrap input {
+  width: 100%;
+}
 </style>
 </head>
 <body>
@@ -304,8 +323,16 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
           <ul>
             <li>
               <div class="search-box">
-                <input type="text" placeholder="검색어를 입력하세요" />
-                <button>검색</button>
+                <div class="tag-list">
+                  <p>생성된 태그:</p>
+                  <p>태그1</p>
+                  <p>태그2</p>
+                  <p>태그3</p>
+                </div>
+
+                <div class="tag-btn">
+                  <button>태그 생성하기</button>
+                </div>
               </div>
             </li>
           </ul>
@@ -325,7 +352,7 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
                   <img src="./img/todo.png" alt="">                
                   <span>petFriend#1</span>
                 </div>
-                <a href="../task/task1.html">프론트엔드 구현 완료</a>
+                <a href="./detailTask.html">프론트엔드 구현 완료</a>
               </li>
               </ul>
             </li>
@@ -365,6 +392,24 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
             </li>
           </ul>
         </section>
+
+        <!-- 태그 패널 -->
+        <div class="create-panel" id="tagPanel">
+          <h2>태그 생성</h2>
+          <input type="text" id="name" placeholder="태그를 입력하세요">
+          <input type="text" id="color" placeholder="태그의 색상을 입력하세요">
+          <button id="addTagBtn">태그 생성하기</button>
+          <div class="tag-list" id="tagList"></div>
+        </div>
+
+        <!-- 슬라이드 업 생성 패널 -->
+        <div class="create-panel" id="createPanel">
+            <h2>할 일 생성</h2>
+            <input type="text" id="title" placeholder="Task 제목을 입력해주세요.">
+            <input type="text" id="description" placeholder="Task 내용을 입력해주세요.">
+            <button id="createProjectBtn">태스크 생성하기</button>
+        </div>
+
       </main>
     </div>
   </div>

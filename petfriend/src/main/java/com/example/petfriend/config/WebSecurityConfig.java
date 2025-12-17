@@ -60,17 +60,11 @@ public class WebSecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-
         CorsConfiguration config = new CorsConfiguration();
-
         config.setAllowCredentials(true);
-
         config.setAllowedHeaders(splitToList(allowedHeaders));
-
         config.setAllowedMethods(splitToList(allowedMethods));
-
         config.setExposedHeaders(splitToList(exposedHeaders));
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;

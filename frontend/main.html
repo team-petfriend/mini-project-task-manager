@@ -5,92 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>mini_task_project_main-page</title>
     <link rel="stylesheet" href="./assets/css/style.css" />
-    <style>
-      /* 사이드바 기본 스타일 */
-      .sidebar {
-        position: fixed;
-        top: 0;
-        left: -250px;
-        width: 250px;
-        height: 100%;
-        background: #1e293b;
-        color: white;
-        padding: 20px;
-        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
-        transition: left 0.5s;
-        z-index: 1000;
-      }
-
-      /* 사이드바가 열릴 때 */
-      .sidebar.open {
-        left: 0;
-      }
-
-      /* 닫기 버튼 */
-      .close-btn {
-        background: none;
-        border: none;
-        color: white;
-        font-size: 20px;
-        cursor: pointer;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-      }
-
-      .sidebar ul {
-        align-self: stretch;
-        width: 100%;
-        list-style: none;
-        padding: 0;
-        margin: 0;
-      }
-
-      .sidebar li {
-        background-color: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        margin-top: 5px;
-        padding: 5px;
-        border-radius: 12px;
-        padding-left: 5px;
-      }
-
-      .sidebar li:hover {
-        opacity: 0.7;
-      }
-    </style>
   </head>
   <body>
-    <!-- 사이드 바 -->
-    <div id="sidebar" class="sidebar">
-      <button class="close-btn" onclick="closeSidebar()">✕</button>
-      <h2 class="logo">Pet<span>Friend</span></h2>
-      <ul>
-        <li>
-          <a href="../register/register.html" style="color: white">로그인</a>
-        </li>
-        <li><a href="#" style="color: white">홈</a></li>
-        <li><a href="#" style="color: white">프로젝트</a></li>
-      </ul>
-    </div>
 
     <!-- 메인 -->
     <main>
-      <header class="site-header">
-        <div class="container header-inner">
-          <div class="left-header">
-            <button class="toggle" onclick="openSidebar()">
-              <img src="./assets/img/icons8-햄버거-메뉴.svg" alt="" />
-            </button>
-          </div>
-          <h1 class="logo">Pet<span>Friend</span></h1>
-        </div>
-      </header>
 
       <section class="img-page">
         <div class="container">
-          <img src="./assets/img/프로젝트.jpg" alt="" />
+          <img src="./assets/img/메인페이지이미지.png" alt="" />
         </div>
       </section>
 
@@ -106,12 +29,13 @@
               업무를 분배하며 체계적으로 관리를 시작해 보세요.
             </p>
             <div class="hero-ctas">
-              <a href="#create-project" class="btn primary">프로젝트 생성</a>
+              <a href="./projects/mainPrj.html" class="btn primary">프로젝트 생성</a>
               <a href="#project-list" class="btn outline">상세보기</a>
             </div>
           </div>
           <div class="hero-right">
-            <div class="mock-data" aria-hidden="true"></div>
+            <div class="mock-data" aria-hidden="true">
+            </div>
           </div>
         </div>
       </section>
@@ -309,24 +233,6 @@
       </section>
     </main>
 
-    <footer class="site-footer">
-      <div class="container footer-inner">
-        <p>&copy; <span>2025</span> PetFriend. All rights reserved.</p>
-        <div class="footer-links">
-          <a href="#">개인정보처리방침</a>
-          <a href="#">이용약관</a>
-        </div>
-      </div>
-    </footer>
-
-    <script>
-      function openSidebar() {
-        document.getElementById("sidebar").classList.add("open");
-      }
-
-      function closeSidebar() {
-        document.getElementById("sidebar").classList.remove("open");
-      }
-    </script>
+   
   </body>
 </html>

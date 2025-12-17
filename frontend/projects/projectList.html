@@ -220,7 +220,6 @@ body {
   border: none;
   border-radius: 8px;
   flex: 0 0 auto; 
-
 }
 
 .search-box button:hover {
@@ -261,15 +260,15 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;      /* 화면 전체 높이 */
-  overflow: hidden;   /* 넘치는 영역 숨김 */
+  height: 100vh;      
+  overflow: hidden;   
   width: 100%;
 }
 
 .img-wrapper img {
   width: 100%;
-  height: 100%;       /* 부모 높이에 맞춤 */
-  object-fit: cover;  /* 비율 유지하면서 꽉 채움 */
+  height: 100%;     
+  object-fit: cover;  
   border-radius: 20px;
 }
 
@@ -289,6 +288,11 @@ body {
   list-style: none;
   border-radius: 15px;
   height: 100%;
+}
+
+.board a {
+  text-decoration: none;
+  color: white;
 }
 
 .first-column {
@@ -318,7 +322,7 @@ body {
 .small-btn {
   border: none;
   cursor: pointer;
-  background-color: #1abc9c; /* 청록 */
+  background-color: #1abc9c; 
   color: #ffffff;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   padding: 5px;
@@ -332,7 +336,57 @@ body {
   transform: translateY(-3);
 }
 
-/* 하단 상태바 */
+.create-panel {
+  display: flex;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+
+  background: #1e293b;
+  border-radius: 16px;
+
+  padding: 15px 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;   
+  gap: 10px;                  
+
+  color: white;
+  z-index: 9999999;
+
+  bottom: 0;
+  transition: bottom 0.35s ease;
+}
+
+.create-panel.active {
+  bottom: 20px;                     
+}
+
+.create-panel input {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+.create-panel button {
+  background: #4f46e5;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.create-panel button:hover {
+  opacity: 0.9;
+}
+
+.panel-wrap input {
+  width: 100%;
+}
+
 .footer{
   flex: 0 0 28px;
   display: flex; 
@@ -401,12 +455,21 @@ body {
               <li class="column">
                 <img src="" alt="">
                 <span>PetFriendPrj</span>
-                <button class="small-btn">상세보기</button>
+                <button class="small-btn"><a href="../task/detailTask.html">상세보기</a></button>
               </li>
               <!-- li가 들어갈 공간 -->
             </ul>
           </div>
         </section>
+
+        <!-- 슬라이드 업 생성 패널 -->
+        <div class="create-panel" id="createPanel">
+            <h2>프로젝트 생성</h2>
+            <input type="text" id="name" placeholder="프로젝트 제목을 입력해주세요.">
+            <button id="createProjectBtn">프로젝트 생성</button>
+        </div>
+
+        
       </main>
     </div>
 

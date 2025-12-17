@@ -52,7 +52,6 @@ a {
   text-decoration: none;
 }
 
-
 img {
   
   display: block;
@@ -64,7 +63,6 @@ code {
   border-radius: 6px;
 }
 
-
 .container {
   max-width: var(--container);
   padding: 0 20px;
@@ -74,7 +72,6 @@ code {
 .img-page {
   margin-top: 0px;
 }
-
 
 .site-header {
   position: sticky;
@@ -195,6 +192,14 @@ code {
   box-shadow: var(--shadow);
 }
 
+.mock-data img {
+  width: 100%;
+  height: 100%;
+  display: block;      
+  object-fit: cover;    
+  object-position: center; 
+}
+
 .section { padding: 40px 0;}
 .section.muted { background: rgba(255, 255, 255, 0.03); }
 .section-title { font-size: 20px; margin: 0 0 16px; }
@@ -221,9 +226,7 @@ code {
 }
 
 .card {
-  /* calc() 함수: 서로 다른 크기값에 대한 연산 */
   flex: 1 1 calc(25% - 12px);
-  /* flex-wrap 활용을 위한 최소 너비 고정 */
   min-width: 240px;
   background: var(--card);
   border: 1px solid rgba(255, 255, 255, 0.08);

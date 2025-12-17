@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Main Sample</title>
 
-  <style>
+<style>
+body {
+  margin: 0;
+  background: white;
+  font-family: 'Pretendard', sans-serif;
+  color: #111827;
+}
+
 .app-header {
   position: sticky;
   top: 0;
   z-index: 100;
 
-  background: rgba(255, 255, 255, 0.75);
+  background-color: white;
+
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 
@@ -52,7 +60,6 @@
 }
 
 .nav a {
-  font-size: 14px;
   text-decoration: none;
   color: #6b7280;
   transition: color 0.2s ease;
@@ -64,6 +71,11 @@
 
 .register-box>a {
   text-decoration: none;
+  font-size: 16px;
+  color: #6b7280;
+}
+
+.register-box>a:hover {
   color: #111827;
 }
 
@@ -77,6 +89,10 @@
 
 .mode-toggle {
   margin-left: 20px;
+  
+ 
+  color: #191919;
+  border: 1px solid #FEE500;
 }
 
 .toggle-btn {
@@ -121,16 +137,23 @@
   box-shadow: 0 6px 16px rgba(254, 229, 0, 0.45);
 }
 
+.map-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 </style>
 </head>
+
 <header class="app-header">
   <div class="header-inner">
     <div class="logo">
       <a href=""><span>E</span>oullim</a> 
 
       <div class="mode-toggle">
-        <a href="/map.html" class="toggle-btn active">홈페이지</a>
-        <a href="/home.html" class="toggle-btn">지도</a>
+        <a href="/test/main.html" class="toggle-btn">홈페이지</a>
+        <a href="/test/map.html" class="toggle-btn map active">지도</a>
       </div>
     </div>
 
@@ -147,4 +170,47 @@
     </div>
   </div>
 </header>
+
+<body>
+  <div class="map-container">
+      <div id="map" style="width:1920px;height:100vh;"></div>
+  </div>
+
+  <div class="section">
+    
+  </div>
+
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cd663d21be538a20913843972ae7bf17"></script>
+
+  <script>
+   kakao.maps.load(function() {
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var lat = position.coords.latitude;  
+      var lng = position.coords.longitude; 
+
+      var mapContainer = document.getElementById('map');
+      var mapOption = {
+        center: new kakao.maps.LatLng(lat, lng), 
+        level: 3
+      };
+
+      var map = new kakao.maps.Map(mapContainer, mapOption);
+
+      var markerPosition  = new kakao.maps.LatLng(lat, lng); 
+      var marker = new kakao.maps.Marker({
+        position: markerPosition
+      });
+      marker.setMap(map);
+
+    }, function(error) {
+      console.error("위치 정보를 가져올 수 없습니다.", error);
+    });
+  } else {
+    alert("이 브라우저에서는 위치 정보를 지원하지 않습니다.");
+  }
+});
+  </script>
+</body>
 </html>

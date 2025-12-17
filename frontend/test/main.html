@@ -8,7 +8,7 @@
 <style>
 body {
   margin: 0;
-  background: #f3f4f6;
+  background: white;
   font-family: 'Pretendard', sans-serif;
   color: #111827;
 }
@@ -27,7 +27,7 @@ body {
 }
 
 .header-inner {
-  max-width: 1440px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 16px 32px;
 
@@ -60,7 +60,6 @@ body {
 }
 
 .nav a {
-  font-size: 14px;
   text-decoration: none;
   color: #6b7280;
   transition: color 0.2s ease;
@@ -72,6 +71,11 @@ body {
 
 .register-box>a {
   text-decoration: none;
+  font-size: 16px;
+  color: #6b7280;
+}
+
+.register-box>a:hover {
   color: #111827;
 }
 
@@ -85,6 +89,7 @@ body {
 
 .mode-toggle {
   margin-left: 20px;
+  border: 1px solid #4f46e5;
 }
 
 .toggle-btn {
@@ -132,7 +137,7 @@ body {
 
 /* 공통 */
 .section {
-  max-width: 1440px;
+  max-width: 1280px;
   margin: 0 auto 80px;
   padding: 0 32px;
 }
@@ -149,9 +154,10 @@ body {
    메인 배너
 ====================== */
 .banner-wrap {
-  max-width: 1440px;
+  max-width: 1280px;
   margin: 40px auto 80px;
   padding: 0 32px;
+  position: relative;
 }
 
 .banner {
@@ -160,16 +166,63 @@ body {
   overflow: hidden;
   background: linear-gradient(135deg, #4f46e5, #6366f1);
   display: flex;
+  position: relative;
 }
 
 .banner-slide {
   min-width: 100%;
+  height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
   font-size: 28px;
   font-weight: 700;
+}
+
+.banner-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  display: block;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.banner-track {
+  display: flex;
+  transition: transform 0.4s ease;
+  width: 100%;
+}
+
+.banner-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-0%);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: white; 
+  color: #6b7280; 
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 10;
+  margin-left: 30px;
+  font-weight: bold;
+  margin-right: 30px;
+}
+
+.banner-btn.prev {
+  left: 16px;
+}
+
+.banner-btn.next {
+  right: 16px;
+}
+
+.banner-btn:hover {
+  opacity: 0.8;
 }
 
 /* ======================
@@ -179,7 +232,7 @@ body {
   display: flex;
   gap: 24px;
   overflow-x: auto;
-  margin-right: -32px;   /* ← 핵심 */
+  margin-right: -32px;  
   padding-right: 32px;
 }
 
@@ -189,7 +242,8 @@ body {
   border-radius: 14px;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease; 
+  border: 1px solid #e5e7eb;
 }
 
 .space-card:hover {
@@ -198,7 +252,11 @@ body {
 
 .space-img {
   height: 180px;
-  background: linear-gradient(135deg, #f59e0b, #facc15);
+  border-radius: 14px 14px 0 0;
+  background-size: cover;    
+  background-position: center; 
+  background-repeat: no-repeat;
+  background-color: #4338ca;
 }
 
 .space-name {
@@ -225,6 +283,32 @@ body {
   color: #fff;
   font-size: 20px;
   font-weight: 700;
+
+  background-size: cover;    
+  background-position: center; 
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+
+.left-img {
+  background-image: url('./img/크리스마스파티룸.jpg');
+  filter: brightness(1);
+}
+
+.left-img:hover {
+  filter: brightness(0.7);
+  transition: .5s ease-in-out;
+}
+
+.right-img {
+  background-image: url('./img/연습실이미지.jpg');
+  filter: brightness(1);
+}
+
+.right-img:hover {
+  filter: brightness(0.7);
+  transition: .5s ease-in-out;
 }
 
 /* ======================
@@ -245,6 +329,17 @@ body {
   justify-content: center;
   color: #064e3b;
   font-weight: 700;
+  cursor: pointer;
+
+  -webkit-transform: scale(1);
+	transform: scale(1);
+	-webkit-transition: .5s ease-in-out;
+	transition: .5s ease-in-out;
+}
+
+.review-card:hover {
+  transform: scale(1.07);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.15); 
 }
 </style>
 </head>
@@ -255,8 +350,8 @@ body {
       <a href=""><span>E</span>oullim</a> 
 
       <div class="mode-toggle">
-        <a href="/map.html" class="toggle-btn active">홈페이지</a>
-        <a href="/home.html" class="toggle-btn">지도</a>
+        <a href="/test/main.html" class="toggle-btn active">홈페이지</a>
+        <a href="/test/map.html" class="toggle-btn">지도</a>
       </div>
     </div>
 
@@ -276,10 +371,19 @@ body {
 
 <body>
 <div class="banner-wrap">
+  <button class="banner-btn prev">&lt;</button>
   <div class="banner">
-    <div class="banner-slide">메인 배너 1</div>
-    <!-- JS 붙이면 슬라이드 가능 -->
+    <div class="banner-track">
+      <div class="banner-slide">
+        <img src="./img/space.png" alt="">
+      </div>
+      <div class="banner-slide">
+        <img src="./img/chrismas.png" alt="">
+      </div>
+    </div>
   </div>
+
+  <button class="banner-btn next">&gt;</button>
 </div>
 
 <section class="section">
@@ -287,7 +391,11 @@ body {
   <div class="space-list">
     <div class="space-card">
       <div class="space-img"></div>
-      <div class="space-name">공간 이름 1</div>
+      <div class="space-name">
+        <p>이름</p>
+        <p>생성일</p>
+        <p>카테고리</p>
+      </div>
     </div>
     <div class="space-card">
       <div class="space-img"></div>
@@ -308,8 +416,12 @@ body {
 <section class="section">
   <div class="section-title">진행중인 이벤트</div>
   <div class="event-list">
-    <div class="event-card">EVENT 1</div>
-    <div class="event-card">EVENT 2</div>
+    <div class="event-card left-img">
+      <p>연말 모임, 선택은 간단하게!<br>어울림 파티룸과 함께하세요.</p>
+    </div>
+    <div class="event-card right-img">
+      <p>연습, 모임, 공연 준비까지<br>어울림 연습실에서 한 번에 해결하세요.</p>
+    </div>
   </div>
 </section>
 
@@ -317,7 +429,8 @@ body {
 <section class="section">
   <div class="section-title">방금 올라온 후기</div>
   <div class="review-list">
-    <div class="review-card">후기 1</div>
+    <div class="review-card">
+    </div>
     <div class="review-card">후기 2</div>
     <div class="review-card">후기 3</div>
   </div>
@@ -328,6 +441,28 @@ body {
   </div>
 </section>
 
+
+<script>
+const track = document.querySelector('.banner-track');
+let currentIndex = 0;
+const slides = document.querySelectorAll('.banner-slide');
+
+function moveSlide(index) {
+  track.style.transform = `translateX(-${index * 100}%)`;
+}
+
+// 다음 버튼
+document.querySelector('.banner-btn.next').addEventListener('click', () => {
+  currentIndex = (currentIndex + 1) % slides.length;
+  moveSlide(currentIndex);
+});
+
+// 이전 버튼
+document.querySelector('.banner-btn.prev').addEventListener('click', () => {
+  currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+  moveSlide(currentIndex);
+});
+</script>
 
 </body>
 </html>

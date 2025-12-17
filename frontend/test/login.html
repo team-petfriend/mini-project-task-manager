@@ -8,7 +8,7 @@
   <style>
     body {
       margin: 0;
-      background-color: #eee;
+      background: white;
       font-family: 'Pretendard', sans-serif;
       overflow: hidden;
     }
@@ -20,8 +20,7 @@
       top: 0;
       z-index: 100;
       min-height: 64px;
-
-      background: rgba(255, 255, 255, 0.75);
+      background: white;
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(0, 0, 0, 0.06);
@@ -208,10 +207,22 @@
     .kakao-login {
       background: #FEE500;
       color: #191919;
+      transition: 0.3 ease;
+    }
+
+    .kakao-login:hover {
+      background: #FFD500; 
+      color: #191919;     
     }
 
     .naver-login {
       background: #03C75A;
+      color: #fff;
+      transition: 0.3 ease;
+    }
+
+     .naver-login:hover {
+      background: #02A64D;
       color: #fff;
     }
 
@@ -229,6 +240,7 @@
 
     .register-box a:hover {
       color: #4f46e5;
+      transition: 0.8s;
     }
   </style>
 </head>

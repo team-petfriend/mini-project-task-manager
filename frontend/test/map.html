@@ -51,7 +51,7 @@ body {
 }
 
 .logo>a>span {
-  color: #4f46e5;
+  color: #FEE500;
 }
 
 .nav {
@@ -89,8 +89,6 @@ body {
 
 .mode-toggle {
   margin-left: 20px;
-  
- 
   color: #191919;
   border: 1px solid #FEE500;
 }
@@ -137,11 +135,97 @@ body {
   box-shadow: 0 6px 16px rgba(254, 229, 0, 0.45);
 }
 
+.section {
+  max-width: 1280px;
+  margin: 0 auto 80px;
+  padding: 0 32px;
+}
+
 .map-container {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  margin: auto;
+  padding: 20px;
+  margin-top: 10px;
+  border: 1px solid #f3f4f6;
 }
+
+.map-container span {
+  font-weight: bold;
+}
+
+#map {
+  width: 100%;
+  height: 500px;
+  margin-top: 10px;
+  border-radius: 6px;
+}
+
+.second {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.space-card {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 16px;      
+  margin-top: 20px;
+  cursor: pointer; 
+}
+
+.card {
+  flex: 1 1 calc(25% - 12px); 
+  background-color: #f3f4f6;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  box-sizing: border-box; 
+  height: 300px;
+}
+
+.img-wrapper {
+  margin-top: 30px;
+  width: 100%;
+  height: 150px;
+  cursor: pointer;
+}
+
+.img-wrapper img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.pagination-container button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: #e5e7eb; 
+  transition: background-color 0.3s;
+}
+
+.pagination-container button:hover {
+  background-color: #d1d5db;
+}
+
+.pagination-container button.active {
+  background-color: #4f46e5; 
+  color: #fff;
+}
+
+.pagination-container button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 
 </style>
 </head>
@@ -172,18 +256,44 @@ body {
 </header>
 
 <body>
-  <div class="map-container">
-      <div id="map" style="width:1920px;height:100vh;"></div>
-  </div>
-
+  <section class="section">
+      <div class="map-container">
+          <span>내 주변 무인 대여공간</span>
+          <span class="second">내 주변에 가까운 무인공간을 찾아보세요.</span>
+          <div id="map"></div>
+          <div class="space-card">
+            <div class="card">1</div>
+              <div class="card">2</div>
+              <div class="card">3</div>
+              <div class="card">4</div>
+              <div class="card">5</div>
+              <div class="card">6</div>
+              <div class="card">7</div>
+              <div class="card">8</div>
+              <div class="card">5</div>
+              <div class="card">6</div>
+              <div class="card">7</div>
+              <div class="card">8</div>
+          </div>
+          <div class="img-wrapper">
+            <img src="./img/맵이벤트.png" alt="">
+          </div>
+          <div class="pagination-container">
+            <button class="prev">&lt;</button>
+            <div class="pages"></div>
+            <button class="next">&gt;</button>
+          </div>
+      </div>
+  </section>
+  <section class="section">
+  </section>
   <div class="section">
-    
   </div>
 
   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cd663d21be538a20913843972ae7bf17"></script>
 
   <script>
-   kakao.maps.load(function() {
+  kakao.maps.load(function() {
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -193,7 +303,7 @@ body {
       var mapContainer = document.getElementById('map');
       var mapOption = {
         center: new kakao.maps.LatLng(lat, lng), 
-        level: 3
+        level: 6
       };
 
       var map = new kakao.maps.Map(mapContainer, mapOption);

@@ -81,10 +81,10 @@ body {
 
 .sub-section { display: flex; width: 100%; min-height: 100vh; }
 
-.sub-section p {font-weight: bold; font-size: 20px;}
+.main-content p {font-weight: bold; font-size: 20px;}
 
 .left { width: 67%; padding: 30px; }
-.right { width: 30%; padding: 16px; background-color: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-left: 20px; margin-top: 20px; text-align: center; height: 500px;   position: sticky; top: 100px;}
+.right { width: 30%; padding: 16px; background-color: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-left: 20px; margin-top: 20px; text-align: center; height: 680px; overflow: hidden;  position: sticky; top: 100px;}
 
 #map { margin-top: 20px; width: 100%; height: 500px; border-radius: 6px; margin-bottom: 20px; }
 
@@ -94,9 +94,184 @@ body {
 .room-card img { width: 100%; height: 120px; object-fit: cover; }
 .room-card p { text-align: center; padding: 8px 0; font-weight: 500; }
 
-.time-slots { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; align-items: center; justify-content: center; }
-.time-slot { padding: 8px 12px; background-color: #e5e7eb; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
-.time-slot:hover { background-color: #6366f1; color: #fff; }
+
+/* 카드 */
+.room-box {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 14px;
+
+  overflow: hidden;
+}
+
+/* 제목 */
+.room-title {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* 이미지 */
+.room-img {
+ width: 100%;
+  height: 200px;
+  background-image: url("./img/룸사진.jpg");
+  background-size: cover;
+  background-position: center;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+/* 설명 */
+.room-desc {
+  text-align: left;
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: #4b5563;
+  line-height: 1.5;
+
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* 구분선 */
+.room-box hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 10px 0;
+}
+
+/* 정보 */
+.room-info {
+  margin: 0;
+  font-size: 14px;
+  text-align: left;
+}
+
+/* 경고 */
+.room-warning {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+}
+
+.timeslot-container {
+  display: flex;
+  width: 100%;              
+  max-width: 100%;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  padding: 0;
+  margin: 0;
+  height: 48px;
+  box-sizing: border-box;
+}
+
+.timeslot-container:active {
+  cursor: grabbing;
+}
+
+.timeslot {
+  flex: 0 0 30px;    
+  padding: 0 4px;      
+  margin: 0;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  white-space: nowrap;
+  background: #ffffff;
+  font-size: 10px;
+}
+
+.timeslot.selected {
+  flex: 0 0 30px;    
+  background: #111827;
+  color: #fff;
+  font-size: 10px;
+}
+
+.people-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-items: center; 
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.people-box button {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.people-box input {
+  width: 40px;
+  height: 32px;  
+  text-align: center;
+  border: none;
+  font-size: 16px;
+  line-height: 32px; 
+}
+
+#bookingBtn {
+  border: none;
+  width: 100%;
+  padding: 8px;
+  margin-top: 13px;
+  background-color: #4f46e5;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#bookingBtn:hover {
+  background-color: #473eed ;
+}
+
+.rules-section {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  max-width: 100%;
+  margin: 40px auto;
+}
+
+.rules-section h2 {
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  text-align: center;
+}
+
+.rules-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.rules-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 15px;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.rules-list li:last-child {
+  border-bottom: none;
+}
 
 /* 리뷰 섹션 */
 .review-section { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
@@ -111,6 +286,9 @@ body {
 .review-content { font-size: 14px; line-height: 1.5; color: #374151; }
 .review-section hr { border: none; border: 1px solid #e5e7eb; } 
 
+#map {
+  pointer-events: none; 
+}
 
 </style>
 </head>
@@ -134,7 +312,6 @@ body {
       <a href="../test/login.html">로그인</a>
       <a href="">회원가입</a>
     </div>
-
   </div>
 </header>
 
@@ -155,21 +332,59 @@ body {
         <p>위치</p>
         <div id="map"></div>
       </div>
-      <div class="roles">
-        <p>규칙사항</p>
-        
-      </div>
+      <section class="rules-section">
+      <h2>📌 이용 규칙 안내</h2>
+      <ul class="rules-list">
+        <li> ☑ <strong>예약 시간 엄수</strong> – 예약한 시간에 맞춰 입·퇴실해 주세요.</li>
+        <li> ☑ <strong>무단 이용 금지</strong> – 예약자 외 출입은 금지됩니다.</li>
+        <li> ☑ <strong>소음 주의</strong> – 주변 이용자를 위해 큰 소음은 삼켜주세요.</li>
+        <li> ☑ <strong>화기 사용 금지</strong> – 흡연 및 인화물 사용은 절대 금지입니다.</li>
+        <li> ☑ <strong>정리 정돈 필수</strong> – 이용 후 공간을 깨끗하게 정리해 주세요.</li>
+        <li> ☑ <strong>시설물 훼손 금지</strong> – 훼손 시 배상 책임이 발생할 수 있습니다.</li>
+        <li> ☑ <strong>CCTV 운영 중</strong> – 안전 및 분쟁 방지를 위해 촬영 중입니다.</li>
+        <li> ☑ <strong>문제 발생 시 즉시 연락</strong> – 비상 연락처로 바로 문의해주세요.</li>
+      </ul>
+    </section>
     </div>
     <div class="right">
-      <h3>스터티룸 A</h3>
-      <div class="time-slots">
-        <select name="" id="">
-          <option value="">10:00 ~ 13:00</option>
-          <option value=""></option>
-          <option value=""></option>
-        </select>
-      </div>
+      <div class="room-box">
+    <h3 class="room-title">스터디룸 A</h3>
+    <div class="room-img"></div>
+    <p class="room-desc">
+      · 조용한 스터디와 회의에 적합한 공간입니다.sdh[plf,hsfpl,hpfl,hplfs,hplf,plh,plg;ld,gpl[d,glpdfgplfpg,fdlhpklfd,hplfg,dhlpgd,plhgdl,h]]
+    </p>
+    <hr>
+    <p class="room-info">
+      · 최대 인원: <strong>6</strong>
+    </p>
+    <hr>
+    <p class="room-info">
+      · 최소: 1시간부터 이용 가능
+    </p>
+    <hr>
+    <p class="room-warning">
+      · 인원 초과 시 1인당 <strong>15,000원</strong> 추가
+    </p>
+  </div>
+  <p><img src="./img/user.png" alt=""> 인원 수</p>
+  <div class="people-box">
+    <button type="button" id="minusBtn">−</button>
+      <input type="text" id="peopleCount" value="1" min="1" readonly>
+    <button type="button" id="plusBtn">+</button>
+  </div>
+    <div class="timeslot-container" id="timeslot">
+      <div class="timeslot">11:00~12:00</div>
+      <div class="timeslot">12:00~13:00</div>
+      <div class="timeslot">13:00~14:00</div>
+      <div class="timeslot">14:00~15:00</div>
+      <div class="timeslot">15:00~16:00</div>
+      <div class="timeslot">16:00~17:00</div>
+      <div class="timeslot">17:00~18:00</div>
     </div>
+    <div class="booking-box">
+      <button id="bookingBtn">예약하기</button>
+    </div>
+  </div>
   </section>
 </div>
 
@@ -241,7 +456,85 @@ kakao.maps.load(function() {
   } else {
     alert("이 브라우저에서는 위치 정보를 지원하지 않습니다.");
   }
+
+
+}); 
+
+
+const slider = document.querySelector('.timeslot-container');
+const slots = slider.querySelectorAll('.timeslot');
+
+let isDown = false;
+let startX = 0;
+let startScrollLeft = 0;
+let moved = false;
+
+slider.addEventListener('mousedown', (e) => {
+  isDown = true;
+  moved = false;
+
+  startX = e.clientX;
+  startScrollLeft = slider.scrollLeft;
 });
+
+window.addEventListener('mousemove', (e) => {
+  if (!isDown) return;
+
+  const dx = e.clientX - startX;
+
+  if (Math.abs(dx) > 3) moved = true;
+
+  if (moved) {
+    e.preventDefault();
+    slider.scrollLeft = startScrollLeft - dx;
+  }
+});
+
+window.addEventListener('mouseup', () => {
+  isDown = false;
+});
+
+slots.forEach(slot => {
+  slot.addEventListener('click', () => {
+    slot.classList.toggle('selected');
+  });
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const maxPeople = 6; 
+
+  const minusBtn = document.getElementById('minusBtn');
+  const plusBtn = document.getElementById('plusBtn');
+  const input = document.getElementById('peopleCount');
+
+  minusBtn.addEventListener('click', () => {
+    let value = Number(input.value);
+    if (value > 1) {
+      input.value = value - 1;
+    }
+  });
+
+  plusBtn.addEventListener('click', () => {
+    let value = Number(input.value);
+    if (value < maxPeople) {
+      input.value = value + 1;
+    }
+  });
+
+  // 초기 상태 버튼 제어
+  const updateButtons = () => {
+    minusBtn.disabled = Number(input.value) <= 1;
+    plusBtn.disabled = Number(input.value) >= maxPeople;
+  };
+
+  updateButtons();
+
+  minusBtn.addEventListener('click', updateButtons);
+  plusBtn.addEventListener('click', updateButtons);
+});
+
+</script>
 </script>
 </body>
 </html>
